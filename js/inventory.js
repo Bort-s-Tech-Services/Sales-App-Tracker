@@ -127,9 +127,10 @@ function displayProducts(products) {
                 </span>
             </td>
             <td>${formatCurrency(product.unit_cost)}</td>
+            <td>${formatCurrency(product.selling_price || 0)}</td>
             <td>${formatCurrency(product.quantity * product.unit_cost)}</td>
             <td>
-                <button class="btn btn-sm btn-outline" onclick="editProduct(${product.id}, '${escapeSingleQuote(product.product_name)}', '${product.category || ''}', ${product.quantity}, ${product.unit_cost})">
+                <button class="btn btn-sm btn-outline" onclick="editProduct(${product.id}, '${escapeSingleQuote(product.product_name)}', '${product.category || ''}', ${product.quantity}, ${product.unit_cost}, ${product.selling_price === null || product.selling_price === undefined ? 'null' : product.selling_price})">
                     <i class="fas fa-edit"></i> Edit
                 </button>
                 <button class="btn btn-sm btn-danger" onclick="openDeleteModal(${product.id})">
@@ -161,13 +162,15 @@ function openAddProductModal() {
 }
 
 // Edit product
-window.editProduct = async function(id, name, category, quantity, unitCost) {
+window.editProduct = async function(id, name, category, quantity, unitCost, sellingPrice) {
     currentEditingProduct = id;
     document.getElementById('modalTitle').textContent = 'Edit Product';
     document.getElementById('productName').value = name;
     document.getElementById('category').value = category;
     document.getElementById('quantity').value = quantity;
     document.getElementById('unitCost').value = unitCost;
+    const sp = document.getElementById('sellingPrice');
+    if (sp) sp.value = sellingPrice !== undefined && sellingPrice !== null ? sellingPrice : '';
     document.getElementById('productModal').classList.add('active');
     document.getElementById('productName').focus();
 };
@@ -190,8 +193,10 @@ async function handleProductSubmit(e) {
     const category = document.getElementById('category').value.trim();
     const quantity = parseInt(document.getElementById('quantity').value);
     const unitCost = parseFloat(document.getElementById('unitCost').value);
+    const sellingPriceEl = document.getElementById('sellingPrice');
+    const sellingPrice = sellingPriceEl && sellingPriceEl.value !== '' ? parseFloat(sellingPriceEl.value) : null;
     
-    if (!productName || quantity < 0 || unitCost < 0) {
+    if (!productName || quantity < 0 || unitCost < 0 || (sellingPrice !== null && sellingPrice < 0)) {
         showNotification('Please fill in all required fields with valid values', 'error');
         return;
     }
@@ -206,6 +211,7 @@ async function handleProductSubmit(e) {
                     category: category,
                     quantity: quantity,
                     unit_cost: unitCost,
+                    selling_price: sellingPrice,
                     updated_at: new Date().toISOString()
                 })
                 .eq('id', currentEditingProduct)
@@ -222,6 +228,7 @@ async function handleProductSubmit(e) {
                     category: category,
                     quantity: quantity,
                     unit_cost: unitCost,
+                    selling_price: sellingPrice,
                     user_id: user.id
                 });
             
@@ -318,7 +325,7 @@ export async function getProductsByUser(userId) {
     try {
         const { data: products, error } = await supabase
             .from('products')
-            .select('id, product_name, quantity, unit_cost, category')
+            .select('id, product_name, quantity, unit_cost, selling_price, category')
             .eq('user_id', userId)
             .order('product_name');
         

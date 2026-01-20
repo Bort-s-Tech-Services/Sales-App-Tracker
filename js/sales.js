@@ -132,14 +132,24 @@ async function loadProductsDropdown(userId) {
                 productSelect.appendChild(option);
             });
             
-            // Add change listener to update unit cost
+            // Add change listener to update unit cost and unit price
             productSelect.addEventListener('change', (e) => {
                 const selectedProductId = e.target.value;
                 if (selectedProductId) {
                     const product = products.find(p => p.id == selectedProductId);
                     if (product) {
-                        document.getElementById('unitCost').value = product.unit_cost;
+                        const unitCostEl = document.getElementById('unitCost');
+                        const unitPriceEl = document.getElementById('unitPrice');
                         document.getElementById('category').value = product.category || '';
+                        if (unitCostEl) {
+                            unitCostEl.value = product.unit_cost;
+                            unitCostEl.readOnly = true;
+                        }
+                        if (unitPriceEl) {
+                            // Prefill sale price from inventory selling_price if available
+                            unitPriceEl.value = product.selling_price !== undefined && product.selling_price !== null ? product.selling_price : product.unit_cost;
+                        }
+                        calculateTotals();
                     }
                 }
             });
