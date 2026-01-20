@@ -1,5 +1,6 @@
 import { supabase, formatCurrency } from './supabase.js';
 import { logout } from './auth.js';
+import { getProductsByUser, decreaseProductStock } from './inventory.js';
 
 // Initialize sales page
 document.addEventListener('DOMContentLoaded', async () => {
@@ -12,6 +13,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     // Update user info
     updateUserInfo(user);
+    
+    // Load products into dropdown
+    await loadProductsDropdown(user.id);
     
     // Set today's date as default
     document.getElementById('saleDate').value = new Date().toISOString().split('T')[0];
@@ -97,6 +101,41 @@ function setupCalculationListeners() {
             element.addEventListener('input', calculateTotals);
         }
     });
+}
+
+// Load products into dropdown
+async function loadProductsDropdown(userId) {
+    try {
+        const products = await getProductsByUser(userId);
+        const productSelect = document.getElementById('productName');
+        
+        if (productSelect) {
+            // Clear existing options except default
+            productSelect.innerHTML = '<option value="">-- Select a product --</option>';
+            
+            // Add products
+            products.forEach(product => {
+                const option = document.createElement('option');
+                option.value = product.id;
+                option.textContent = `${product.product_name} (${product.quantity} in stock)`;
+                productSelect.appendChild(option);
+            });
+            
+            // Add change listener to update unit cost
+            productSelect.addEventListener('change', (e) => {
+                const selectedProductId = e.target.value;
+                if (selectedProductId) {
+                    const product = products.find(p => p.id == selectedProductId);
+                    if (product) {
+                        document.getElementById('unitCost').value = product.unit_cost;
+                        document.getElementById('category').value = product.category || '';
+                    }
+                }
+            });
+        }
+    } catch (error) {
+        console.error('Error loading products:', error);
+    }
 }
 
 // Calculate totals based on input
@@ -204,7 +243,9 @@ async function handleSubmit(e) {
     e.preventDefault();
     
     // Get form values
-    const productName = document.getElementById('productName').value.trim();
+    const productId = document.getElementById('productName').value;
+    const productNameEl = document.getElementById('productName');
+    const productName = productNameEl.options[productNameEl.selectedIndex]?.text.split(' (')[0];
     const quantity = parseInt(document.getElementById('quantity').value);
     const unitPrice = parseFloat(document.getElementById('unitPrice').value);
     const unitCost = parseFloat(document.getElementById('unitCost').value);
@@ -214,8 +255,8 @@ async function handleSubmit(e) {
     const notes = document.getElementById('notes')?.value.trim() || null;
     
     // Validate required fields
-    if (!productName || !category) {
-        alert('Please fill in all required fields');
+    if (!productId || !quantity) {
+        alert('Please select a product and enter a valid quantity');
         return;
     }
     
@@ -267,6 +308,8 @@ async function handleSubmit(e) {
         
         if (error) throw error;
         
+        // Decrease product stock
+        await decreaseProductStock(productId, quantity, user.id);
         // Show success modal
         document.getElementById('successModal').classList.add('active');
         

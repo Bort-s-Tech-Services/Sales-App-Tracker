@@ -1,5 +1,43 @@
--- Drop table if exists (for clean setup)
+-- Drop tables if exists (for clean setup)
 DROP TABLE IF EXISTS sales CASCADE;
+DROP TABLE IF EXISTS products CASCADE;
+
+-- Create products/inventory table
+CREATE TABLE products (
+    id BIGSERIAL PRIMARY KEY,
+    product_name VARCHAR(255) NOT NULL,
+    quantity INTEGER NOT NULL DEFAULT 0,
+    unit_cost DECIMAL(10,2) NOT NULL,
+    category VARCHAR(100),
+    user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL,
+    UNIQUE(product_name, user_id)
+);
+
+-- Enable Row Level Security for products
+ALTER TABLE products ENABLE ROW LEVEL SECURITY;
+
+-- Create RLS policies for products
+CREATE POLICY "Users can view own products"
+    ON products FOR SELECT
+    USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can insert own products"
+    ON products FOR INSERT
+    WITH CHECK (auth.uid() = user_id);
+
+CREATE POLICY "Users can update own products"
+    ON products FOR UPDATE
+    USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can delete own products"
+    ON products FOR DELETE
+    USING (auth.uid() = user_id);
+
+-- Create indexes for products
+CREATE INDEX idx_products_user_id ON products(user_id);
+CREATE INDEX idx_products_category ON products(category);
 
 -- Create sales table
 CREATE TABLE sales (
