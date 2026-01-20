@@ -2,18 +2,27 @@
 DROP TABLE IF EXISTS sales CASCADE;
 DROP TABLE IF EXISTS products CASCADE;
 
--- Create products/inventory table
+-- ============================================
+-- PRODUCTS/INVENTORY TABLE
+-- ============================================
 CREATE TABLE products (
     id BIGSERIAL PRIMARY KEY,
     product_name VARCHAR(255) NOT NULL,
     quantity INTEGER NOT NULL DEFAULT 0,
     unit_cost DECIMAL(10,2) NOT NULL,
     category VARCHAR(100),
+    sku VARCHAR(100),
+    description TEXT,
     user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL,
     UNIQUE(product_name, user_id)
 );
+
+-- Create indexes for products
+CREATE INDEX idx_products_user_id ON products(user_id);
+CREATE INDEX idx_products_category ON products(category);
+CREATE INDEX idx_products_sku ON products(sku);
 
 -- Enable Row Level Security for products
 ALTER TABLE products ENABLE ROW LEVEL SECURITY;
@@ -35,13 +44,12 @@ CREATE POLICY "Users can delete own products"
     ON products FOR DELETE
     USING (auth.uid() = user_id);
 
--- Create indexes for products
-CREATE INDEX idx_products_user_id ON products(user_id);
-CREATE INDEX idx_products_category ON products(category);
-
--- Create sales table
+-- ============================================
+-- SALES/TRANSACTIONS TABLE
+-- ============================================
 CREATE TABLE sales (
     id BIGSERIAL PRIMARY KEY,
+    product_id BIGINT REFERENCES products(id) ON DELETE SET NULL,
     product_name VARCHAR(255) NOT NULL,
     quantity INTEGER NOT NULL DEFAULT 1,
     revenue DECIMAL(10,2) NOT NULL,
@@ -59,6 +67,7 @@ CREATE TABLE sales (
 CREATE INDEX idx_sales_user_id ON sales(user_id);
 CREATE INDEX idx_sales_date ON sales(date);
 CREATE INDEX idx_sales_category ON sales(category);
+CREATE INDEX idx_sales_product_id ON sales(product_id);
 
 -- Enable Row Level Security
 ALTER TABLE sales ENABLE ROW LEVEL SECURITY;

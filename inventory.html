@@ -8,8 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Layout Container -->
-    <div class="layout">
+    <div class="dashboard">
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header">
@@ -48,7 +47,7 @@
             </nav>
 
             <div class="sidebar-footer">
-                <button class="btn btn-outline" id="logoutBtn" style="width: 100%;">
+                <button class="btn btn-logout" id="logoutBtn">
                     <i class="fas fa-sign-out-alt"></i> Logout
                 </button>
             </div>
@@ -56,15 +55,15 @@
 
         <!-- Main Content -->
         <main class="main-content">
-            <!-- Header -->
-            <div class="top-bar">
-                <div class="top-bar-left">
+            <!-- Top Bar -->
+            <header class="top-bar">
+                <div class="header-left">
                     <h1>Inventory Management</h1>
                 </div>
                 <button class="btn btn-primary" id="addProductBtn">
                     <i class="fas fa-plus"></i> Add Product
                 </button>
-            </div>
+            </header>
 
             <!-- Content -->
             <div class="content-area">
@@ -100,30 +99,31 @@
                 </div>
 
                 <!-- Products Table Card -->
-                <div class="card card-lg">
-                    <div class="card-header">
-                        <h2 style="margin: 0;">Products List</h2>
+                <div class="table-card">
+                    <div class="table-header">
+                        <h3>Products</h3>
                     </div>
-                    <div class="card-body" style="padding: 0;">
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Product Name</th>
-                                        <th>Category</th>
-                                        <th>Quantity</th>
-                                        <th>Unit Cost</th>
-                                        <th>Total Value</th>
-                                        <th style="width: 150px;">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="productsTable">
-                                    <tr>
-                                        <td colspan="6" class="text-center text-muted">No products yet. Add one to get started.</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Product Name</th>
+                                    <th>Category</th>
+                                    <th>Quantity</th>
+                                    <th>Unit Cost</th>
+                                    <th>Total Value</th>
+                                    <th style="width: 140px;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="productsTableBody">
+                                <tr>
+                                    <td colspan="6" class="empty-state">
+                                        <i class="fas fa-boxes"></i>
+                                        <p>No products yet. Add one to get started.</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

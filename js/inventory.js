@@ -110,10 +110,10 @@ async function loadProducts(userId) {
 
 // Display products in table
 function displayProducts(products) {
-    const table = document.getElementById('productsTable');
+    const table = document.getElementById('productsTableBody');
     
     if (products.length === 0) {
-        table.innerHTML = '<tr><td colspan="6" class="text-center text-muted">No products yet. Add one to get started.</td></tr>';
+        table.innerHTML = '<tr><td colspan="6" class="empty-state"><i class="fas fa-boxes"></i><p>No products yet. Add one to get started.</p></td></tr>';
         return;
     }
     
