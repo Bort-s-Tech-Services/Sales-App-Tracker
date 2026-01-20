@@ -939,10 +939,12 @@ tbody tr:hover {
     z-index: 1000;
     align-items: center;
     justify-content: center;
+    pointer-events: none;
 }
 
 .modal.active {
     display: flex;
+    pointer-events: auto;
 }
 
 .modal-content {
@@ -953,6 +955,7 @@ tbody tr:hover {
     max-width: 400px;
     width: 90%;
     animation: slideIn 0.3s ease;
+    pointer-events: auto;
 }
 
 @keyframes slideIn {

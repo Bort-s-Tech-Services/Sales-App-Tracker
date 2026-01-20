@@ -118,11 +118,22 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
--- Insert sample data (optional - for testing)
-INSERT INTO sales (product_name, quantity, revenue, cost, date, category, user_id) VALUES
-    ('Premium Laptop', 1, 1299.99, 899.99, CURRENT_DATE, 'Electronics', '00000000-0000-0000-0000-000000000000'),
-    ('Wireless Mouse', 3, 89.97, 44.97, CURRENT_DATE, 'Accessories', '00000000-0000-0000-0000-000000000000'),
-    ('Coffee Mug Set', 2, 39.98, 19.98, CURRENT_DATE - 1, 'Home', '00000000-0000-0000-0000-000000000000'),
-    ('Office Chair', 1, 299.99, 179.99, CURRENT_DATE - 2, 'Furniture', '00000000-0000-0000-0000-000000000000'),
-    ('USB-C Cable', 5, 49.95, 24.95, CURRENT_DATE - 3, 'Accessories', '00000000-0000-0000-0000-000000000000')
-ON CONFLICT DO NOTHING;
+-- ============================================
+-- SAMPLE DATA (OPTIONAL - uncomment if needed)
+-- ============================================
+-- Note: Replace '00000000-0000-0000-0000-000000000000' with your actual user UUID
+-- You can find your user UUID in Supabase > Authentication > Users
+
+-- INSERT INTO products (product_name, quantity, unit_cost, category, user_id) VALUES
+--     ('Premium Laptop', 5, 899.99, 'Electronics', '00000000-0000-0000-0000-000000000000'),
+--     ('Wireless Mouse', 20, 14.99, 'Accessories', '00000000-0000-0000-0000-000000000000'),
+--     ('Coffee Mug Set', 15, 9.99, 'Home', '00000000-0000-0000-0000-000000000000'),
+--     ('Office Chair', 3, 179.99, 'Furniture', '00000000-0000-0000-0000-000000000000'),
+--     ('USB-C Cable', 50, 4.99, 'Accessories', '00000000-0000-0000-0000-000000000000');
+
+-- INSERT INTO sales (product_name, quantity, revenue, cost, date, category, user_id) VALUES
+--     ('Premium Laptop', 1, 1299.99, 899.99, CURRENT_DATE, 'Electronics', '00000000-0000-0000-0000-000000000000'),
+--     ('Wireless Mouse', 3, 89.97, 44.97, CURRENT_DATE, 'Accessories', '00000000-0000-0000-0000-000000000000'),
+--     ('Coffee Mug Set', 2, 39.98, 19.98, CURRENT_DATE - 1, 'Home', '00000000-0000-0000-0000-000000000000'),
+--     ('Office Chair', 1, 299.99, 179.99, CURRENT_DATE - 2, 'Furniture', '00000000-0000-0000-0000-000000000000'),
+--     ('USB-C Cable', 5, 49.95, 24.95, CURRENT_DATE - 3, 'Accessories', '00000000-0000-0000-0000-000000000000');
