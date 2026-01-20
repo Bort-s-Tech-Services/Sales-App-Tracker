@@ -320,14 +320,14 @@ function initializeCharts() {
                 legend: { display: false },
                 tooltip: {
                     callbacks: {
-                        label: (context) => `$${context.raw.toFixed(2)}`
+                        label: (context) => `₵${context.raw.toFixed(2)}`
                     }
                 }
             },
             scales: {
                 y: {
                     beginAtZero: true,
-                    ticks: { callback: value => `$${value}` }
+                    ticks: { callback: value => `₵${value}` }
                 }
             }
         }
