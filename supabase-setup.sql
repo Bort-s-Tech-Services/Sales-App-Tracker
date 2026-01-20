@@ -19,15 +19,10 @@ CREATE TABLE products (
     UNIQUE(product_name, user_id)
 );
 
--- Create indexes for products
-CREATE INDEX idx_products_user_id ON products(user_id);
-CREATE INDEX idx_products_category ON products(category);
-CREATE INDEX idx_products_sku ON products(sku);
+
 
 -- Enable Row Level Security for products
 ALTER TABLE products ENABLE ROW LEVEL SECURITY;
-
--- Create RLS policies for products
 CREATE POLICY "Users can view own products"
     ON products FOR SELECT
     USING (auth.uid() = user_id);
