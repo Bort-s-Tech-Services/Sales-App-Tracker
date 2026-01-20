@@ -76,6 +76,17 @@ function setupEventListeners() {
     if (logoutBtn) {
         logoutBtn.addEventListener('click', logout);
     }
+    
+    // Mobile navigation: close sidebar when nav item is clicked
+    const navItems = document.querySelectorAll('nav a');
+    navItems.forEach(item => {
+        item.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                const sidebar = document.querySelector('.sidebar');
+                if (sidebar) sidebar.classList.remove('active');
+            }
+        });
+    });
 }
 
 // Load products from database

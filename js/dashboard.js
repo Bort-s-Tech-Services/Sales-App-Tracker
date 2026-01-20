@@ -104,6 +104,27 @@ function setupEventListeners() {
             document.querySelector('.sidebar').classList.toggle('active');
         });
     }
+    
+    // Close sidebar when nav item is clicked on mobile
+    const navItems = document.querySelectorAll('.sidebar-nav a');
+    navItems.forEach(item => {
+        item.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                document.querySelector('.sidebar').classList.remove('active');
+            }
+        });
+    });
+    
+    // Close sidebar on outside click
+    document.addEventListener('click', (e) => {
+        const sidebar = document.querySelector('.sidebar');
+        const toggle = document.getElementById('sidebarToggle');
+        if (sidebar && toggle && window.innerWidth <= 768) {
+            if (!sidebar.contains(e.target) && !toggle.contains(e.target) && sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        }
+    });
 }
 
 // Update current date display
