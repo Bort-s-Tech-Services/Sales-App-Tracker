@@ -56,6 +56,11 @@ function setupEventListeners() {
     const logoutBtn = document.getElementById('logoutBtn');
     if (logoutBtn) logoutBtn.addEventListener('click', logout);
 
+    const exportBtn = document.getElementById('exportSalesBtn');
+    if (exportBtn) {
+        exportBtn.addEventListener('click', () => exportSalesToCSV(allTodaySales));
+    }
+
     const backBtn = document.querySelector('[href="dashboard.html"]');
     if (backBtn) backBtn.addEventListener('click', (e) => {
         e.preventDefault();
@@ -169,6 +174,8 @@ function calculateTotals() {
     }
 }
 
+let allTodaySales = [];
+
 // Load today's sales
 async function loadTodaySales(userId) {
     try {
@@ -182,6 +189,7 @@ async function loadTodaySales(userId) {
 
         if (error) throw error;
 
+        allTodaySales = sales || [];
         updateTodayStats(sales || []);
         updateRecentSales(sales || []);
     } catch (error) {
@@ -189,6 +197,41 @@ async function loadTodaySales(userId) {
         updateTodayStats([]);
         updateRecentSales([]);
     }
+}
+
+// Export sales to CSV
+export function exportSalesToCSV(sales) {
+    if (!sales || sales.length === 0) {
+        alert('No sales data to export');
+        return;
+    }
+    
+    const headers = ['Date', 'Product', 'Quantity', 'Revenue', 'Cost', 'Profit', 'Customer'];
+    const csvRows = [headers.join(',')];
+    
+    for (const sale of sales) {
+        const row = [
+            sale.date,
+            `"${sale.product_name}"`,
+            sale.quantity,
+            sale.revenue,
+            sale.cost,
+            sale.profit,
+            `"${sale.customer || ''}"`
+        ];
+        csvRows.push(row.join(','));
+    }
+    
+    const csvContent = csvRows.join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `sales_report_${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 }
 
 // Update today's statistics

@@ -155,6 +155,19 @@ async function loadSalesData(userId) {
         
         allSales = data || [];
         
+        // Also load products for low stock check
+        const { data: products } = await supabase
+            .from('products')
+            .select('*')
+            .eq('user_id', userId);
+            
+        if (products) {
+            const lowStock = products.filter(p => p.quantity < 10);
+            if (lowStock.length > 0) {
+                showNotification(`You have ${lowStock.length} items low in stock!`, 'warning');
+            }
+        }
+        
     } catch (error) {
         console.error('Error loading sales data:', error);
         showNotification('Failed to load sales data', 'error');

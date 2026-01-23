@@ -117,13 +117,16 @@ function displayProducts(products) {
         return;
     }
     
-    table.innerHTML = products.map(product => `
-        <tr>
+    table.innerHTML = products.map(product => {
+        const isLowStock = product.quantity < 10;
+        return `
+        <tr class="${isLowStock ? 'row-low-stock' : ''}">
             <td><strong>${product.product_name}</strong></td>
             <td>${product.category || '--'}</td>
             <td>
-                <span class="badge ${product.quantity < 10 ? 'badge-danger' : 'badge-success'}">
+                <span class="badge ${isLowStock ? 'badge-danger' : 'badge-success'}">
                     ${product.quantity}
+                    ${isLowStock ? ' <i class="fas fa-exclamation-triangle"></i>' : ''}
                 </span>
             </td>
             <td>${formatCurrency(product.unit_cost)}</td>
@@ -138,7 +141,7 @@ function displayProducts(products) {
                 </button>
             </td>
         </tr>
-    `).join('');
+    `;}).join('');
 }
 
 // Update statistics
