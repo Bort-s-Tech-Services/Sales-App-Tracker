@@ -213,10 +213,34 @@ function filterSalesByPeriod(sales, period) {
 
 // Calculate statistics
 function calculateStatistics(filteredSales, allSales) {
-    const today = new Date().toISOString().split('T')[0];
-    const yesterday = new Date();
+    const now = new Date();
+    const today = now.toISOString().split('T')[0];
+    const yesterday = new Date(now);
     yesterday.setDate(yesterday.getDate() - 1);
     const yesterdayStr = yesterday.toISOString().split('T')[0];
+    
+    // Period comparison
+    const getPeriodData = (days) => {
+        const start = new Date(now);
+        start.setDate(start.getDate() - days);
+        const end = new Date(now);
+        end.setDate(end.getDate() - (days * 2));
+        
+        const currentPeriodSales = allSales.filter(s => new Date(s.date) >= start);
+        const previousPeriodSales = allSales.filter(s => {
+            const d = new Date(s.date);
+            return d >= end && d < start;
+        });
+        
+        const currentRev = currentPeriodSales.reduce((sum, s) => sum + s.revenue, 0);
+        const prevRev = previousPeriodSales.reduce((sum, s) => sum + s.revenue, 0);
+        const growth = prevRev > 0 ? ((currentRev - prevRev) / prevRev * 100).toFixed(1) : 0;
+        
+        return { currentRev, growth };
+    };
+
+    const weekStats = getPeriodData(7);
+    const monthStats = getPeriodData(30);
     
     const todaySales = allSales.filter(s => s.date === today);
     const yesterdaySales = allSales.filter(s => s.date === yesterdayStr);
@@ -234,10 +258,7 @@ function calculateStatistics(filteredSales, allSales) {
     const weeklyProfit = weekSales.reduce((sum, s) => sum + s.profit, 0);
     
     // Monthly sales
-    const monthStart = new Date();
-    monthStart.setDate(1);
-    const monthSales = allSales.filter(s => new Date(s.date) >= monthStart);
-    const monthlySales = monthSales.reduce((sum, s) => sum + s.revenue, 0);
+    const monthlySales = monthStats.currentRev;
     
     // Yearly growth
     const currentYear = new Date().getFullYear();
@@ -261,7 +282,8 @@ function calculateStatistics(filteredSales, allSales) {
         monthlySales,
         yearlyGrowth,
         totalTransactions: allSales.length,
-        recentSales: filteredSales.slice(0, 10)
+        recentSales: filteredSales.slice(0, 10),
+        weekGrowth: weekStats.growth
     };
 }
 

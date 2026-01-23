@@ -350,6 +350,19 @@ body {
     font-size: 0.9rem;
 }
 
+/* Inventory Low Stock Styling */
+.row-low-stock {
+    background-color: rgba(239, 68, 68, 0.05);
+}
+
+.row-low-stock td {
+    color: #ef4444;
+}
+
+.badge-danger i {
+    margin-left: 4px;
+}
+
 /* Dashboard Layout */
 .dashboard {
     display: flex;
