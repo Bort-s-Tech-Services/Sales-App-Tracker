@@ -350,7 +350,50 @@ body {
     font-size: 0.9rem;
 }
 
-/* Inventory Low Stock Styling */
+/* Landing Page Enhancements */
+.landing-page .btn {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transform: translateY(0);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.landing-page .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.landing-page .btn-primary {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    border: none;
+}
+
+.landing-page .btn-outline {
+    border: 2px solid white;
+    color: white;
+}
+
+.landing-page .btn-outline:hover {
+    background: white;
+    color: var(--primary);
+}
+
+/* Sidebar consistency improvements */
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.nav-item {
+    border-radius: 8px;
+    margin: 0 10px;
+}
+
+.nav-item.active {
+    background: var(--primary);
+    color: white;
+    border-right: none;
+}
 .row-low-stock {
     background-color: rgba(239, 68, 68, 0.05);
 }

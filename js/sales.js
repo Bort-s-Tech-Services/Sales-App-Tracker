@@ -278,6 +278,11 @@ async function handleSubmit(e) {
     e.preventDefault();
 
     const productId = document.getElementById('productName').value;
+    if (!productId) {
+        alert('Please select a product');
+        return;
+    }
+
     const productNameEl = document.getElementById('productName');
     const productName = productNameEl.options[productNameEl.selectedIndex]?.text.split(' (')[0];
     const quantity = parseInt(document.getElementById('quantity').value);
@@ -288,8 +293,13 @@ async function handleSubmit(e) {
     const customer = document.getElementById('customer')?.value.trim() || null;
     const notes = document.getElementById('notes')?.value.trim() || null;
 
-    if (!productId || !quantity || quantity <= 0 || unitPrice <= 0 || unitCost < 0) {
-        alert('Please enter valid product, quantity, and price values');
+    if (!quantity || quantity <= 0) {
+        alert('Please enter a valid quantity');
+        return;
+    }
+
+    if (isNaN(unitPrice) || unitPrice <= 0) {
+        alert('Please enter a valid unit price');
         return;
     }
 
