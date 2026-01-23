@@ -9,17 +9,57 @@
 
 .auth-container {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    max-width: 1000px;
+    grid-template-columns: 1fr 1.2fr;
+    max-width: 1100px;
     width: 100%;
     background: white;
     border-radius: var(--radius);
     overflow: hidden;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    min-height: 650px;
 }
 
-.auth-card {
+.auth-form-container {
+    padding: 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.auth-image-side {
+    background: url('../static/images/login-hero.jpg') no-repeat center center;
+    background-size: cover;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    padding: 4rem;
+    color: white;
+}
+
+.auth-image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(67, 97, 238, 0.2), rgba(30, 41, 59, 0.8));
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
     padding: 3rem;
+    z-index: 1;
+}
+
+.auth-image-overlay h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    font-weight: 800;
+}
+
+.auth-image-overlay p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    max-width: 400px;
 }
 
 .auth-header {
