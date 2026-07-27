@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sales Tracker Pro | Enterprise Sales & Cloud Analytics</title>
-    <meta name="description" content="A 3-tier AWS cloud-native sales tracking, inventory management, and financial analytics platform.">
+    <title>Sales Tracker Pro | Professional Sales Management</title>
+    <meta name="description" content="Professional sales tracking and management platform">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/auth.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="landing-page">
     <div class="container">
-        <!-- Navigation Header -->
+        <!-- Navigation -->
         <nav class="navbar">
             <div class="nav-brand">
                 <i class="fas fa-chart-line"></i>
@@ -18,275 +19,71 @@
             </div>
             <div class="nav-links">
                 <a href="#features">Features</a>
-                <a href="#architecture">Cloud Architecture</a>
                 <a href="#pricing">Pricing</a>
-                <a href="#faq">FAQ</a>
-                <a href="login.html" class="btn btn-outline" style="border-color: rgba(255,255,255,0.2); color: #fff;">Login</a>
-                <a href="register.html" class="btn btn-primary" style="background: linear-gradient(135deg, #6366f1, #a855f7); border: none;">Get Started</a>
+                <a href="login.html" class="btn btn-outline">Login</a>
+                <a href="register.html" class="btn btn-primary">Get Started</a>
             </div>
         </nav>
 
-        <!-- Hero Section -->
-        <section class="hero-section">
-            <div class="hero-content">
-                <span class="badge" style="background: rgba(99, 102, 241, 0.15); color: #818cf8; border: 1px solid rgba(99, 102, 241, 0.3); padding: 0.5rem 1.25rem; border-radius: 50px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem; display: inline-block; margin-bottom: 1.25rem;">
-                    <i class="fab fa-aws"></i> Enterprise Cloud Architecture
-                </span>
-                <h1>Professional Sales Tracking & Financial Analytics</h1>
-                <p class="hero-subtitle">
-                    Monitor daily transactions, calculate net profits automatically, upload receipts to Amazon S3, and store structured sales records in Amazon RDS PostgreSQL.
-                </p>
-                <div class="hero-cta">
-                    <a href="register.html" class="btn btn-primary btn-large" style="background: linear-gradient(135deg, #6366f1, #a855f7); border: none; padding: 14px 28px; font-size: 1.1rem; border-radius: 12px; box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);">
-                        <i class="fas fa-rocket"></i> Launch Free Account
-                    </a>
-                    <a href="#interactiveDemo" class="btn btn-outline btn-large" style="border-color: rgba(255,255,255,0.2); color: #fff; padding: 14px 28px; font-size: 1.1rem; border-radius: 12px;">
-                        <i class="fas fa-calculator"></i> Try Live Profit Widget
-                    </a>
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1>Professional Sales Tracking Made Simple</h1>
+            <p class="hero-subtitle">Monitor daily sales, track profits, and grow your business with our powerful analytics dashboard. Built for modern entrepreneurs.</p>
+            <div class="hero-cta">
+                <a href="register.html" class="btn btn-primary btn-large">
+                    <i class="fas fa-rocket"></i> Start Free Trial
+                </a>
+                <a href="#features" class="btn btn-outline btn-large">
+                    <i class="fas fa-play-circle"></i> See Features
+                </a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Real-time tracking</span>
                 </div>
-                <div class="hero-stats">
-                    <div class="stat">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Zero Local Disk Storage</span>
-                    </div>
-                    <div class="stat">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Amazon S3 Direct Stream</span>
-                    </div>
-                    <div class="stat">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Instant Setup</span>
-                    </div>
+                <div class="stat">
+                    <i class="fas fa-check-circle"></i>
+                    <span>No credit card required</span>
                 </div>
             </div>
+        </div>
+        <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Sales Dashboard Preview">
+        </div>
+    </section>
 
-            <!-- Interactive Live Profit Preview Card -->
-            <div class="interactive-preview-card" id="interactiveDemo">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:0.75rem;">
-                    <h3 style="margin:0; font-size:1.15rem; color:#fff;"><i class="fas fa-bolt" style="color:#f59e0b;"></i> Live Profit Estimator</h3>
-                    <span style="font-size:0.75rem; background:rgba(52, 211, 153, 0.2); color:#34d399; padding:0.25rem 0.6rem; border-radius:12px; font-weight:600;">Interactive Widget</span>
-                </div>
-
-                <div style="display:flex; flex-direction:column; gap:1rem; margin-bottom:1.25rem;">
-                    <div>
-                        <label style="display:block; font-size:0.85rem; color:#94a3b8; margin-bottom:0.35rem;">Product Unit Selling Price (₵)</label>
-                        <input type="number" id="demoPrice" value="599.99" style="width:100%; padding:0.6rem 0.8rem; background:rgba(15,23,42,0.8); border:1px solid rgba(255,255,255,0.15); border-radius:8px; color:#fff; font-size:1rem;">
-                    </div>
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem;">
-                        <div>
-                            <label style="display:block; font-size:0.85rem; color:#94a3b8; margin-bottom:0.35rem;">Unit Cost Price (₵)</label>
-                            <input type="number" id="demoCost" value="350.00" style="width:100%; padding:0.6rem 0.8rem; background:rgba(15,23,42,0.8); border:1px solid rgba(255,255,255,0.15); border-radius:8px; color:#fff; font-size:1rem;">
-                        </div>
-                        <div>
-                            <label style="display:block; font-size:0.85rem; color:#94a3b8; margin-bottom:0.35rem;">Qty Sold</label>
-                            <input type="number" id="demoQty" value="5" style="width:100%; padding:0.6rem 0.8rem; background:rgba(15,23,42,0.8); border:1px solid rgba(255,255,255,0.15); border-radius:8px; color:#fff; font-size:1rem;">
-                        </div>
-                    </div>
-                </div>
-
-                <div style="background:rgba(15,23,42,0.9); border:1px solid rgba(99,102,241,0.3); border-radius:12px; padding:1rem; display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; text-align:center;">
-                    <div>
-                        <span style="font-size:0.8rem; color:#94a3b8; display:block;">Est. Revenue</span>
-                        <strong id="demoRevenue" style="font-size:1.25rem; color:#818cf8;">₵2,999.95</strong>
-                    </div>
-                    <div>
-                        <span style="font-size:0.8rem; color:#94a3b8; display:block;">Est. Net Profit</span>
-                        <strong id="demoProfit" style="font-size:1.25rem; color:#34d399;">₵1,249.95</strong>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- AWS 3-Tier Architecture Showcase -->
-        <section id="architecture" class="architecture-section" style="margin: 4rem -20px; padding: 4rem 20px;">
-            <div style="text-align: center; margin-bottom: 3rem;">
-                <span class="badge" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); padding: 0.4rem 1rem; border-radius: 50px; font-weight: 600; font-size: 0.8rem; text-transform: uppercase;">
-                    High Availability Cloud Infrastructure
-                </span>
-                <h2 style="font-size: 2.25rem; font-weight: 800; margin-top: 0.75rem; color: #fff;">
-                    Built on 3-Tier Cloud Architecture
-                </h2>
-                <p style="color: #94a3b8; max-width: 650px; margin: 0.5rem auto 0 auto;">
-                    Engineered for high availability, security, zero local storage risk, and continuous AWS deployment.
-                </p>
-            </div>
-
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem;">
-                <div class="arch-tier-card">
-                    <div style="font-size: 2rem; color: #818cf8; margin-bottom: 1rem;"><i class="fas fa-desktop"></i></div>
-                    <h3 style="font-size: 1.2rem; color: #fff; margin-bottom: 0.5rem;">Presentation Tier</h3>
-                    <p style="color: #94a3b8; font-size: 0.9rem;">Modern Vanilla JS & HTML5 UI client served through Nginx EC2 reverse proxy.</p>
-                </div>
-
-                <div class="arch-tier-card">
-                    <div style="font-size: 2rem; color: #34d399; margin-bottom: 1rem;"><i class="fas fa-server"></i></div>
-                    <h3 style="font-size: 1.2rem; color: #fff; margin-bottom: 0.5rem;">Express Backend Tier</h3>
-                    <p style="color: #94a3b8; font-size: 0.9rem;">Node.js Express REST API executing business logic & JWT authentication on EC2.</p>
-                </div>
-
-                <div class="arch-tier-card">
-                    <div style="font-size: 2rem; color: #fbbf24; margin-bottom: 1rem;"><i class="fas fa-cloud-upload-alt"></i></div>
-                    <h3 style="font-size: 1.2rem; color: #fff; margin-bottom: 0.5rem;">Amazon S3 Bucket Tier</h3>
-                    <p style="color: #94a3b8; font-size: 0.9rem;">Zero local EC2 disk storage. Receipts & product images stream direct to AWS S3.</p>
-                </div>
-
-                <div class="arch-tier-card">
-                    <div style="font-size: 2rem; color: #c084fc; margin-bottom: 1rem;"><i class="fas fa-database"></i></div>
-                    <h3 style="font-size: 1.2rem; color: #fff; margin-bottom: 0.5rem;">Amazon RDS PostgreSQL</h3>
-                    <p style="color: #94a3b8; font-size: 0.9rem;">Managed relational cloud database storing users, product catalog, and transaction ledgers.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Features Showcase Grid -->
-        <section id="features" class="features-section" style="padding: 4rem 0;">
-            <div style="text-align: center; margin-bottom: 3rem;">
-                <h2 style="font-size: 2.5rem; font-weight: 800; color: #fff; margin-bottom: 0.75rem;">Everything You Need To Manage Sales & Profit</h2>
-                <p style="color: #94a3b8;">Streamline inventory, financial analytics, and cloud asset storage in one platform.</p>
-            </div>
+        <!-- Features -->
+        <section id="features" class="features-section">
+            <h2>Powerful Features for Your Business</h2>
             <div class="features-grid">
                 <div class="feature-card">
-                    <div class="feature-icon" style="background: rgba(99, 102, 241, 0.2); color: #818cf8;">
+                    <div class="feature-icon">
                         <i class="fas fa-chart-bar"></i>
                     </div>
-                    <h3>Real-Time Financial Dashboard</h3>
-                    <p>Instantly calculate total revenue, product cost, net profit, and average order value with zero spreadsheet manual entry.</p>
+                    <h3>Real-time Analytics</h3>
+                    <p>Track daily, weekly, monthly, and yearly sales performance with live updates.</p>
                 </div>
-
                 <div class="feature-card">
-                    <div class="feature-icon" style="background: rgba(16, 185, 129, 0.2); color: #34d399;">
-                        <i class="fas fa-receipt"></i>
+                    <div class="feature-icon">
+                        <i class="fas fa-calculator"></i>
                     </div>
-                    <h3>S3 Receipt & Image Upload</h3>
-                    <p>Upload product images and sales receipts with in-memory streaming directly to Amazon S3 asset bucket.</p>
+                    <h3>Profit Tracking</h3>
+                    <p>Automatically calculate profits and margins for every sale.</p>
                 </div>
-
                 <div class="feature-card">
-                    <div class="feature-icon" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24;">
-                        <i class="fas fa-boxes"></i>
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
                     </div>
-                    <h3>Inventory Tracking</h3>
-                    <p>Manage product stock levels, cost prices, SKUs, and categories with automatic low-stock alerts.</p>
+                    <h3>Secure & Private</h3>
+                    <p>Your data is encrypted and protected with enterprise-grade security.</p>
                 </div>
-
                 <div class="feature-card">
-                    <div class="feature-icon" style="background: rgba(168, 85, 247, 0.2); color: #c084fc;">
-                        <i class="fas fa-file-csv"></i>
-                    </div>
-                    <h3>CSV Financial Export</h3>
-                    <p>Generate transaction audit logs and download profit reports to standard CSV format anytime.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon" style="background: rgba(239, 68, 68, 0.2); color: #f87171;">
-                        <i class="fas fa-user-lock"></i>
-                    </div>
-                    <h3>JWT Secure Auth</h3>
-                    <p>Encrypted passwords via bcrypt with stateless JSON Web Tokens keeping your financial data protected.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon" style="background: rgba(6, 182, 212, 0.2); color: #22d3ee;">
+                    <div class="feature-icon">
                         <i class="fas fa-mobile-alt"></i>
                     </div>
-                    <h3>Responsive Mobile Layout</h3>
-                    <p>Optimized interface that works seamlessly on desktop workstations, tablets, and smartphones.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Pricing Section -->
-        <section id="pricing" class="pricing-section" style="padding: 4rem 0;">
-            <div style="text-align:center; margin-bottom:3rem;">
-                <h2 style="font-size:2.5rem; font-weight:800; color:#fff; margin-bottom:0.75rem;">Transparent Cloud Pricing</h2>
-                <p style="color:#94a3b8;">Choose the plan that best fits your business needs.</p>
-            </div>
-
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 1100px; margin: 0 auto;">
-                <div class="card" style="background: rgba(30, 41, 59, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 2.5rem; color: #fff;">
-                    <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem;">Starter Free</h3>
-                    <p style="color: #94a3b8; font-size: 0.95rem; margin-bottom: 1.5rem;">Perfect for small sellers & freelancers</p>
-                    <div style="font-size: 2.75rem; font-weight: 800; color: #fff; margin-bottom: 1.5rem;">
-                        ₵0 <span style="font-size: 1rem; font-weight: 400; color: #94a3b8;">/ month</span>
-                    </div>
-                    <ul style="list-style: none; padding: 0; margin: 0 0 2rem 0; display: flex; flex-direction: column; gap: 0.8rem; color: #cbd5e1; font-size: 0.95rem;">
-                        <li><i class="fas fa-check" style="color: #34d399; margin-right: 0.5rem;"></i> Up to 100 Inventory Items</li>
-                        <li><i class="fas fa-check" style="color: #34d399; margin-right: 0.5rem;"></i> Real-time Sales Tracking</li>
-                        <li><i class="fas fa-check" style="color: #34d399; margin-right: 0.5rem;"></i> Amazon S3 Upload Stream</li>
-                    </ul>
-                    <a href="register.html" class="btn btn-outline btn-block" style="text-align: center; border-color: rgba(255,255,255,0.2); color: #fff;">Get Started Free</a>
-                </div>
-
-                <div class="card" style="background: linear-gradient(145deg, rgba(99, 102, 241, 0.15) 0%, rgba(30, 41, 59, 0.9) 100%); border: 2px solid #6366f1; border-radius: 16px; padding: 2.5rem; color: #fff; position: relative;">
-                    <span style="position: absolute; top: -14px; right: 24px; background: linear-gradient(135deg, #6366f1, #a855f7); color: #fff; padding: 0.25rem 0.85rem; border-radius: 50px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">
-                        Most Popular
-                    </span>
-                    <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem;">Business Pro</h3>
-                    <p style="color: #94a3b8; font-size: 0.95rem; margin-bottom: 1.5rem;">For growing retail businesses & e-commerce</p>
-                    <div style="font-size: 2.75rem; font-weight: 800; color: #fff; margin-bottom: 1.5rem;">
-                        ₵49 <span style="font-size: 1rem; font-weight: 400; color: #94a3b8;">/ month</span>
-                    </div>
-                    <ul style="list-style: none; padding: 0; margin: 0 0 2rem 0; display: flex; flex-direction: column; gap: 0.8rem; color: #cbd5e1; font-size: 0.95rem;">
-                        <li><i class="fas fa-check" style="color: #34d399; margin-right: 0.5rem;"></i> Unlimited Inventory Products</li>
-                        <li><i class="fas fa-check" style="color: #34d399; margin-right: 0.5rem;"></i> Unlimited Sales Transactions</li>
-                        <li><i class="fas fa-check" style="color: #34d399; margin-right: 0.5rem;"></i> Amazon S3 Asset Bucket Storage</li>
-                        <li><i class="fas fa-check" style="color: #34d399; margin-right: 0.5rem;"></i> Instant CSV Financial Exports</li>
-                    </ul>
-                    <a href="register.html" class="btn btn-primary btn-block" style="text-align: center; background: linear-gradient(135deg, #6366f1, #a855f7); border: none;">Start Free Trial</a>
-                </div>
-
-                <div class="card" style="background: rgba(30, 41, 59, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 2.5rem; color: #fff;">
-                    <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem;">Cloud Enterprise</h3>
-                    <p style="color: #94a3b8; font-size: 0.95rem; margin-bottom: 1.5rem;">High volume retail chains & teams</p>
-                    <div style="font-size: 2.75rem; font-weight: 800; color: #fff; margin-bottom: 1.5rem;">
-                        ₵149 <span style="font-size: 1rem; font-weight: 400; color: #94a3b8;">/ month</span>
-                    </div>
-                    <ul style="list-style: none; padding: 0; margin: 0 0 2rem 0; display: flex; flex-direction: column; gap: 0.8rem; color: #cbd5e1; font-size: 0.95rem;">
-                        <li><i class="fas fa-check" style="color: #34d399; margin-right: 0.5rem;"></i> Multi-user Role Permissions</li>
-                        <li><i class="fas fa-check" style="color: #34d399; margin-right: 0.5rem;"></i> Custom API Access & Webhooks</li>
-                        <li><i class="fas fa-check" style="color: #34d399; margin-right: 0.5rem;"></i> Dedicated Amazon RDS Endpoint</li>
-                    </ul>
-                    <a href="register.html" class="btn btn-outline btn-block" style="text-align: center; border-color: rgba(255,255,255,0.2); color: #fff;">Contact Sales</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- FAQ Section -->
-        <section id="faq" style="padding: 4rem 0 6rem 0;">
-            <div style="text-align: center; margin-bottom: 3rem;">
-                <h2 style="font-size: 2.5rem; font-weight: 800; color: #fff; margin-bottom: 0.75rem;">Frequently Asked Questions</h2>
-                <p style="color: #94a3b8;">Got questions about Sales Tracker Pro? We have answers.</p>
-            </div>
-
-            <div style="max-width: 800px; margin: 0 auto;">
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>How does Amazon S3 storage work in this project?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        Uploaded product images and receipt PDFs route in memory buffers through the Express server directly into Amazon S3 bucket <code>csbc252-sales-tracker-assets</code>, ensuring zero local EC2 disk storage.
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>Can I test the app locally without connecting to Amazon RDS?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        Yes! If <code>DATABASE_URL</code> is omitted, the backend server automatically falls back to an in-memory cloud datastore pre-loaded with mock sales and inventory items for instant testing.
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>Can I export transaction data for bookkeeping?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        Absolutely. The Financial Reports section includes a one-click CSV export button that generates complete financial logs formatted for Excel or accounting software.
-                    </div>
+                    <h3>Mobile Ready</h3>
+                    <p>Access your dashboard from any device, anywhere.</p>
                 </div>
             </div>
         </section>
@@ -295,15 +92,15 @@
         <section class="cta-section">
             <div class="cta-content">
                 <h2>Ready to Transform Your Sales Tracking?</h2>
-                <p>Join businesses using SalesTracker Pro to monitor profits & streamline cloud analytics.</p>
-                <a href="register.html" class="btn btn-primary btn-large" style="background: linear-gradient(135deg, #6366f1, #a855f7); border: none; padding: 14px 32px; font-size: 1.1rem; border-radius: 12px;">
+                <p>Join thousands of businesses using SalesTracker Pro to grow their revenue.</p>
+                <a href="register.html" class="btn btn-primary btn-large">
                     <i class="fas fa-user-plus"></i> Create Free Account
                 </a>
             </div>
         </section>
 
         <!-- Footer -->
-        <footer class="footer" style="padding: 3rem 0 2rem 0; border-top: 1px solid rgba(255,255,255,0.08);">
+        <footer class="footer">
             <div class="footer-content">
                 <div class="footer-brand">
                     <i class="fas fa-chart-line"></i>
@@ -312,56 +109,17 @@
                 <div class="footer-links">
                     <a href="login.html">Login</a>
                     <a href="register.html">Register</a>
-                    <a href="features.html">Features</a>
-                    <a href="pricing.html">Pricing</a>
+                    <a href="#features">Features</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
                 </div>
                 <div class="footer-copyright">
-                    &copy; 2026 SalesTracker Pro. All rights reserved.
+                    &copy; 2024 SalesTracker Pro. All rights reserved.
                 </div>
             </div>
         </footer>
     </div>
 
-    <!-- Landing Page Interactive Script -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Live profit widget listener
-            const pInput = document.getElementById('demoPrice');
-            const cInput = document.getElementById('demoCost');
-            const qInput = document.getElementById('demoQty');
-
-            const revEl = document.getElementById('demoRevenue');
-            const profEl = document.getElementById('demoProfit');
-
-            function updateCalculations() {
-                const p = parseFloat(pInput?.value || 0);
-                const c = parseFloat(cInput?.value || 0);
-                const q = parseInt(qInput?.value || 0, 10);
-
-                const rev = p * q;
-                const prof = (p - c) * q;
-
-                if (revEl) revEl.textContent = '₵' + rev.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                if (profEl) profEl.textContent = '₵' + prof.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            }
-
-            [pInput, cInput, qInput].forEach(inp => {
-                if (inp) inp.addEventListener('input', updateCalculations);
-            });
-
-            // Accordion FAQ listener
-            const faqItems = document.querySelectorAll('.faq-item');
-            faqItems.forEach(item => {
-                const q = item.querySelector('.faq-question');
-                if (q) {
-                    q.addEventListener('click', () => {
-                        const isOpen = item.classList.contains('open');
-                        faqItems.forEach(i => i.classList.remove('open'));
-                        if (!isOpen) item.classList.add('open');
-                    });
-                }
-            });
-        });
-    </script>
+    <script type="module" src="js/auth.js"></script>
 </body>
 </html>
