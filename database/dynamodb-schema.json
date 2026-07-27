@@ -1,0 +1,92 @@
+{
+  "Comment": "AWS DynamoDB Schema Definitions for Sales Tracker Pro (CSBC 252 Capstone Project)",
+  "Tables": [
+    {
+      "TableName": "SalesTracker_Users",
+      "KeySchema": [
+        { "AttributeName": "id", "KeyType": "HASH" }
+      ],
+      "AttributeDefinitions": [
+        { "AttributeName": "id", "AttributeType": "S" },
+        { "AttributeName": "email", "AttributeType": "S" }
+      ],
+      "GlobalSecondaryIndexes": [
+        {
+          "IndexName": "EmailIndex",
+          "KeySchema": [
+            { "AttributeName": "email", "KeyType": "HASH" }
+          ],
+          "Projection": { "ProjectionType": "ALL" },
+          "ProvisionedThroughput": {
+            "ReadCapacityUnits": 5,
+            "WriteCapacityUnits": 5
+          }
+        }
+      ],
+      "ProvisionedThroughput": {
+        "ReadCapacityUnits": 5,
+        "WriteCapacityUnits": 5
+      }
+    },
+    {
+      "TableName": "SalesTracker_Products",
+      "KeySchema": [
+        { "AttributeName": "user_id", "KeyType": "HASH" },
+        { "AttributeName": "id", "KeyType": "RANGE" }
+      ],
+      "AttributeDefinitions": [
+        { "AttributeName": "user_id", "AttributeType": "S" },
+        { "AttributeName": "id", "AttributeType": "S" },
+        { "AttributeName": "category", "AttributeType": "S" }
+      ],
+      "GlobalSecondaryIndexes": [
+        {
+          "IndexName": "CategoryIndex",
+          "KeySchema": [
+            { "AttributeName": "user_id", "KeyType": "HASH" },
+            { "AttributeName": "category", "KeyType": "RANGE" }
+          ],
+          "Projection": { "ProjectionType": "ALL" },
+          "ProvisionedThroughput": {
+            "ReadCapacityUnits": 5,
+            "WriteCapacityUnits": 5
+          }
+        }
+      ],
+      "ProvisionedThroughput": {
+        "ReadCapacityUnits": 5,
+        "WriteCapacityUnits": 5
+      }
+    },
+    {
+      "TableName": "SalesTracker_Sales",
+      "KeySchema": [
+        { "AttributeName": "user_id", "KeyType": "HASH" },
+        { "AttributeName": "id", "KeyType": "RANGE" }
+      ],
+      "AttributeDefinitions": [
+        { "AttributeName": "user_id", "AttributeType": "S" },
+        { "AttributeName": "id", "AttributeType": "S" },
+        { "AttributeName": "sale_date", "AttributeType": "S" }
+      ],
+      "GlobalSecondaryIndexes": [
+        {
+          "IndexName": "DateIndex",
+          "KeySchema": [
+            { "AttributeName": "user_id", "KeyType": "HASH" },
+            { "AttributeName": "sale_date", "KeyType": "RANGE" }
+          ],
+          "Projection": { "ProjectionType": "ALL" },
+          "ProvisionedThroughput": {
+            "ReadCapacityUnits": 5,
+            "WriteCapacityUnits": 5
+          }
+        }
+      ],
+      "ProvisionedThroughput": {
+        "ReadCapacityUnits": 5,
+        "WriteCapacityUnits": 5
+      }
+    }
+  ]
+}
