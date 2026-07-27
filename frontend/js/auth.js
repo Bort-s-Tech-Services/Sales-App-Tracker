@@ -1,0 +1,194 @@
+// Client Auth & Settings Script connected to AWS Express Backend REST API
+document.addEventListener('DOMContentLoaded', () => {
+  const loginForm = document.getElementById('loginForm');
+  const registerForm = document.getElementById('registerForm');
+  const profileForm = document.getElementById('profileForm');
+  const passwordForm = document.getElementById('passwordForm');
+  const logoutButtons = document.querySelectorAll('.logout-btn, #logoutBtn');
+
+  // Check auth status
+  const token = localStorage.getItem('auth_token');
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+
+  if (user && user.full_name) {
+    const userDisplayEls = document.querySelectorAll('.user-name-display');
+    userDisplayEls.forEach(el => el.textContent = user.full_name);
+  }
+
+  // Populate Settings Page fields if present
+  if (profileForm) {
+    const nameInput = document.getElementById('settingsFullName');
+    const emailInput = document.getElementById('settingsEmail');
+    const companyInput = document.getElementById('settingsCompany');
+
+    if (nameInput) nameInput.value = user.full_name || '';
+    if (emailInput) emailInput.value = user.email || '';
+    if (companyInput) companyInput.value = user.company_name || '';
+
+    // Settings Tab Switching
+    const tabBtns = document.querySelectorAll('.settings-tab-btn');
+    const tabContents = document.querySelectorAll('.settings-tab-content');
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetTab = btn.getAttribute('data-tab');
+
+        tabBtns.forEach(b => {
+          b.classList.remove('active');
+          b.style.background = 'transparent';
+          b.style.color = 'var(--text-muted)';
+          b.style.fontWeight = '500';
+        });
+
+        btn.classList.add('active');
+        btn.style.background = 'var(--primary-light, #eef2ff)';
+        btn.style.color = 'var(--primary-color, #4f46e5)';
+        btn.style.fontWeight = '600';
+
+        tabContents.forEach(content => {
+          if (content.id === targetTab) {
+            content.style.display = 'block';
+          } else {
+            content.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // Profile update submit
+    profileForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fullName = nameInput.value.trim();
+      const companyName = companyInput.value.trim();
+      const alertEl = document.getElementById('settingsAlert');
+
+      try {
+        const res = await APIClient.updateProfile({ full_name: fullName, company_name: companyName });
+        if (alertEl) {
+          alertEl.className = 'alert alert-success';
+          alertEl.style.cssText = 'display:block; margin-bottom:1.5rem; padding:1rem; background:#d1fae5; color:#065f46; border-radius:8px;';
+          alertEl.innerHTML = `<i class="fas fa-check-circle"></i> ${res.message || 'Profile updated successfully!'}`;
+        }
+        const userDisplayEls = document.querySelectorAll('.user-name-display');
+        userDisplayEls.forEach(el => el.textContent = fullName);
+      } catch (err) {
+        if (alertEl) {
+          alertEl.className = 'alert alert-danger';
+          alertEl.style.cssText = 'display:block; margin-bottom:1.5rem; padding:1rem; background:#fee2e2; color:#991b1b; border-radius:8px;';
+          alertEl.innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${err.message || 'Failed to update profile.'}`;
+        }
+      }
+    });
+  }
+
+  // Password update submit
+  if (passwordForm) {
+    passwordForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const currentPassword = document.getElementById('currentPassword').value;
+      const newPassword = document.getElementById('newPassword').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      const alertEl = document.getElementById('settingsAlert');
+
+      if (newPassword !== confirmPassword) {
+        if (alertEl) {
+          alertEl.className = 'alert alert-danger';
+          alertEl.style.cssText = 'display:block; margin-bottom:1.5rem; padding:1rem; background:#fee2e2; color:#991b1b; border-radius:8px;';
+          alertEl.innerHTML = `<i class="fas fa-exclamation-triangle"></i> New passwords do not match.`;
+        }
+        return;
+      }
+
+      try {
+        const res = await APIClient.updatePassword({ current_password: currentPassword, new_password: newPassword });
+        if (alertEl) {
+          alertEl.className = 'alert alert-success';
+          alertEl.style.cssText = 'display:block; margin-bottom:1.5rem; padding:1rem; background:#d1fae5; color:#065f46; border-radius:8px;';
+          alertEl.innerHTML = `<i class="fas fa-check-circle"></i> ${res.message || 'Password updated successfully!'}`;
+        }
+        passwordForm.reset();
+      } catch (err) {
+        if (alertEl) {
+          alertEl.className = 'alert alert-danger';
+          alertEl.style.cssText = 'display:block; margin-bottom:1.5rem; padding:1rem; background:#fee2e2; color:#991b1b; border-radius:8px;';
+          alertEl.innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${err.message || 'Failed to update password.'}`;
+        }
+      }
+    });
+  }
+
+  // Login Form
+  if (loginForm) {
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const errorEl = document.getElementById('authError');
+
+      try {
+        if (errorEl) errorEl.style.display = 'none';
+        await APIClient.login(email, password);
+        window.location.href = 'dashboard.html';
+      } catch (err) {
+        if (errorEl) {
+          errorEl.textContent = err.message || 'Login failed. Please check credentials.';
+          errorEl.style.display = 'block';
+        } else {
+          alert(err.message || 'Login failed.');
+        }
+      }
+    });
+  }
+
+  // Register Form
+  if (registerForm) {
+    registerForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fullName = document.getElementById('fullName').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const companyName = document.getElementById('companyName')?.value || '';
+      const errorEl = document.getElementById('authError');
+
+      try {
+        if (errorEl) errorEl.style.display = 'none';
+        await APIClient.register({ full_name: fullName, email, password, company_name: companyName });
+        window.location.href = 'dashboard.html';
+      } catch (err) {
+        if (errorEl) {
+          errorEl.textContent = err.message || 'Registration failed.';
+          errorEl.style.display = 'block';
+        } else {
+          alert(err.message || 'Registration failed.');
+        }
+      }
+    });
+  }
+
+  // Logout Buttons
+  logoutButtons.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      APIClient.logout();
+    });
+  });
+
+  // Mobile Navigation Drawer Toggle
+  const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+  const sidebar = document.getElementById('sidebar');
+  const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+  if (mobileMenuToggle && sidebar) {
+    mobileMenuToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('active');
+      if (sidebarOverlay) sidebarOverlay.classList.toggle('active');
+    });
+
+    if (sidebarOverlay) {
+      sidebarOverlay.addEventListener('click', () => {
+        sidebar.classList.remove('active');
+        sidebarOverlay.classList.remove('active');
+      });
+    }
+  }
+});
