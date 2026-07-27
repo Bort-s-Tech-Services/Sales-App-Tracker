@@ -679,96 +679,8 @@ tbody tr:hover td {
     margin-bottom: 1.5rem;
 }
 
-.form-group label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-    color: var(--dark);
-}
+/* Cleaned up legacy form & calculated fields rules */
 
-.form-group input,
-.form-group select,
-.form-group textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid var(--gray-light);
-    border-radius: 8px;
-    font-size: 1rem;
-    transition: var(--transition);
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
-}
-
-.calculated-fields {
-    background: var(--light);
-    padding: 1.5rem;
-    border-radius: var(--radius);
-    margin: 2rem 0;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-}
-
-.calc-field {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem;
-    background: white;
-    border-radius: 8px;
-}
-
-.calc-field.profit {
-    background: var(--primary);
-    color: white;
-}
-
-.calc-field strong {
-    font-size: 1.25rem;
-}
-
-.form-submit {
-    margin-top: 2rem;
-}
-
-/* Preview Card */
-.quick-stats-preview {
-    margin-bottom: 2rem;
-}
-
-.stats-grid-small {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-}
-
-.stat-small {
-    text-align: center;
-    padding: 1rem;
-    background: var(--light);
-    border-radius: 8px;
-}
-
-.stat-small span {
-    display: block;
-    font-size: 0.75rem;
-    color: var(--gray);
-    margin-bottom: 4px;
-}
-
-.stat-small strong {
-    display: block;
-    font-size: 1.25rem;
-    color: var(--dark);
-}
 
 .recent-sales {
     margin-bottom: 2rem;
@@ -3012,12 +2924,265 @@ body.landing-page .nav-links a.active {
     letter-spacing: 0.05em;
 }
 
-.stat-box .stat-value {
-    font-family: 'Outfit', sans-serif;
-    font-size: 1.6rem;
-    font-weight: 800;
-    color: #818cf8;
+/* Metric Cards for Reports & Analytics Pages */
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
 }
+
+.metric-card {
+    background: rgba(30, 41, 59, 0.5) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 18px !important;
+    padding: 1.5rem !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 1.25rem !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+    transition: all 0.3s ease !important;
+}
+
+.metric-card:hover {
+    transform: translateY(-4px) !important;
+    border-color: rgba(99, 102, 241, 0.4) !important;
+    box-shadow: 0 15px 35px rgba(99, 102, 241, 0.15) !important;
+}
+
+.metric-icon {
+    width: 52px !important;
+    height: 52px !important;
+    border-radius: 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 1.5rem !important;
+    flex-shrink: 0 !important;
+}
+
+.metric-info {
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.metric-label {
+    font-size: 0.85rem !important;
+    color: #94a3b8 !important;
+    font-weight: 500 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    margin-bottom: 0.35rem !important;
+}
+
+/* ==========================================================================
+   UNIFIED DARK GLASSMORPHISM FORM & COMPONENT SYSTEM
+   ========================================================================== */
+
+/* Universal Form Controls */
+form label, .form-group label {
+    display: block !important;
+    font-size: 0.85rem !important;
+    font-weight: 600 !important;
+    color: #94a3b8 !important;
+    margin-bottom: 0.4rem !important;
+    letter-spacing: 0.02em !important;
+}
+
+form label i, .form-group label i {
+    color: #818cf8 !important;
+    margin-right: 0.35rem !important;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
+select,
+textarea,
+.form-control {
+    width: 100% !important;
+    padding: 0.75rem 1rem !important;
+    background: rgba(15, 23, 42, 0.8) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    border-radius: 10px !important;
+    color: #fff !important;
+    font-size: 0.95rem !important;
+    font-family: inherit !important;
+    transition: all 0.25s ease !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+input:focus, select:focus, textarea:focus, .form-control:focus {
+    border-color: #6366f1 !important;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25) !important;
+    background: rgba(15, 23, 42, 0.95) !important;
+}
+
+select option {
+    background: #0f172a !important;
+    color: #fff !important;
+}
+
+/* Form Layout */
+.form-card {
+    background: rgba(30, 41, 59, 0.5) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 20px !important;
+    padding: 2rem !important;
+}
+
+.form-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-bottom: 1.5rem !important;
+    padding-bottom: 1rem !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.form-header h2 {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 1.35rem !important;
+    font-weight: 700 !important;
+    color: #fff !important;
+    margin: 0 !important;
+}
+
+.form-row {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important;
+    gap: 1.25rem !important;
+    margin-bottom: 1.25rem !important;
+}
+
+.form-group {
+    margin-bottom: 1.25rem !important;
+}
+
+/* Calculated Fields in Sales Form */
+.calculated-fields {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) !important;
+    gap: 1rem !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 1.5rem 0 !important;
+}
+
+.calc-field {
+    background: rgba(15, 23, 42, 0.7) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 14px !important;
+    padding: 1.25rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.35rem !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+}
+
+.calc-field span {
+    font-size: 0.8rem !important;
+    color: #94a3b8 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    font-weight: 600 !important;
+}
+
+.calc-field strong {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 1.4rem !important;
+    font-weight: 800 !important;
+    color: #818cf8 !important;
+}
+
+.calc-field.profit {
+    background: rgba(99, 102, 241, 0.15) !important;
+    border-color: rgba(99, 102, 241, 0.4) !important;
+}
+
+.calc-field.profit strong {
+    color: #34d399 !important;
+}
+
+
+/* Preview Card & Stats Grid Small */
+.preview-card {
+    background: rgba(30, 41, 59, 0.5) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 20px !important;
+    padding: 2rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1.75rem !important;
+}
+
+.preview-card h3 {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 1.15rem !important;
+    font-weight: 700 !important;
+    color: #fff !important;
+    margin-bottom: 1rem !important;
+}
+
+.stats-grid-small {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)) !important;
+    gap: 0.85rem !important;
+}
+
+.stat-small {
+    background: rgba(15, 23, 42, 0.6) !important;
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    border-radius: 12px !important;
+    padding: 1rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.25rem !important;
+}
+
+.stat-small span {
+    font-size: 0.75rem !important;
+    color: #94a3b8 !important;
+    text-transform: uppercase !important;
+}
+
+.stat-small strong {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 1.2rem !important;
+    font-weight: 700 !important;
+    color: #34d399 !important;
+}
+
+/* Action Buttons & Links in Dark Mode */
+.quick-actions .btn-block {
+    background: rgba(15, 23, 42, 0.6) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    color: #cbd5e1 !important;
+    padding: 0.75rem 1rem !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    margin-bottom: 0.5rem !important;
+    transition: all 0.25s ease !important;
+}
+
+.quick-actions .btn-block:hover {
+    background: rgba(99, 102, 241, 0.2) !important;
+    border-color: #6366f1 !important;
+    color: #fff !important;
+    transform: translateY(-2px) !important;
+}
+
+
 
 
 
