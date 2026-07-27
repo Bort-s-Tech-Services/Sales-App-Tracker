@@ -1,19 +1,48 @@
+// Global Helper to Populate Sidebar User Details
+function populateSidebarUser() {
+  let user = {};
+  try {
+    user = JSON.parse(localStorage.getItem('user') || '{}');
+  } catch (e) {
+    user = {};
+  }
+
+  const fullName = user.full_name || 'Demo Cloud Admin';
+  const email = user.email || 'admin@salestracker.cloud';
+
+  const userDisplayEls = document.querySelectorAll('.user-name-display, #userName, .user-name');
+  userDisplayEls.forEach(el => el.textContent = fullName);
+
+  const emailDisplayEls = document.querySelectorAll('#userEmail, .user-email');
+  emailDisplayEls.forEach(el => el.textContent = email);
+}
+
+// Execute immediately when auth.js is loaded
+populateSidebarUser();
+
 // Client Auth & Settings Script connected to AWS Express Backend REST API
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  populateSidebarUser();
+
+  // Async refresh profile if token is present
+  const token = localStorage.getItem('auth_token');
+  if (token && typeof APIClient !== 'undefined' && APIClient.getMe) {
+    try {
+      await APIClient.getMe();
+      populateSidebarUser();
+    } catch (err) {
+      // Keep fallback
+    }
+  }
+
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
   const loginForm = document.getElementById('loginForm');
   const registerForm = document.getElementById('registerForm');
   const profileForm = document.getElementById('profileForm');
   const passwordForm = document.getElementById('passwordForm');
   const logoutButtons = document.querySelectorAll('.logout-btn, #logoutBtn');
 
-  // Check auth status
-  const token = localStorage.getItem('auth_token');
-  const user = JSON.parse(localStorage.getItem('user') || '{}');
 
-  if (user && user.full_name) {
-    const userDisplayEls = document.querySelectorAll('.user-name-display');
-    userDisplayEls.forEach(el => el.textContent = user.full_name);
-  }
 
   // Populate Settings Page fields if present
   if (profileForm) {

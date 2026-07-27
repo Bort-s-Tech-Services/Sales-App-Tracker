@@ -66,6 +66,17 @@ class APIClient {
     window.location.href = 'login.html';
   }
 
+  static async getMe() {
+    const data = await this.request('/auth/me');
+    if (data.user) {
+      const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
+      const updated = { ...currentUser, ...data.user };
+      localStorage.setItem('user', JSON.stringify(updated));
+    }
+    return data;
+  }
+
+
   static async updateProfile(profileData) {
     const data = await this.request('/auth/profile', {
       method: 'PUT',
