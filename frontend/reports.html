@@ -9,12 +9,38 @@
 </head>
 <body>
     <div class="dashboard">
-        <!-- Sidebar placeholder (will be filled by common JS if implemented, but here we hardcode for simplicity as requested) -->
-        <aside class="sidebar">
+        <!-- Mobile Header -->
+        <div class="mobile-header">
+            <div class="logo">
+                <i class="fas fa-chart-line"></i>
+                <span>SalesTracker</span>
+            </div>
+            <button class="menu-toggle" id="mobileMenuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="logo">
                     <i class="fas fa-chart-line"></i>
                     <span>SalesTracker</span>
+                </div>
+                <div style="display:flex; align-items:center; gap:0.5rem;">
+                    <span class="version-tag">v2.4</span>
+                    <button class="sidebar-close" id="sidebarCloseBtn"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="fas fa-user-circle"></i>
+                    <span class="online-indicator"></span>
+                </div>
+                <div class="user-details">
+                    <span class="user-name" id="userName">Loading...</span>
+                    <span class="user-email" id="userEmail">Loading...</span>
                 </div>
             </div>
             <nav class="sidebar-nav">

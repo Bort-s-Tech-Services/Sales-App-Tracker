@@ -2907,8 +2907,9 @@ body.landing-page .nav-links a.active {
 /* Mobile Header & Overlay Drawer */
 .mobile-header {
     display: none;
-    background: rgba(11, 15, 25, 0.9);
+    background: rgba(11, 15, 25, 0.92);
     backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     padding: 1rem 1.5rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     justify-content: space-between;
@@ -2918,15 +2919,67 @@ body.landing-page .nav-links a.active {
     z-index: 110;
 }
 
+.mobile-header .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #fff;
+}
+
+.mobile-header .logo i {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #6366f1, #a855f7);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+}
+
 .menu-toggle {
-    background: transparent;
+    background: rgba(30, 41, 59, 0.6);
     border: 1px solid rgba(255, 255, 255, 0.15);
     color: #fff;
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    font-size: 1.2rem;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    font-size: 1.25rem;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.menu-toggle:hover {
+    background: rgba(99, 102, 241, 0.2);
+    border-color: #6366f1;
+}
+
+.sidebar-close {
+    display: none;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #fff;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.sidebar-close:hover {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: rgba(239, 68, 68, 0.4);
+    color: #f87171;
 }
 
 .sidebar-overlay {
@@ -2936,33 +2989,76 @@ body.landing-page .nav-links a.active {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(4px);
-    z-index: 95;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 999;
 }
 
-@media (max-width: 992px) {
+/* Device Breakpoints for Tablet & Mobile (1024px and below) */
+@media (max-width: 1024px) {
     .mobile-header {
-        display: flex;
+        display: flex !important;
+    }
+
+    .sidebar-close {
+        display: flex !important;
     }
 
     .sidebar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        transform: translateX(-100%);
-        z-index: 1000;
-        box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        bottom: 0 !important;
+        height: 100vh !important;
+        transform: translateX(-100%) !important;
+        z-index: 1000 !important;
+        box-shadow: 10px 0 40px rgba(0, 0, 0, 0.6) !important;
+        width: 285px !important;
     }
 
     .sidebar.active {
-        transform: translateX(0);
+        transform: translateX(0) !important;
     }
 
     .sidebar-overlay.active {
-        display: block;
+        display: block !important;
     }
+
+    .top-bar {
+        padding: 1.25rem 1.5rem !important;
+    }
+
+    .content-area, .content-grid {
+        padding: 1.5rem !important;
+    }
+
+    .charts-container {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .top-bar {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 1rem !important;
+    }
+
+    .top-bar .header-right {
+        width: 100% !important;
+        justify-content: space-between !important;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr !important;
+    }
+
+    .stats-grid, .metrics-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
 
 /* Quick Stats Boxes */
 .quick-stats {
