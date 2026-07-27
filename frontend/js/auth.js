@@ -160,14 +160,54 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.location.href = 'dashboard.html';
       } catch (err) {
         if (errorEl) {
-          errorEl.textContent = err.message || 'Login failed. Please check credentials.';
-          errorEl.style.display = 'block';
+          errorEl.innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${err.message || 'Login failed. Please check credentials.'}`;
+          errorEl.style.display = 'flex';
         } else {
           alert(err.message || 'Login failed.');
         }
       }
     });
   }
+
+  // Demo Autofill 1-Click Login Button
+  const demoAutoFillBtn = document.getElementById('demoAutoFillBtn');
+  if (demoAutoFillBtn) {
+    demoAutoFillBtn.addEventListener('click', () => {
+      const emailInput = document.getElementById('email');
+      const passwordInput = document.getElementById('password');
+      if (emailInput) emailInput.value = 'admin@salestracker.cloud';
+      if (passwordInput) passwordInput.value = 'admin123';
+      
+      // Visual Feedback Highlight
+      [emailInput, passwordInput].forEach(input => {
+        if (input) {
+          input.style.borderColor = '#34d399';
+          input.style.boxShadow = '0 0 0 3.5px rgba(52, 211, 153, 0.25)';
+          setTimeout(() => {
+            input.style.borderColor = '';
+            input.style.boxShadow = '';
+          }, 1500);
+        }
+      });
+    });
+  }
+
+  // Password Visibility Toggle Button
+  const togglePasswordBtn = document.getElementById('togglePassword');
+  if (togglePasswordBtn) {
+    togglePasswordBtn.addEventListener('click', () => {
+      const passwordInput = document.getElementById('password');
+      if (passwordInput) {
+        const isPassword = passwordInput.type === 'password';
+        passwordInput.type = isPassword ? 'text' : 'password';
+        const icon = togglePasswordBtn.querySelector('i');
+        if (icon) {
+          icon.className = isPassword ? 'fas fa-eye-slash' : 'fas fa-eye';
+        }
+      }
+    });
+  }
+
 
   // Register Form
   if (registerForm) {
