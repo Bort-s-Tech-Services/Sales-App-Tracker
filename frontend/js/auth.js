@@ -192,7 +192,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
-  // Password Visibility Toggle Button
+  // Password Visibility Toggle Buttons
   const togglePasswordBtn = document.getElementById('togglePassword');
   if (togglePasswordBtn) {
     togglePasswordBtn.addEventListener('click', () => {
@@ -208,6 +208,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
+  const toggleConfirmPasswordBtn = document.getElementById('toggleConfirmPassword');
+  if (toggleConfirmPasswordBtn) {
+    toggleConfirmPasswordBtn.addEventListener('click', () => {
+      const confirmInput = document.getElementById('confirmPassword');
+      if (confirmInput) {
+        const isPassword = confirmInput.type === 'password';
+        confirmInput.type = isPassword ? 'text' : 'password';
+        const icon = toggleConfirmPasswordBtn.querySelector('i');
+        if (icon) {
+          icon.className = isPassword ? 'fas fa-eye-slash' : 'fas fa-eye';
+        }
+      }
+    });
+  }
 
   // Register Form
   if (registerForm) {
@@ -216,8 +230,19 @@ document.addEventListener('DOMContentLoaded', async () => {
       const fullName = document.getElementById('fullName').value;
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword')?.value;
       const companyName = document.getElementById('companyName')?.value || '';
       const errorEl = document.getElementById('authError');
+
+      if (confirmPassword && password !== confirmPassword) {
+        if (errorEl) {
+          errorEl.textContent = 'Passwords do not match. Please verify your password.';
+          errorEl.style.display = 'flex';
+        } else {
+          alert('Passwords do not match.');
+        }
+        return;
+      }
 
       try {
         if (errorEl) errorEl.style.display = 'none';
@@ -226,7 +251,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       } catch (err) {
         if (errorEl) {
           errorEl.textContent = err.message || 'Registration failed.';
-          errorEl.style.display = 'block';
+          errorEl.style.display = 'flex';
         } else {
           alert(err.message || 'Registration failed.');
         }
