@@ -1,74 +1,152 @@
-# Sales Tracker Pro
+# Sales Tracker Pro — Backend
 
-[![AWS Architecture](https://img.shields.io/badge/AWS-3--Tier%20Cloud-orange.svg)](https://aws.amazon.com)
-[![Express Backend](https://img.shields.io/badge/Node.js-Express.js-green.svg)](https://expressjs.com)
-[![Amazon S3](https://img.shields.io/badge/Amazon%20S3-Zero%20Local%20Storage-blue.svg)](https://aws.amazon.com/s3/)
+[![Node.js](https://img.shields.io/badge/Node.js-Express.js-green.svg)](https://expressjs.com)
 [![Amazon RDS](https://img.shields.io/badge/Amazon%20RDS-PostgreSQL-blue.svg)](https://aws.amazon.com/rds/)
+[![Amazon S3](https://img.shields.io/badge/Amazon%20S3-File%20Storage-orange.svg)](https://aws.amazon.com/s3/)
+[![CloudWatch](https://img.shields.io/badge/CloudWatch-Logging-yellow.svg)](https://aws.amazon.com/cloudwatch/)
 
-A cloud-native 3-tier sales tracking, inventory management, and financial analytics application built with Node.js Express, Amazon S3, and Amazon RDS PostgreSQL.
+REST API backend for Sales Tracker Pro — a cloud-native sales tracking and inventory management application. Built with Node.js and Express, deployed on Amazon EC2, with Amazon RDS PostgreSQL as the database and Amazon S3 for file storage.
 
 ---
 
-## 📁 Repository Structure
+## Folder Structure
 
 ```
-Sales-App-Tracker/
-├── frontend/                     # UI Tier (Presentation Layer)
-│   ├── css/                      # Application Stylesheets
-│   ├── js/                       # Client Scripts (APIClient, S3Uploader, Auth)
-│   ├── static/images/            # Static UI assets
-│   ├── index.html                # Landing page
-│   ├── login.html                # Login screen
-│   ├── register.html             # User registration
-│   ├── dashboard.html            # Metrics & sales analytics dashboard
-│   ├── inventory.html            # Inventory management & S3 image upload
-│   ├── sales.html                # Sales recording & S3 receipt upload
-│   ├── reports.html              # Financial summaries & profit reports
-│   └── nginx.conf                # Nginx web server config for EC2 frontend proxying
-│
-├── backend/                      # Cloud Backend Tier (Amazon EC2 Node.js Server)
-│   ├── config/                   # Database (db.js) & AWS SDK v3 init (aws.js)
-│   ├── middleware/               # Auth middleware & CloudWatch Logger
-│   ├── routes/                   # REST API Endpoints (auth, products, sales, reports, upload, health)
-│   ├── deploy-ec2.sh             # EC2 automated deployment script
-│   ├── sales-backend.service     # Systemd background service unit file
-│   ├── Dockerfile                # Docker container configuration
-│   ├── docker-compose.yml        # Docker compose container orchestration
-│   ├── package.json              # Express, AWS SDK v3, JWT dependencies
-│   └── server.js                 # Express server entry point
-│
-├── database/                     # Database Tier (Amazon RDS / DynamoDB)
-│   ├── schema.sql                # SQL schema for Amazon RDS PostgreSQL/MySQL
-│   ├── dynamodb-schema.json      # Amazon DynamoDB NoSQL schema definitions
-│   ├── seed.sql                  # Initial mock dataset
-│   ├── ERD_DIAGRAM.md            # Entity-Relationship Diagram (Mermaid)
-│   └── DATABASE_SETUP.md         # Step-by-step AWS RDS & DynamoDB setup guide
-│
-├── docs/                         # Technical Deliverables
-│   ├── 01_PROJECT_PROPOSAL.md             # Milestone 1: Project Proposal Document
-│   ├── 02_SYSTEM_DESIGN_DOCUMENT.md      # Milestone 2: System Blueprints & AWS Architecture
-│   ├── 03_DEPLOYMENT_PROOF_PORTFOLIO.md   # Milestone 3: Proof Portfolio Checklist & Screenshots
-│   └── 04_FINAL_TECHNICAL_REPORT.md       # Milestone 4: Comprehensive Technical Report
-│
-└── README.md                     # Top-level capstone project guide
+backend/
+├── config/                  # Database and AWS SDK configuration
+│   ├── db.js                # PostgreSQL connection pool (RDS)
+│   └── aws.js               # AWS SDK v3 initialization (S3, CloudWatch)
+├── middleware/
+│   ├── auth.js              # JWT authentication middleware
+│   └── cloudwatchLogger.js  # AWS CloudWatch request logging
+├── routes/
+│   ├── health.js            # GET /api/health
+│   ├── auth.js              # POST /api/auth/register, /api/auth/login
+│   ├── products.js          # GET, POST, DELETE /api/products
+│   ├── sales.js             # GET, POST /api/sales
+│   ├── reports.js           # GET /api/reports/summary
+│   └── upload.js            # POST /api/upload
+├── deploy-ec2.sh            # Automated EC2 deployment script
+├── sales-backend.service    # Systemd service file for EC2
+├── Dockerfile               # Docker container configuration
+├── docker-compose.yml       # Docker Compose orchestration
+├── package.json
+└── server.js                # Express server entry point
 ```
 
 ---
 
-## ⚡ Quick Start (Local Development)
+## Prerequisites
 
-### 1. Start the Backend API Server
+- Node.js v18+
+- PostgreSQL (local or Amazon RDS)
+- AWS account with S3 and CloudWatch access
+
+---
+
+## Local Setup
+
+**1. Clone the repo and navigate to backend:**
 ```bash
-cd backend
+git clone https://github.com/DonBort/Sales-App-Tracker.git
+cd Sales-App-Tracker/backend
+```
+
+**2. Install dependencies:**
+```bash
 npm install
-npm run dev
 ```
-The backend server starts on `http://localhost:5000`. You can test the health check at `http://localhost:5000/api/health`.
 
-### 2. Launch the Frontend
-Open `frontend/index.html` in your web browser or serve it using an HTTP server:
-```bash
-cd frontend
-python -m http.server 8000
+**3. Create a `.env` file:**
+```env
+DATABASE_URL=postgresql://username:password@localhost:5432/sales_tracker
+JWT_SECRET=your_jwt_secret
+AWS_ACCESS_KEY_ID=your_aws_access_key
+AWS_SECRET_ACCESS_KEY=your_aws_secret_key
+AWS_REGION=us-east-1
+S3_BUCKET_NAME=your_s3_bucket_name
+PORT=5000
 ```
-Open `http://localhost:8000` to interact with the application.
+
+**4. Set up the database:**
+
+Run the schema and seed files from the `database/` folder in pgAdmin or psql:
+```bash
+psql -U postgres -d sales_tracker -f ../database/schema.sql
+psql -U postgres -d sales_tracker -f ../database/seed.sql
+```
+
+**5. Start the server:**
+```bash
+npm run start
+```
+
+Server runs on `http://localhost:5000`. Test it:
+```bash
+curl http://localhost:5000/api/health
+```
+
+---
+
+## API Endpoints
+
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| GET | `/api/health` | No | Server and DB health check |
+| POST | `/api/auth/register` | No | Register a new user |
+| POST | `/api/auth/login` | No | Login and get JWT token |
+| GET | `/api/products` | Yes | Get all products |
+| POST | `/api/products` | Yes | Add a new product |
+| DELETE | `/api/products/:id` | Yes | Delete a product |
+| GET | `/api/sales` | Yes | Get all sales records |
+| POST | `/api/sales` | Yes | Record a new sale |
+| GET | `/api/reports/summary` | Yes | Get sales and revenue summary |
+| POST | `/api/upload` | Yes | Upload file to Amazon S3 |
+
+Full request/response details are in `docs/API_DOCUMENTATION.md`.
+
+---
+
+## AWS Services Used
+
+- **Amazon EC2** — Hosts the Node.js backend server
+- **Amazon RDS (PostgreSQL)** — Managed relational database
+- **Amazon S3** — File and image storage
+- **AWS CloudWatch** — Request logging and monitoring
+- **IAM** — Role-based access control for AWS services
+
+---
+
+## Deployment on EC2
+
+```bash
+# SSH into EC2 instance
+ssh -i your-key.pem ec2-user@your-ec2-ip
+
+# Run the deployment script
+chmod +x deploy-ec2.sh
+./deploy-ec2.sh
+```
+
+The `sales-backend.service` file keeps the server running as a background systemd service on EC2.
+
+---
+
+## Environment Variables
+
+| Variable | Description |
+|----------|-------------|
+| `DATABASE_URL` | PostgreSQL connection string |
+| `JWT_SECRET` | Secret key for signing JWT tokens |
+| `AWS_ACCESS_KEY_ID` | AWS access key |
+| `AWS_SECRET_ACCESS_KEY` | AWS secret key |
+| `AWS_REGION` | AWS region (e.g. us-east-1) |
+| `S3_BUCKET_NAME` | S3 bucket name for file uploads |
+| `PORT` | Server port (default: 5000) |
+
+---
+
+## Author
+
+Maxwell — Backend Developer  
+CSBC 252: Introduction to Cloud Computing
