@@ -23,10 +23,25 @@ class APIClient {
 
     try {
       const response = await fetch(url, finalOptions);
-      const data = await response.json();
+      const contentType = response.headers.get('content-type') || '';
+      let data;
+
+      if (contentType.includes('application/json')) {
+        data = await response.json();
+      } else {
+        const text = await response.text();
+        if (text.trim().startsWith('<') || text.includes('The page')) {
+          throw new Error(`Backend API endpoint unavailable (HTTP ${response.status}). Please check API server connection.`);
+        }
+        try {
+          data = JSON.parse(text);
+        } catch {
+          throw new Error(text || `HTTP error! status: ${response.status}`);
+        }
+      }
 
       if (!response.ok) {
-        throw new Error(data.error || `HTTP error! status: ${response.status}`);
+        throw new Error(data?.error || data?.message || `HTTP error! status: ${response.status}`);
       }
       return data;
     } catch (err) {
