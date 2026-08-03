@@ -3,14 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pricing | Sales Tracker Pro</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>Pricing Plans | Sales Tracker Pro</title>
+    <meta name="description" content="Flexible pricing plans built for growing entrepreneurs and enterprise teams.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css?v=2.5">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
+<body class="landing-page">
     <div class="container">
-        <h1>Pricing Plans</h1>
-        <p>Choose the plan that fits your business.</p>
-        <a href="index.html">Back to Home</a>
+        <!-- Navigation Bar -->
+        <nav class="navbar">
+            <div class="nav-brand">
+                <i class="fas fa-chart-line"></i>
+                <span>SalesTracker Pro</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="features.html">Features</a>
+                <a href="pricing.html" class="active">Pricing</a>
+                <a href="login.html" class="btn btn-outline">Login</a>
+                <a href="register.html" class="btn btn-primary">Get Started</a>
+            </div>
+        </nav>
+
+        <!-- Pricing Hero -->
+        <section class="hero-section" style="min-height: auto; padding: 4rem 0 2rem 0; text-align: center; display: block;">
+            <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">Simple, Transparent Pricing</h1>
+            <p class="hero-subtitle" style="margin: 0 auto 2.5rem auto; max-width: 650px;">
+                Choose the plan that fits your business scale. No hidden fees or surprise charges.
+            </p>
+        </section>
+
+        <!-- Pricing Cards Grid -->
+        <section style="padding: 1rem 0 5rem 0;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; max-width: 1100px; margin: 0 auto;">
+                
+                <!-- Starter / Free Plan -->
+                <div class="card" style="background: rgba(30, 41, 59, 0.6); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 2.5rem 2rem; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <div style="font-size: 0.85rem; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem;">Starter</div>
+                        <h3 style="font-size: 1.6rem; font-weight: 800; color: #fff; margin-bottom: 1rem;">Free Trial</h3>
+                        <div style="font-size: 2.75rem; font-weight: 800; color: #fff; margin-bottom: 1.5rem;">₵0 <span style="font-size: 1rem; color: #94a3b8; font-weight: 500;">/ forever</span></div>
+                        <ul style="list-style: none; padding: 0; margin: 0 0 2rem 0; display: flex; flex-direction: column; gap: 0.85rem; color: #cbd5e1; font-size: 0.95rem;">
+                            <li><i class="fas fa-check-circle" style="color: #10b981; margin-right: 0.5rem;"></i> Up to 100 sales logs/mo</li>
+                            <li><i class="fas fa-check-circle" style="color: #10b981; margin-right: 0.5rem;"></i> Basic inventory tracking</li>
+                            <li><i class="fas fa-check-circle" style="color: #10b981; margin-right: 0.5rem;"></i> Daily profit calculations</li>
+                            <li><i class="fas fa-check-circle" style="color: #10b981; margin-right: 0.5rem;"></i> Mobile responsive view</li>
+                        </ul>
+                    </div>
+                    <a href="register.html" class="btn btn-outline btn-block">Get Started Free</a>
+                </div>
+
+                <!-- Professional Plan (Featured) -->
+                <div class="card" style="background: rgba(14, 165, 233, 0.15); backdrop-filter: blur(20px); border: 2px solid #0ea5e9; border-radius: 24px; padding: 2.5rem 2rem; display: flex; flex-direction: column; justify-content: space-between; position: relative; box-shadow: 0 15px 40px rgba(14, 165, 233, 0.25);">
+                    <div style="position: absolute; top: -14px; right: 24px; background: linear-gradient(135deg, #0284c7, #0ea5e9); color: #fff; padding: 0.3rem 0.85rem; border-radius: 20px; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.05em;">POPULAR</div>
+                    <div>
+                        <div style="font-size: 0.85rem; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem;">Professional</div>
+                        <h3 style="font-size: 1.6rem; font-weight: 800; color: #fff; margin-bottom: 1rem;">Growth Pro</h3>
+                        <div style="font-size: 2.75rem; font-weight: 800; color: #fff; margin-bottom: 1.5rem;">₵99 <span style="font-size: 1rem; color: #94a3b8; font-weight: 500;">/ month</span></div>
+                        <ul style="list-style: none; padding: 0; margin: 0 0 2rem 0; display: flex; flex-direction: column; gap: 0.85rem; color: #cbd5e1; font-size: 0.95rem;">
+                            <li><i class="fas fa-check-circle" style="color: #10b981; margin-right: 0.5rem;"></i> <strong>Unlimited</strong> sales transactions</li>
+                            <li><i class="fas fa-check-circle" style="color: #10b981; margin-right: 0.5rem;"></i> Advanced inventory & stock alert</li>
+                            <li><i class="fas fa-check-circle" style="color: #10b981; margin-right: 0.5rem;"></i> 1-Click CSV report exports</li>
+                            <li><i class="fas fa-check-circle" style="color: #10b981; margin-right: 0.5rem;"></i> Chart analytics & trend graphs</li>
+                            <li><i class="fas fa-check-circle" style="color: #10b981; margin-right: 0.5rem;"></i> Priority cloud support</li>
+                        </ul>
+                    </div>
+                    <a href="register.html" class="btn btn-primary btn-block">Start Free Trial</a>
+                </div>
+
+                <!-- Enterprise Plan -->
+                <div class="card" style="background: rgba(30, 41, 59, 0.6); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 2.5rem 2rem; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <div style="font-size: 0.85rem; font-weight: 700; color: #fbbf24; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem;">Enterprise</div>
+                        <h3 style="font-size: 1.6rem; font-weight: 800; color: #fff; margin-bottom: 1rem;">Multi-Branch</h3>
+                        <div style="font-size: 2.75rem; font-weight: 800; color: #fff; margin-bottom: 1.5rem;">₵249 <span style="font-size: 1rem; color: #94a3b8; font-weight: 500;">/ month</span></div>
+                        <ul style="list-style: none; padding: 0; margin: 0 0 2rem 0; display: flex; flex-direction: column; gap: 0.85rem; color: #cbd5e1; font-size: 0.95rem;">
+                            <li><i class="fas fa-check-circle" style="color: #10b981; margin-right: 0.5rem;"></i> Multi-user role management</li>
+                            <li><i class="fas fa-check-circle" style="color: #10b981; margin-right: 0.5rem;"></i> Multi-store inventory sync</li>
+                            <li><i class="fas fa-check-circle" style="color: #10b981; margin-right: 0.5rem;"></i> Custom API & webhook access</li>
+                            <li><i class="fas fa-check-circle" style="color: #10b981; margin-right: 0.5rem;"></i> Dedicated account manager</li>
+                        </ul>
+                    </div>
+                    <a href="register.html" class="btn btn-outline btn-block">Contact Sales</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <i class="fas fa-chart-line"></i>
+                    <span>SalesTracker Pro</span>
+                </div>
+                <div class="footer-links">
+                    <a href="index.html">Home</a>
+                    <a href="features.html">Features</a>
+                    <a href="pricing.html">Pricing</a>
+                    <a href="login.html">Login</a>
+                    <a href="register.html">Register</a>
+                </div>
+                <div class="copyright">
+                    &copy; 2026 SalesTracker Pro. All rights reserved.
+                </div>
+            </div>
+        </footer>
     </div>
 </body>
 </html>

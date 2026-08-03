@@ -1,6 +1,7 @@
 // Dashboard Metrics & Overview Connected to Backend API
 let salesChartInstance = null;
 let profitChartInstance = null;
+let rawSalesData = [];
 
 document.addEventListener('DOMContentLoaded', async () => {
   // Populate User details and current date
@@ -16,8 +17,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     dateEl.textContent = new Date().toLocaleDateString('en-US', options);
   }
 
+  setupPeriodButtons();
+  setupChartControls();
+
   try {
-    await loadDashboardMetrics();
+    await loadDashboardMetrics('today');
   } catch (err) {
     console.error('Error initializing dashboard:', err);
   } finally {
@@ -33,20 +37,82 @@ document.addEventListener('DOMContentLoaded', async () => {
   const refreshBtn = document.getElementById('refreshSales');
   if (refreshBtn) {
     refreshBtn.addEventListener('click', async () => {
-      await loadDashboardMetrics();
+      const activeBtn = document.querySelector('.period-btn.active');
+      const period = activeBtn ? activeBtn.getAttribute('data-period') : 'today';
+      await loadDashboardMetrics(period);
     });
   }
 
-  // Navigation button
+  // Navigation buttons
   const addSaleBtn = document.getElementById('addSaleBtn');
   if (addSaleBtn) {
     addSaleBtn.addEventListener('click', () => {
       window.location.href = 'sales.html';
     });
   }
+
+  const viewAllSalesBtn = document.getElementById('viewAllSales');
+  if (viewAllSalesBtn) {
+    viewAllSalesBtn.addEventListener('click', () => {
+      window.location.href = 'sales.html';
+    });
+  }
 });
 
-async function loadDashboardMetrics() {
+function setupPeriodButtons() {
+  const periodBtns = document.querySelectorAll('.period-btn');
+  periodBtns.forEach(btn => {
+    btn.addEventListener('click', async () => {
+      periodBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const period = btn.getAttribute('data-period');
+      await loadDashboardMetrics(period);
+    });
+  });
+}
+
+function setupChartControls() {
+  const chartPeriodSelect = document.getElementById('chartPeriod');
+  if (chartPeriodSelect) {
+    chartPeriodSelect.addEventListener('change', () => {
+      const days = Number(chartPeriodSelect.value) || 7;
+      const filtered = filterSalesByDays(rawSalesData, days);
+      renderDashboardCharts(filtered);
+    });
+  }
+
+  const profitPeriodSelect = document.getElementById('profitPeriod');
+  if (profitPeriodSelect) {
+    profitPeriodSelect.addEventListener('change', () => {
+      renderDashboardCharts(rawSalesData);
+    });
+  }
+}
+
+function filterSalesByPeriod(sales, period) {
+  const now = new Date();
+  if (period === 'today') {
+    const todayStr = now.toISOString().split('T')[0];
+    return sales.filter(s => (s.sale_date || '').startsWith(todayStr));
+  } else if (period === 'week') {
+    const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+    return sales.filter(s => new Date(s.sale_date || Date.now()) >= weekAgo);
+  } else if (period === 'month') {
+    const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+    return sales.filter(s => new Date(s.sale_date || Date.now()) >= monthAgo);
+  } else if (period === 'year') {
+    const yearAgo = new Date(now.getTime() - 365 * 24 * 60 * 60 * 1000);
+    return sales.filter(s => new Date(s.sale_date || Date.now()) >= yearAgo);
+  }
+  return sales;
+}
+
+function filterSalesByDays(sales, days) {
+  const cutoff = new Date(Date.now() - days * 24 * 60 * 60 * 1000);
+  return sales.filter(s => new Date(s.sale_date || Date.now()) >= cutoff);
+}
+
+async function loadDashboardMetrics(period = 'today') {
   try {
     const summaryData = await APIClient.getSummary();
     const s = summaryData.summary || {};
@@ -61,6 +127,7 @@ async function loadDashboardMetrics() {
     const avgSaleValEl = document.getElementById('avgSaleValue');
     const totalTxEl = document.getElementById('totalTransactions');
     const profitMarginEl = document.getElementById('profitMargin');
+    const yearlyGrowthEl = document.getElementById('yearlyGrowth');
 
     const rev = Number(s.totalRevenue) || 0;
     const prof = Number(s.totalProfit) || 0;
@@ -73,19 +140,22 @@ async function loadDashboardMetrics() {
     if (avgSaleValEl) avgSaleValEl.textContent = formatCurrency(s.averageOrderValue);
     if (totalTxEl) totalTxEl.textContent = s.totalTransactions || 0;
     if (profitMarginEl) profitMarginEl.textContent = `${margin}%`;
+    if (yearlyGrowthEl) yearlyGrowthEl.textContent = `${margin > 0 ? '+' : ''}${margin}%`;
 
-    // Load sales transactions
+    // Fetch transactions
     const salesData = await APIClient.getSales();
-    const sales = salesData.sales || [];
+    rawSalesData = salesData.sales || [];
 
-    if (bestProductEl && sales.length > 0) {
-      bestProductEl.textContent = sales[0].product_name || 'N/A';
+    const filteredSales = filterSalesByPeriod(rawSalesData, period);
+
+    if (bestProductEl && rawSalesData.length > 0) {
+      bestProductEl.textContent = rawSalesData[0].product_name || 'N/A';
     } else if (bestProductEl) {
       bestProductEl.textContent = 'None';
     }
 
-    renderRecentSalesTable(sales.slice(0, 5));
-    renderDashboardCharts(sales);
+    renderRecentSalesTable(filteredSales.slice(0, 5));
+    renderDashboardCharts(rawSalesData);
   } catch (err) {
     console.error('Error loading dashboard metrics:', err);
   }
@@ -96,7 +166,7 @@ function renderRecentSalesTable(sales) {
   if (!tbody) return;
 
   if (sales.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="7" class="empty-state" style="text-align: center; padding: 2rem; color: #94a3b8;"><i class="fas fa-shopping-cart" style="font-size: 2rem; margin-bottom: 0.5rem;"></i><p>No sales data available</p></td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="7" class="empty-state" style="text-align: center; padding: 2rem; color: #94a3b8;"><i class="fas fa-shopping-cart" style="font-size: 2rem; margin-bottom: 0.5rem;"></i><p>No sales data available for this period</p></td></tr>`;
     return;
   }
 
@@ -136,8 +206,8 @@ function renderDashboardCharts(sales) {
     const ctx = salesCanvas.getContext('2d');
     
     const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-    gradient.addColorStop(0, 'rgba(99, 102, 241, 0.4)');
-    gradient.addColorStop(1, 'rgba(99, 102, 241, 0.0)');
+    gradient.addColorStop(0, 'rgba(14, 165, 233, 0.35)');
+    gradient.addColorStop(1, 'rgba(14, 165, 233, 0.0)');
 
     salesChartInstance = new Chart(ctx, {
       type: 'line',
@@ -146,7 +216,7 @@ function renderDashboardCharts(sales) {
         datasets: [{
           label: 'Revenue (GHS)',
           data: revData,
-          borderColor: '#6366f1',
+          borderColor: '#0ea5e9',
           backgroundColor: gradient,
           fill: true,
           tension: 0.4,
@@ -177,8 +247,8 @@ function renderDashboardCharts(sales) {
       data: {
         labels: ['Net Profit', 'Product Cost'],
         datasets: [{
-          data: [profitData.reduce((a, b) => a + b, 0), revData.reduce((a, b) => a + b, 0) - profitData.reduce((a, b) => a + b, 0)],
-          backgroundColor: ['#10b981', '#ef4444'],
+          data: [profitData.reduce((a, b) => a + b, 0), Math.max(0, revData.reduce((a, b) => a + b, 0) - profitData.reduce((a, b) => a + b, 0))],
+          backgroundColor: ['#10b981', '#0ea5e9'],
           borderWidth: 0
         }]
       },

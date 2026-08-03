@@ -89,7 +89,7 @@ function renderReportsTable(filter = 'all') {
       <tr>
         <td>${dateStr}</td>
         <td><strong>${s.product_name || 'N/A'}</strong></td>
-        <td><span class="badge" style="background:#e0e7ff; color:#4f46e5; padding:0.25rem 0.6rem; border-radius:12px; font-size:0.8rem;">${s.category || 'General'}</span></td>
+        <td><span class="badge" style="background:rgba(14, 165, 233, 0.15); color:#38bdf8; padding:0.25rem 0.6rem; border-radius:12px; font-size:0.8rem; font-weight:600;">${s.category || 'General'}</span></td>
         <td>${s.quantity || 1}</td>
         <td class="text-success" style="color:#10b981; font-weight:600;">₵${rev.toFixed(2)}</td>
         <td style="color:var(--text-muted);">₵${cost.toFixed(2)}</td>

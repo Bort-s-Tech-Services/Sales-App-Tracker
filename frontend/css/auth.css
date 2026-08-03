@@ -11,8 +11,8 @@
     background: #0b0f19;
     color: #f8fafc;
     background-image: 
-        radial-gradient(at 10% 10%, rgba(99, 102, 241, 0.25) 0px, transparent 45%),
-        radial-gradient(at 90% 90%, rgba(168, 85, 247, 0.25) 0px, transparent 45%),
+        radial-gradient(at 10% 10%, rgba(2, 132, 199, 0.25) 0px, transparent 45%),
+        radial-gradient(at 90% 90%, rgba(14, 165, 233, 0.25) 0px, transparent 45%),
         radial-gradient(at 50% 50%, rgba(15, 23, 42, 0.6) 0px, transparent 100%);
     background-attachment: fixed;
     font-family: 'Inter', sans-serif;
@@ -63,13 +63,13 @@
     width: 44px;
     height: 44px;
     border-radius: 12px;
-    background: linear-gradient(135deg, #6366f1, #a855f7);
+    background: linear-gradient(135deg, #0284c7, #0ea5e9);
     color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.3rem;
-    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+    box-shadow: 0 4px 20px rgba(2, 132, 199, 0.4);
 }
 
 .brand-name {
@@ -82,7 +82,7 @@
 
 .brand-name span {
     font-size: 0.7rem;
-    background: linear-gradient(135deg, #6366f1, #a855f7);
+    background: linear-gradient(135deg, #0284c7, #0ea5e9);
     color: #fff;
     padding: 0.2rem 0.55rem;
     border-radius: 6px;
@@ -137,7 +137,7 @@
 }
 
 .auth-form label i {
-    color: #818cf8;
+    color: #38bdf8;
     font-size: 0.9rem;
 }
 
@@ -169,14 +169,14 @@
 
 .input-with-icon input:focus {
     outline: none;
-    border-color: #6366f1;
-    box-shadow: 0 0 0 3.5px rgba(99, 102, 241, 0.25);
+    border-color: #0ea5e9;
+    box-shadow: 0 0 0 3.5px rgba(14, 165, 233, 0.25);
     background: rgba(15, 23, 42, 0.95);
 }
 
 .input-with-icon input:focus + .input-icon,
 .input-with-icon input:focus ~ .input-icon {
-    color: #818cf8;
+    color: #38bdf8;
 }
 
 /* Password Toggle Eye Button */
@@ -198,7 +198,7 @@
 }
 
 .toggle-password:hover {
-    color: #818cf8;
+    color: #38bdf8;
 }
 
 /* Form Options & Links */
@@ -220,21 +220,21 @@
 }
 
 .checkbox input[type="checkbox"] {
-    accent-color: #6366f1;
+    accent-color: #0ea5e9;
     width: 16px;
     height: 16px;
     cursor: pointer;
 }
 
 .forgot-link {
-    color: #818cf8;
+    color: #38bdf8;
     text-decoration: none;
     font-weight: 500;
     transition: color 0.2s ease;
 }
 
 .forgot-link:hover {
-    color: #c084fc;
+    color: #7dd3fc;
     text-decoration: underline;
 }
 
@@ -242,7 +242,7 @@
 .btn-auth-submit {
     width: 100%;
     padding: 0.95rem 1.25rem;
-    background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+    background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%);
     border: none;
     border-radius: 14px;
     color: #fff;
@@ -254,15 +254,15 @@
     align-items: center;
     justify-content: center;
     gap: 0.75rem;
-    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.35);
+    box-shadow: 0 8px 25px rgba(2, 132, 199, 0.35);
     transition: all 0.25s ease;
     margin-bottom: 0.85rem;
 }
 
 .btn-auth-submit:hover {
     transform: translateY(-2px);
-    box-shadow: 0 12px 30px rgba(99, 102, 241, 0.5);
-    background: linear-gradient(135deg, #4f46e5 0%, #9333ea 100%);
+    box-shadow: 0 12px 30px rgba(2, 132, 199, 0.5);
+    background: linear-gradient(135deg, #0369a1 0%, #0284c7 100%);
 }
 
 .btn-auth-submit:active {
@@ -451,7 +451,7 @@
     height: 42px;
     border-radius: 12px;
     background: rgba(99, 102, 241, 0.2);
-    color: #818cf8;
+    color: #38bdf8;
     display: flex;
     align-items: center;
     justify-content: center;

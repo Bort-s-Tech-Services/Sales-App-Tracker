@@ -70,8 +70,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
 
         btn.classList.add('active');
-        btn.style.background = 'var(--primary-light, #eef2ff)';
-        btn.style.color = 'var(--primary-color, #4f46e5)';
+        btn.style.background = 'rgba(14, 165, 233, 0.15)';
+        btn.style.color = '#38bdf8';
         btn.style.fontWeight = '600';
 
         tabContents.forEach(content => {
