@@ -150,38 +150,56 @@
 .input-icon {
     position: absolute;
     left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
     color: #64748b;
     font-size: 0.95rem;
     pointer-events: none;
     transition: color 0.2s ease;
+    z-index: 5;
 }
 
-.input-with-icon input {
-    width: 100%;
-    background: rgba(15, 23, 42, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 12px;
-    padding: 0.85rem 1rem 0.85rem 2.65rem;
-    color: #fff;
-    font-size: 0.95rem;
-    transition: all 0.25s ease;
+.input-with-icon input,
+.input-with-icon input[type="text"],
+.input-with-icon input[type="email"],
+.input-with-icon input[type="password"] {
+    width: 100% !important;
+    background: rgba(15, 23, 42, 0.8) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    border-radius: 12px !important;
+    padding: 0.85rem 1rem 0.85rem 2.85rem !important;
+    color: #fff !important;
+    font-size: 0.95rem !important;
+    transition: all 0.25s ease !important;
+}
+
+.input-with-icon input::placeholder,
+.input-with-icon input[type="text"]::placeholder,
+.input-with-icon input[type="email"]::placeholder,
+.input-with-icon input[type="password"]::placeholder {
+    color: #64748b !important;
+    opacity: 0.85 !important;
+    font-size: 0.92rem !important;
 }
 
 .input-with-icon input:focus {
-    outline: none;
-    border-color: #0ea5e9;
-    box-shadow: 0 0 0 3.5px rgba(14, 165, 233, 0.25);
-    background: rgba(15, 23, 42, 0.95);
+    outline: none !important;
+    border-color: #0ea5e9 !important;
+    box-shadow: 0 0 0 3.5px rgba(14, 165, 233, 0.25) !important;
+    background: rgba(15, 23, 42, 0.95) !important;
 }
 
 .input-with-icon input:focus + .input-icon,
-.input-with-icon input:focus ~ .input-icon {
-    color: #38bdf8;
+.input-with-icon input:focus ~ .input-icon,
+.input-with-icon:focus-within .input-icon {
+    color: #38bdf8 !important;
 }
 
 /* Password Toggle Eye Button */
-.password-input input {
-    padding-right: 48px;
+.password-input input,
+.password-input input[type="password"],
+.password-input input[type="text"] {
+    padding-right: 3.25rem !important;
 }
 
 .toggle-password {
