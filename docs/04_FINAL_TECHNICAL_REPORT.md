@@ -108,29 +108,33 @@ A custom Express middleware intercepts all inbound HTTP requests, formatting lat
 ## 10. Implementation Hurdles & Solutions
 
 10. Implementation Hurdles & Solutions
-1. Hurdle: On first registration attempt, the backend returned a 500 error with no clear message in the frontend.
-   Solution: Investigated backend terminal logs and discovered the users table had not been created on the database. Ran schema.sql against the PostgreSQL instance to create all required tables, after which registration succeeded.
 
-1. Hurdle: Frontend HTML files were opened directly via the file:// protocol instead of being served through an HTTP server, causing all API fetch calls to fail with CORS policy errors.
-   Solution: Served the frontend using npx serve to assign it a proper http://localhost origin, which resolved the CORS violations and allowed the frontend to communicate with the backend on port 5000.
+- Hurdle: On first registration attempt, the backend returned a 500 error with no clear message in the frontend.
+  Solution: Investigated backend terminal logs and discovered the users table had not been created on the database. Ran schema.sql against the PostgreSQL instance to create all required tables, after which registration succeeded.
 
-1. Hurdle: The Add Product button on the inventory page produced no response and logged no errors to the browser console.
-   Solution: Traced the issue to mismatched HTML element IDs between inventory.html and inventory.js. The JS was referencing addProductForm, addProductModal, and inventoryTableBody which did not exist in the HTML. Updated the JS to match the actual IDs (productForm, productModal, productsTableBody) and wired up the missing button click event listener.
+- Hurdle: Frontend HTML files were opened directly via the file:// protocol instead of being served through an HTTP server, causing all API fetch calls to fail with CORS policy errors.
+  Solution: Served the frontend using npx serve to assign it a proper http://localhost origin, which resolved the CORS violations and allowed the frontend to communicate with the backend on port 5000.
 
-1. Hurdle: The DOMContentLoaded callback in inventory.js was not properly closed after commenting out old code, causing all event listeners (button clicks, form submissions) to be defined outside the DOM-ready scope and never execute.
-   Solution: Restored the closing }); bracket in the correct position, ensuring all listeners were registered only after the DOM was fully loaded.
+- Hurdle: The Add Product button on the inventory page produced no response and logged no errors to the browser console.
+  Solution: Traced the issue to mismatched HTML element IDs between inventory.html and inventory.js. The JS was referencing addProductForm, addProductModal, and inventoryTableBody which did not exist in the HTML. Updated the JS to match the actual IDs (productForm, productModal, productsTableBody) and wired up the missing button click event listener.
 
-1. Hurdle: Registration requests from Bruno API client returned a validation error despite the correct payload being sent.
-   Solution: Inspected auth.js route handler and found it expected full_name as the field name, not name. Updated all API test requests and frontend forms to use the correct field name.
+- Hurdle: The DOMContentLoaded callback in inventory.js was not properly closed after commenting out old code, causing all event listeners (button clicks, form submissions) to be defined outside the DOM-ready scope and never execute.
+  Solution: Restored the closing }); bracket in the correct position, ensuring all listeners were registered only after the DOM was fully loaded.
 
-1. Hurdle: Product images in the inventory table failed to load, triggering infinite onerror loops in the browser.
-   Solution: The fallback image URL pointed to via.placeholder.com which was unreachable. Replaced the fallback with a local static image and added this.onerror=null to prevent the infinite error loop.
+- Hurdle: Registration requests from Bruno API client returned a validation error despite the correct payload being sent.
+  Solution: Inspected auth.js route handler and found it expected full_name as the field name, not name. Updated all API test requests and frontend forms to use the correct field name.
 
-1. Hurdle: Multipart file uploads could not be written to EC2 local storage per the capstone mandate.
-   Solution: Configured Multer to use memoryStorage() so uploaded files are held temporarily in RAM and streamed directly to Amazon S3 using AWS SDK v3 PutObjectCommand, leaving no files on the EC2 filesystem.
+- Hurdle: Product images in the inventory table failed to load, triggering infinite onerror loops in the browser.
+  Solution: The fallback image URL pointed to via.placeholder.com which was unreachable. Replaced the fallback with a local static image and added this.onerror=null to prevent the infinite error loop.
 
-1. Hurdle: RDS connection from the backend initially failed after switching from local PostgreSQL.
-   Solution: Confirmed the RDS Security Group allowed inbound traffic on port 5432 from the EC2 instance, and verified the DATABASE_URL environment variable was correctly formatted with the RDS endpoint.
+- Hurdle: Multipart file uploads could not be written to EC2 local storage per the capstone mandate.
+  Solution: Configured Multer to use memoryStorage() so uploaded files are held temporarily in RAM and streamed directly to Amazon S3 using AWS SDK v3 PutObjectCommand, leaving no files on the EC2 filesystem.
+
+- Hurdle: RDS connection from the backend initially failed after switching from local PostgreSQL.
+  Solution: Confirmed the RDS Security Group allowed inbound traffic on port 5432 from the EC2 instance, and verified the DATABASE_URL environment variable was correctly formatted with the RDS endpoint.
+
+- Hurdle: Implementing a forgot password flow required AWS SES email delivery, but the EC2 instance could not reach the RDS database due to a cross-region networking issue (EC2 in eu-north-1, RDS in eu-central-1).
+  Solution: Enabled public accessibility on the RDS instance, added the EC2 public IP (16.170.251.127/32) as an inbound rule on the RDS security group for port 5432, and set sslmode=no-verify in the DATABASE_URL. A password_reset_tokens table was created to store time-limited tokens (15-minute expiry). Two endpoints were added to auth.js: POST /api/auth/forgot-password generates a secure token and sends a reset link via AWS SES, and POST /api/auth/reset-password validates the token and updates the user's password hash.
 
 ---
 
