@@ -68,7 +68,7 @@ if (require.main === module) {
   app.listen(PORT, "0.0.0.0", () => {
     console.log(`================================================================`);
     console.log(` Sales Tracker Pro Backend Server Running on Port ${PORT}`);
-    console.log(` Health Check URL: http://localhost:${PORT}/api/health`);
+   
     console.log(`================================================================`);
   });
 }

@@ -284,6 +284,91 @@ router.put("/password", authenticateToken, async (req, res) => {
   }
 });
 
+const crypto = require('crypto');
+const { SESClient, SendEmailCommand } = require('@aws-sdk/client-ses');
+const ses = new SESClient({ region: process.env.AWS_REGION });
+
+// Forgot Password
+router.post('/forgot-password', async (req, res) => {
+  const { email } = req.body;
+  if (!email) return res.status(400).json({ error: 'Email is required' });
+
+  try {
+    const token = crypto.randomBytes(32).toString('hex');
+    const expiresAt = new Date(Date.now() + 15 * 60 * 1000);
+
+    if (useMemoryStore) {
+      const user = memoryStore.users.find(u => u.email.toLowerCase() === email.toLowerCase());
+      if (!user) return res.status(200).json({ message: 'If that email exists, a reset link has been sent.' });
+
+      if (!memoryStore.resetTokens) memoryStore.resetTokens = [];
+      memoryStore.resetTokens = memoryStore.resetTokens.filter(t => t.userId !== user.id);
+      memoryStore.resetTokens.push({ userId: user.id, token, expiresAt, used: false });
+    } else {
+      const userRes = await query('SELECT id FROM users WHERE email = $1', [email]);
+      if (userRes.rows.length === 0) return res.status(200).json({ message: 'If that email exists, a reset link has been sent.' });
+
+      const userId = userRes.rows[0].id;
+      await query('UPDATE password_reset_tokens SET used = TRUE WHERE user_id = $1 AND used = FALSE', [userId]);
+      await query('INSERT INTO password_reset_tokens (user_id, token, expires_at) VALUES ($1, $2, $3)', [userId, token, expiresAt]);
+    }
+
+    const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${token}`;
+    console.log('[SES] Attempting to send to:', email);
+    await ses.send(new SendEmailCommand({
+      Source: process.env.SES_FROM_EMAIL,
+      Destination: { ToAddresses: [email] },
+      Message: {
+        Subject: { Data: 'Reset Your Password — Sales Tracker Pro' },
+        Body: { Text: { Data: `Reset your password here (This link expires in 15 minutes):\n\n${resetLink}\n\nIgnore this if you didn't request it.` } }
+      }
+    }));
+console.log('[SES] Email sent successfully');
+    res.status(200).json({ message: 'If that email exists, a reset link has been sent.' });
+  } catch (err) {
+    console.error('[Forgot Password Error]:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Reset Password
+router.post('/reset-password', async (req, res) => {
+  const { token, new_password } = req.body;
+  if (!token || !new_password) return res.status(400).json({ error: 'Token and new password are required' });
+  if (new_password.length < 6) return res.status(400).json({ error: 'New password must be at least 6 characters long.' });
+
+  try {
+    const hashedPassword = await bcrypt.hash(new_password, 10);
+
+    if (useMemoryStore) {
+      if (!memoryStore.resetTokens) return res.status(400).json({ error: 'Invalid or expired reset token' });
+      const record = memoryStore.resetTokens.find(t => t.token === token && !t.used && new Date() < new Date(t.expiresAt));
+      if (!record) return res.status(400).json({ error: 'Invalid or expired reset token' });
+
+      const user = memoryStore.users.find(u => u.id === record.userId);
+      if (user) user.password_hash = hashedPassword;
+      record.used = true;
+    } else {
+      const result = await query(
+        'SELECT id, user_id, expires_at, used FROM password_reset_tokens WHERE token = $1',
+        [token]
+      );
+      if (result.rows.length === 0) return res.status(400).json({ error: 'Invalid or expired reset token' });
+
+      const { id, user_id, expires_at, used } = result.rows[0];
+      if (used || new Date() > new Date(expires_at)) return res.status(400).json({ error: 'Invalid or expired reset token' });
+
+      await query('UPDATE users SET password_hash = $1 WHERE id = $2', [hashedPassword, user_id]);
+      await query('UPDATE password_reset_tokens SET used = TRUE WHERE id = $1', [id]);
+    }
+
+    res.status(200).json({ message: 'Password reset successful' });
+  } catch (err) {
+    console.error('[Reset Password Error]:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 module.exports = router;
 
 // const crypto = require("crypto");
