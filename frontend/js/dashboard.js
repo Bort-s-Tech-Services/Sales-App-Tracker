@@ -230,8 +230,22 @@ function renderDashboardCharts(sales) {
           legend: { labels: { color: '#334155', font: { weight: '600' } } }
         },
         scales: {
-          x: { ticks: { color: '#64748b' }, grid: { color: '#f1f5f9' } },
-          y: { ticks: { color: '#64748b' }, grid: { color: '#f1f5f9' } }
+          x: { 
+            ticks: { 
+              color: '#64748b',
+              maxTicksLimit: 5,
+              maxRotation: 0,
+              autoSkip: true
+            }, 
+            grid: { color: '#f1f5f9' } 
+          },
+          y: { 
+            ticks: { 
+              color: '#64748b',
+              maxTicksLimit: 5
+            }, 
+            grid: { color: '#f1f5f9' } 
+          }
         }
       }
     });

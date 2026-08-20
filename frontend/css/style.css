@@ -520,6 +520,65 @@ button {
   display: flex;
   min-height: 100vh;
   background-color: var(--bg-body);
+  width: 100%;
+}
+
+/* Mobile Header (Hidden on Desktop) */
+.mobile-header {
+  display: none;
+  width: 100%;
+  height: 60px;
+  background-color: var(--primary);
+  color: #ffffff;
+  padding: 0 1.25rem;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
+}
+
+.mobile-header .logo {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #ffffff;
+  font-family: 'Outfit', sans-serif;
+}
+
+.mobile-header .menu-toggle {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.mobile-header .menu-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(9, 9, 11, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 490;
 }
 
 /* Sidebar Navigation */
@@ -2032,8 +2091,17 @@ html, body {
 
 /* Mobile Devices & Small Tablets (<= 768px) */
 @media (max-width: 768px) {
+  .dashboard {
+    flex-direction: column !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    min-height: 100vh !important;
+    overflow-x: hidden !important;
+  }
+
   .mobile-header {
-    display: flex;
+    display: flex !important;
+    order: -1;
   }
 
   .sidebar-close {
