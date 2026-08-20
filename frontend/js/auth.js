@@ -38,6 +38,7 @@ function initMobileSidebarDrawer() {
 
   if (mobileMenuToggle && sidebar) {
     mobileMenuToggle.onclick = (e) => {
+      e.preventDefault();
       e.stopPropagation();
       if (sidebar.classList.contains("active")) {
         closeSidebar();
@@ -49,6 +50,7 @@ function initMobileSidebarDrawer() {
 
   if (sidebarCloseBtn) {
     sidebarCloseBtn.onclick = (e) => {
+      e.preventDefault();
       e.stopPropagation();
       closeSidebar();
     };
@@ -56,9 +58,36 @@ function initMobileSidebarDrawer() {
 
   if (sidebarOverlay) {
     sidebarOverlay.onclick = (e) => {
+      e.preventDefault();
       e.stopPropagation();
       closeSidebar();
     };
+  }
+
+  // Tap anywhere outside the sidebar to close it
+  const handleOutsideTap = (e) => {
+    if (sidebar && sidebar.classList.contains("active")) {
+      const isClickInsideSidebar = sidebar.contains(e.target);
+      const isClickOnToggle = mobileMenuToggle && (mobileMenuToggle === e.target || mobileMenuToggle.contains(e.target));
+      if (!isClickInsideSidebar && !isClickOnToggle) {
+        closeSidebar();
+      }
+    }
+  };
+
+  document.addEventListener("click", handleOutsideTap);
+  document.addEventListener("touchend", handleOutsideTap, { passive: true });
+
+  // Auto-close sidebar on mobile when a nav item is tapped
+  if (sidebar) {
+    const navLinks = sidebar.querySelectorAll(".nav-item, .btn-logout");
+    navLinks.forEach((link) => {
+      link.addEventListener("click", () => {
+        if (window.innerWidth <= 768) {
+          closeSidebar();
+        }
+      });
+    });
   }
 
   document.addEventListener("keydown", (e) => {
