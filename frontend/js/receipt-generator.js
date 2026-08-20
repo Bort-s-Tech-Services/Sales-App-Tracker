@@ -1,9 +1,18 @@
 /**
- * SalesTracker Digital Receipt & PDF Generator
- * Provides interactive receipt previewing, PDF downloading, printing, and sharing.
+ * SalesTracker Digital Receipt & POS Printer Engine
+ * Supports 80mm Thermal Receipt POS Printers, A5/A4 PDF Invoicing, and Instant Sharing.
  */
 
 const ReceiptGenerator = {
+  getBusinessName() {
+    try {
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      return user.company_name || user.business_name || user.full_name || 'SalesTracker Pro';
+    } catch (e) {
+      return 'SalesTracker Pro';
+    }
+  },
+
   getModalContainer() {
     let modal = document.getElementById('receiptModal');
     if (!modal) {
@@ -13,18 +22,18 @@ const ReceiptGenerator = {
       modal.innerHTML = `
         <div class="modal-content modal-receipt">
           <div class="modal-header">
-            <h3><i class="fas fa-receipt"></i> Official Sales Receipt</h3>
-            <button class="modal-close" id="closeReceiptModal"><i class="fas fa-times"></i></button>
+            <h3><i class="fas fa-receipt"></i> Sales Receipt</h3>
+            <button class="modal-close" id="closeReceiptModal" type="button"><i class="fas fa-times"></i></button>
           </div>
           <div class="modal-body" id="receiptModalBody">
-            <!-- Dynamic Receipt Paper Container -->
+            <!-- Dynamic Receipt Content -->
           </div>
           <div class="modal-footer receipt-footer">
             <button type="button" class="btn btn-outline" id="receiptShareBtn">
               <i class="fas fa-share-alt"></i> Share
             </button>
-            <button type="button" class="btn btn-secondary" id="receiptPrintBtn">
-              <i class="fas fa-print"></i> Print
+            <button type="button" class="btn btn-secondary" id="receiptPrintThermalBtn" title="Optimized for 80mm POS Thermal Receipt Printers">
+              <i class="fas fa-print"></i> Print POS Receipt
             </button>
             <button type="button" class="btn btn-primary" id="receiptDownloadPdfBtn">
               <i class="fas fa-file-pdf"></i> Download PDF
@@ -55,39 +64,43 @@ const ReceiptGenerator = {
   },
 
   formatReceiptId(sale) {
+    if (!sale) return 'REC-' + Date.now().toString().slice(-6);
     if (sale.id && String(sale.id).startsWith('sle_')) {
       return 'REC-' + String(sale.id).replace('sle_', '').slice(-8).toUpperCase();
     }
-    return 'REC-' + (sale.id || 'INV-' + Date.now().toString().slice(-6));
+    return 'REC-' + (sale.id || Date.now().toString().slice(-6));
   },
 
   previewReceipt(sale) {
-    if (!sale) return;
+    if (!sale) {
+      alert('Unable to load receipt details.');
+      return;
+    }
+
     const modal = this.getModalContainer();
     const body = modal.querySelector('#receiptModalBody');
+    const businessName = this.getBusinessName();
     const recId = this.formatReceiptId(sale);
     const dateStr = sale.sale_date ? (sale.sale_date.includes('T') ? sale.sale_date.split('T')[0] : sale.sale_date) : new Date().toISOString().split('T')[0];
     const qty = Number(sale.quantity) || 1;
     const rev = Number(sale.revenue) || 0;
     const unitPrice = qty > 0 ? (rev / qty) : rev;
-    const customer = sale.customer_name || sale.customer || 'Valued Customer';
+    const customer = sale.customer_name || sale.customer || 'Walk-in Customer';
     const productName = sale.product_name || 'Product Item';
     const category = sale.category || 'General';
 
     body.innerHTML = `
       <div class="receipt-paper" id="printableReceiptArea">
         <div class="receipt-header">
-          <div class="receipt-logo">
-            <i class="fas fa-chart-line"></i> SalesTracker Pro
-          </div>
-          <div class="receipt-meta-subtitle">Enterprise Sales & Cloud Analytics</div>
+          <div class="receipt-business-name">${businessName}</div>
+          <div class="receipt-meta-subtitle">Official Sales Receipt</div>
         </div>
 
         <div class="receipt-divider"></div>
 
         <div class="receipt-info-grid">
           <div class="receipt-info-item">
-            <span class="info-label">Receipt No:</span>
+            <span class="info-label">Receipt #:</span>
             <span class="info-val font-mono">${recId}</span>
           </div>
           <div class="receipt-info-item">
@@ -109,9 +122,9 @@ const ReceiptGenerator = {
         <table class="receipt-items-table">
           <thead>
             <tr>
-              <th style="text-align: left;">Item Description</th>
+              <th style="text-align: left;">Item</th>
               <th style="text-align: center;">Qty</th>
-              <th style="text-align: right;">Unit Price</th>
+              <th style="text-align: right;">Price</th>
               <th style="text-align: right;">Total</th>
             </tr>
           </thead>
@@ -119,7 +132,7 @@ const ReceiptGenerator = {
             <tr>
               <td>
                 <strong>${productName}</strong>
-                ${sale.notes ? `<div style="font-size: 0.75rem; color: #64748b;">${sale.notes}</div>` : ''}
+                ${sale.notes ? `<div style="font-size: 0.75rem; color: var(--text-muted);">${sale.notes}</div>` : ''}
               </td>
               <td style="text-align: center;">${qty}</td>
               <td style="text-align: right;">${this.formatCurrency(unitPrice)}</td>
@@ -135,12 +148,8 @@ const ReceiptGenerator = {
             <span>Subtotal</span>
             <span>${this.formatCurrency(rev)}</span>
           </div>
-          <div class="summary-row">
-            <span>Tax (0%)</span>
-            <span>₵0.00</span>
-          </div>
           <div class="summary-row total-row">
-            <span>Amount Paid</span>
+            <span>TOTAL PAID</span>
             <span class="total-price">${this.formatCurrency(rev)}</span>
           </div>
           <div class="receipt-status-stamp">
@@ -149,15 +158,15 @@ const ReceiptGenerator = {
         </div>
 
         <div class="receipt-footer-notes">
-          <p>Thank you for your business!</p>
-          <p style="font-size: 0.75rem; color: #94a3b8;">Generated via SalesTracker Cloud System &bull; Verified Digital Copy</p>
+          <p>Thank you for your patronage!</p>
+          <p style="font-size: 0.725rem; color: #94a3b8;">${businessName} &bull; Powered by SalesTracker</p>
         </div>
       </div>
     `;
 
     // Hook action buttons
     const downloadBtn = modal.querySelector('#receiptDownloadPdfBtn');
-    const printBtn = modal.querySelector('#receiptPrintBtn');
+    const printBtn = modal.querySelector('#receiptPrintThermalBtn');
     const shareBtn = modal.querySelector('#receiptShareBtn');
 
     downloadBtn.onclick = () => this.downloadPDF(sale);
@@ -169,12 +178,13 @@ const ReceiptGenerator = {
   },
 
   downloadPDF(sale) {
+    const businessName = this.getBusinessName();
     const recId = this.formatReceiptId(sale);
     const dateStr = sale.sale_date ? (sale.sale_date.includes('T') ? sale.sale_date.split('T')[0] : sale.sale_date) : new Date().toISOString().split('T')[0];
     const qty = Number(sale.quantity) || 1;
     const rev = Number(sale.revenue) || 0;
     const unitPrice = qty > 0 ? (rev / qty) : rev;
-    const customer = sale.customer_name || sale.customer || 'Valued Customer';
+    const customer = sale.customer_name || sale.customer || 'Walk-in Customer';
     const productName = sale.product_name || 'Product Item';
     const category = sale.category || 'General';
 
@@ -184,101 +194,90 @@ const ReceiptGenerator = {
       const doc = new jsPDF({
         orientation: 'portrait',
         unit: 'mm',
-        format: 'a5'
+        format: [80, 150] // 80mm Roll Format (POS Receipt Standard)
       });
 
-      // Header
-      doc.setFillColor(9, 9, 11);
-      doc.rect(0, 0, 148, 26, 'F');
-
-      doc.setTextColor(255, 255, 255);
+      // Business Header
       doc.setFont('helvetica', 'bold');
-      doc.setFontSize(16);
-      doc.text('SalesTracker Pro', 12, 14);
-
-      doc.setFontSize(9);
-      doc.setFont('helvetica', 'normal');
-      doc.text('Official Sales Receipt & Invoice', 12, 20);
-
-      // Meta Block
-      doc.setTextColor(15, 23, 42);
-      doc.setFontSize(10);
-      doc.setFont('helvetica', 'bold');
-      doc.text(`Receipt #: ${recId}`, 12, 38);
-      doc.text(`Date: ${dateStr}`, 90, 38);
+      doc.setFontSize(13);
+      doc.text(businessName.substring(0, 24), 40, 10, { align: 'center' });
 
       doc.setFont('helvetica', 'normal');
-      doc.text(`Customer: ${customer}`, 12, 45);
-      doc.text(`Category: ${category}`, 90, 45);
-
-      // Divider
-      doc.setDrawColor(226, 232, 240);
-      doc.line(12, 50, 136, 50);
-
-      // Table Header
-      doc.setFillColor(248, 250, 252);
-      doc.rect(12, 54, 124, 8, 'F');
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(9);
-      doc.setTextColor(71, 85, 105);
-      doc.text('ITEM DESCRIPTION', 14, 59);
-      doc.text('QTY', 76, 59);
-      doc.text('UNIT PRICE', 94, 59);
-      doc.text('TOTAL', 122, 59);
-
-      // Item Row
-      doc.setFont('helvetica', 'normal');
-      doc.setTextColor(15, 23, 42);
-      doc.setFontSize(10);
-      doc.text(productName.substring(0, 30), 14, 68);
-      doc.text(String(qty), 80, 68);
-      doc.text(`GHS ${unitPrice.toFixed(2)}`, 94, 68);
-      doc.setFont('helvetica', 'bold');
-      doc.text(`GHS ${rev.toFixed(2)}`, 122, 68);
-
-      // Divider
-      doc.line(12, 75, 136, 75);
-
-      // Total Block
-      doc.setFont('helvetica', 'normal');
-      doc.text('Subtotal:', 80, 84);
-      doc.text(`GHS ${rev.toFixed(2)}`, 122, 84);
-
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(12);
-      doc.setTextColor(5, 150, 105);
-      doc.text('Total Paid:', 80, 94);
-      doc.text(`GHS ${rev.toFixed(2)}`, 122, 94);
-
-      // Status
-      doc.setFontSize(10);
-      doc.setTextColor(5, 150, 105);
-      doc.text('STATUS: [ PAID IN FULL ]', 14, 94);
-
-      // Footer
       doc.setFontSize(8);
+      doc.text('Sales Receipt & Payment Voucher', 40, 15, { align: 'center' });
+
+      // Line Divider
+      doc.setLineWidth(0.3);
+      doc.setLineDashPattern([1, 1], 0);
+      doc.line(5, 18, 75, 18);
+
+      // Meta Information
+      doc.setFontSize(8);
+      doc.setFont('helvetica', 'bold');
+      doc.text(`Receipt #: ${recId}`, 5, 23);
+      doc.setFont('helvetica', 'normal');
+      doc.text(`Date: ${dateStr}`, 5, 28);
+      doc.text(`Customer: ${customer.substring(0, 25)}`, 5, 33);
+      doc.text(`Category: ${category}`, 5, 38);
+
+      // Line Divider
+      doc.line(5, 42, 75, 42);
+
+      // Item Header
+      doc.setFont('helvetica', 'bold');
+      doc.text('ITEM', 5, 47);
+      doc.text('QTY', 38, 47);
+      doc.text('PRICE', 48, 47);
+      doc.text('TOTAL', 65, 47);
+
+      // Item Detail
+      doc.setFont('helvetica', 'normal');
+      doc.text(productName.substring(0, 18), 5, 53);
+      doc.text(String(qty), 40, 53);
+      doc.text(unitPrice.toFixed(2), 48, 53);
+      doc.setFont('helvetica', 'bold');
+      doc.text(rev.toFixed(2), 65, 53);
+
+      // Line Divider
+      doc.line(5, 58, 75, 58);
+
+      // Total Paid
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'bold');
+      doc.text('TOTAL PAID:', 5, 65);
+      doc.text(`GHS ${rev.toFixed(2)}`, 75, 65, { align: 'right' });
+
+      // Status Box
+      doc.setFontSize(8);
+      doc.text('*** [ PAID IN FULL ] ***', 40, 74, { align: 'center' });
+
+      // Footer Message
+      doc.setFontSize(7);
       doc.setFont('helvetica', 'italic');
-      doc.setTextColor(148, 163, 184);
-      doc.text('Thank you for your business! - SalesTracker Cloud Services', 12, 120);
+      doc.text('Thank you for your business!', 40, 82, { align: 'center' });
+      doc.text('Verified Digital POS Copy', 40, 87, { align: 'center' });
 
       doc.save(`Receipt_${recId}.pdf`);
     } else {
-      // Fallback: Printable HTML pop-up
+      // Fallback to POS Print dialog
       this.printReceipt(sale);
     }
   },
 
   printReceipt(sale) {
-    const printable = document.getElementById('printableReceiptArea');
-    if (!printable) {
-      this.previewReceipt(sale);
-      setTimeout(() => this.printReceipt(sale), 300);
-      return;
-    }
+    const businessName = this.getBusinessName();
+    const recId = this.formatReceiptId(sale);
+    const dateStr = sale.sale_date ? (sale.sale_date.includes('T') ? sale.sale_date.split('T')[0] : sale.sale_date) : new Date().toISOString().split('T')[0];
+    const qty = Number(sale.quantity) || 1;
+    const rev = Number(sale.revenue) || 0;
+    const unitPrice = qty > 0 ? (rev / qty) : rev;
+    const customer = sale.customer_name || sale.customer || 'Walk-in Customer';
+    const productName = sale.product_name || 'Product Item';
+    const category = sale.category || 'General';
 
-    const printWin = window.open('', '_blank', 'width=650,height=750');
+    const printWin = window.open('', '_blank', 'width=420,height=600');
     if (!printWin) {
-      alert('Please allow popups to print your receipt.');
+      alert('Please allow popups in your browser to print your receipt.');
       return;
     }
 
@@ -286,28 +285,156 @@ const ReceiptGenerator = {
       <!DOCTYPE html>
       <html>
       <head>
-        <title>Receipt - ${this.formatReceiptId(sale)}</title>
+        <meta charset="utf-8">
+        <title>Receipt - ${recId}</title>
         <style>
-          body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; padding: 2rem; color: #09090b; }
-          .receipt-paper { max-width: 480px; margin: 0 auto; border: 1px solid #e2e8f0; padding: 2rem; border-radius: 8px; }
-          .receipt-header { text-align: center; margin-bottom: 1.5rem; }
-          .receipt-logo { font-size: 1.4rem; font-weight: 800; }
-          .receipt-meta-subtitle { font-size: 0.85rem; color: #64748b; }
-          .receipt-divider { border-bottom: 1px dashed #cbd5e1; margin: 1.25rem 0; }
-          .receipt-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; font-size: 0.875rem; margin-bottom: 1rem; }
-          .info-label { color: #64748b; display: block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
-          .info-val { font-weight: 700; color: #0f172a; }
-          table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.875rem; }
-          th { border-bottom: 1px solid #e2e8f0; padding: 0.5rem 0; color: #64748b; font-size: 0.75rem; text-transform: uppercase; }
-          td { padding: 0.75rem 0; border-bottom: 1px solid #f1f5f9; }
-          .summary-row { display: flex; justify-content: space-between; padding: 0.35rem 0; font-size: 0.9rem; }
-          .total-row { font-size: 1.15rem; font-weight: 800; border-top: 1px solid #09090b; padding-top: 0.5rem; margin-top: 0.5rem; }
-          .receipt-status-stamp { margin-top: 1rem; background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; padding: 0.5rem; text-align: center; font-weight: 700; border-radius: 4px; }
-          .receipt-footer-notes { text-align: center; margin-top: 1.5rem; font-size: 0.8rem; color: #64748b; }
+          @page {
+            size: 80mm auto; /* 80mm POS Thermal Printer Format */
+            margin: 0;
+          }
+          * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+          }
+          body {
+            font-family: 'Courier New', Courier, monospace, -apple-system, sans-serif;
+            width: 80mm;
+            max-width: 80mm;
+            padding: 4mm 5mm;
+            color: #000000;
+            background: #ffffff;
+            font-size: 12px;
+            line-height: 1.35;
+          }
+          .header {
+            text-align: center;
+            margin-bottom: 8px;
+          }
+          .biz-name {
+            font-size: 16px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+          }
+          .biz-sub {
+            font-size: 10px;
+            color: #333;
+            margin-top: 2px;
+          }
+          .divider {
+            border-bottom: 1px dashed #000;
+            margin: 6px 0;
+          }
+          .meta-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            margin-bottom: 2px;
+          }
+          table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 6px 0;
+            font-size: 11px;
+          }
+          th {
+            border-bottom: 1px dashed #000;
+            padding: 4px 0;
+            text-align: left;
+            font-size: 10px;
+          }
+          td {
+            padding: 4px 0;
+            vertical-align: top;
+          }
+          .total-section {
+            margin-top: 4px;
+          }
+          .total-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            font-weight: 900;
+            padding-top: 4px;
+          }
+          .stamp {
+            text-align: center;
+            font-weight: 900;
+            font-size: 12px;
+            margin: 8px 0;
+            border: 1px solid #000;
+            padding: 3px;
+          }
+          .footer {
+            text-align: center;
+            font-size: 10px;
+            margin-top: 8px;
+            padding-bottom: 8mm;
+          }
         </style>
       </head>
       <body>
-        ${printable.outerHTML}
+        <div class="header">
+          <div class="biz-name">${businessName}</div>
+          <div class="biz-sub">Official Sales Receipt</div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="meta-row">
+          <span>Receipt #:</span>
+          <strong>${recId}</strong>
+        </div>
+        <div class="meta-row">
+          <span>Date:</span>
+          <span>${dateStr}</span>
+        </div>
+        <div class="meta-row">
+          <span>Customer:</span>
+          <span>${customer}</span>
+        </div>
+        <div class="meta-row">
+          <span>Category:</span>
+          <span>${category}</span>
+        </div>
+
+        <div class="divider"></div>
+
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 48%;">Item</th>
+              <th style="width: 14%; text-align: center;">Qty</th>
+              <th style="width: 18%; text-align: right;">Price</th>
+              <th style="width: 20%; text-align: right;">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>${productName}</strong></td>
+              <td style="text-align: center;">${qty}</td>
+              <td style="text-align: right;">${unitPrice.toFixed(2)}</td>
+              <td style="text-align: right; font-weight: bold;">${rev.toFixed(2)}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="divider"></div>
+
+        <div class="total-section">
+          <div class="total-row">
+            <span>TOTAL PAID:</span>
+            <span>GHS ${rev.toFixed(2)}</span>
+          </div>
+          <div class="stamp">*** PAID IN FULL ***</div>
+        </div>
+
+        <div class="footer">
+          <p>Thank you for your business!</p>
+          <p>Powered by SalesTracker Cloud</p>
+        </div>
+
         <script>
           window.onload = function() {
             window.print();
@@ -321,14 +448,15 @@ const ReceiptGenerator = {
   },
 
   async shareReceipt(sale) {
+    const businessName = this.getBusinessName();
     const recId = this.formatReceiptId(sale);
     const rev = Number(sale.revenue) || 0;
-    const shareText = `Official Sales Receipt\nReceipt #: ${recId}\nProduct: ${sale.product_name}\nQuantity: ${sale.quantity}\nTotal Paid: GHS ${rev.toFixed(2)}\nDate: ${sale.sale_date ? sale.sale_date.split('T')[0] : ''}\nStatus: PAID IN FULL\n\nSalesTracker Cloud Services`;
+    const shareText = `*${businessName} - Official Sales Receipt*\nReceipt #: ${recId}\nItem: ${sale.product_name}\nQuantity: ${sale.quantity}\nTotal Paid: GHS ${rev.toFixed(2)}\nDate: ${sale.sale_date ? (sale.sale_date.includes('T') ? sale.sale_date.split('T')[0] : sale.sale_date) : ''}\nStatus: PAID IN FULL\n\nThank you for your patronage!`;
 
     if (navigator.share) {
       try {
         await navigator.share({
-          title: `Receipt ${recId}`,
+          title: `${businessName} Receipt ${recId}`,
           text: shareText
         });
         return;
@@ -340,7 +468,7 @@ const ReceiptGenerator = {
     // Fallback: Copy to clipboard
     try {
       await navigator.clipboard.writeText(shareText);
-      alert(`Receipt details for ${recId} copied to clipboard! You can paste and send it via WhatsApp, Email, or Slack.`);
+      alert(`Receipt for ${recId} copied to clipboard! You can paste and share it via WhatsApp, SMS, or Email.`);
     } catch (e) {
       alert(shareText);
     }

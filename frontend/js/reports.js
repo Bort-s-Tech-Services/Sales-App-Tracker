@@ -106,13 +106,13 @@ function renderReportsTable(filter = 'all') {
 }
 
 window.viewSaleReceipt = function(saleId) {
-  const sale = allSales.find(s => String(s.id) === String(saleId));
+  const sale = rawSalesData.find(s => String(s.id) === String(saleId));
   if (sale && window.ReceiptGenerator) {
     window.ReceiptGenerator.previewReceipt(sale);
   } else if (sale && sale.receipt_s3_url) {
     window.open(sale.receipt_s3_url, '_blank');
   } else {
-    alert('Receipt not found for this transaction.');
+    alert('Receipt details could not be found for transaction: ' + saleId);
   }
 };
 

@@ -1300,7 +1300,7 @@ textarea::placeholder {
   margin-bottom: 1rem;
 }
 
-.receipt-logo {
+.receipt-logo, .receipt-business-name {
   font-size: 1.35rem;
   font-weight: 800;
   color: var(--text-primary);
@@ -1309,6 +1309,8 @@ textarea::placeholder {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
 }
 
 .receipt-meta-subtitle {
