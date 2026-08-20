@@ -19,7 +19,10 @@
                 <i class="fas fa-chart-line"></i>
                 <span>SalesTracker Pro</span>
             </div>
-            <div class="nav-links">
+            <button class="landing-menu-toggle" id="landingMenuToggle" type="button" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="nav-links" id="landingNavLinks">
                 <a href="index.html" class="active">Home</a>
                 <a href="features.html">Features</a>
                 <a href="pricing.html">Pricing</a>
@@ -127,5 +130,13 @@
             </div>
         </footer>
     </div>
+
+    <script>
+        const toggle = document.getElementById('landingMenuToggle');
+        const links = document.getElementById('landingNavLinks');
+        if (toggle && links) {
+            toggle.addEventListener('click', () => links.classList.toggle('active'));
+        }
+    </script>
 </body>
 </html>
