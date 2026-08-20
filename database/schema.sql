@@ -92,3 +92,13 @@ SELECT
     COALESCE(AVG(revenue), 0) AS avg_transaction_value
 FROM sales
 GROUP BY user_id;
+
+-- -- PASSWORD RESET TOKEN TABLE
+-- CREATE TABLE password_reset_tokens (
+--   id          SERIAL PRIMARY KEY,
+--   user_id     VARCHAR(36) NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+--   token       VARCHAR(64) NOT NULL UNIQUE,
+--   expires_at  TIMESTAMPTZ NOT NULL,
+--   used        BOOLEAN DEFAULT FALSE,
+--   created_at  TIMESTAMPTZ DEFAULT NOW()
+-- );
