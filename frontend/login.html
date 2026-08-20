@@ -1,143 +1,292 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Enterprise Portal Login | SalesTracker Cloud</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css?v=2.4">
-    <link rel="stylesheet" href="css/auth.css?v=2.4">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body class="auth-page">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css?v=2.4" />
+    <link rel="stylesheet" href="css/auth.css?v=2.4" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body class="auth-page">
     <div class="auth-wrapper">
-        <div class="auth-container">
-            <!-- Left Side: Form Container -->
-            <div class="auth-form-container">
-                <div class="auth-header">
-                    <div class="brand-badge">
-                        <div class="brand-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <span class="brand-name">SalesTracker <span>PRO</span></span>
-                    </div>
-                    <h1>Welcome Back</h1>
-                    <p>Enter your credentials to access your enterprise analytics workspace</p>
-                </div>
+      <div class="auth-container">
+        <!-- Left Side: Form Container -->
+        <div class="auth-form-container">
+          <div class="auth-header">
+            <div class="brand-badge">
+              <div class="brand-icon">
+                <i class="fas fa-chart-line"></i>
+              </div>
+              <span class="brand-name">SalesTracker <span>PRO</span></span>
+            </div>
+            <h1>Welcome Back</h1>
+            <p>
+              Enter your credentials to access your enterprise analytics
+              workspace
+            </p>
+          </div>
 
-                <!-- Error Notification Box -->
-                <div id="authError" class="auth-error-box" style="display: none;"></div>
+          <!-- Error Notification Box -->
+          <div
+            id="authError"
+            class="auth-error-box"
+            style="display: none"
+          ></div>
 
-                <form id="loginForm" class="auth-form">
-                    <div class="form-group">
-                        <label for="email">
-                            <i class="fas fa-envelope"></i> Email Address
-                        </label>
-                        <div class="input-with-icon">
-                            <i class="fas fa-at input-icon"></i>
-                            <input type="email" id="email" required 
-                                   placeholder="admin@salestracker.cloud"
-                                   autocomplete="email">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="password">
-                            <i class="fas fa-lock"></i> Password
-                        </label>
-                        <div class="input-with-icon password-input">
-                            <i class="fas fa-key input-icon"></i>
-                            <input type="password" id="password" required 
-                                   placeholder="••••••••••••"
-                                   autocomplete="current-password">
-                            <button type="button" class="toggle-password" id="togglePassword" title="Toggle password visibility">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="form-options">
-                        <label class="checkbox">
-                            <input type="checkbox" id="rememberMe" checked>
-                            <span class="custom-checkbox"></span>
-                            <span>Keep me signed in</span>
-                        </label>
-                        <a href="#" id="forgotPassword" class="forgot-link">Forgot password?</a>
-                    </div>
-
-                    <button type="submit" class="btn-auth-submit" id="loginBtn">
-                        <span>Sign In to Workspace</span>
-                        <i class="fas fa-arrow-right"></i>
-                    </button>
-
-                    <!-- Quick Demo 1-Click Login Button -->
-                    <button type="button" class="btn-demo-autofill" id="demoAutoFillBtn">
-                        <i class="fas fa-bolt"></i>
-                        <span>Auto-Fill Demo Admin Credentials</span>
-                    </button>
-
-                    <div class="auth-divider">
-                        <span>Need an enterprise account?</span>
-                    </div>
-
-                    <a href="register.html" class="btn-create-account">
-                        <i class="fas fa-user-plus"></i> Create New Workspace Account
-                    </a>
-
-                    <div class="auth-footer">
-                        <a href="index.html" class="back-home">
-                            <i class="fas fa-long-arrow-alt-left"></i> Return to Public Site
-                        </a>
-                    </div>
-                </form>
+          <form id="loginForm" class="auth-form">
+            <div class="form-group">
+              <label for="email">
+                <i class="fas fa-envelope"></i> Email Address
+              </label>
+              <div class="input-with-icon">
+                <i class="fas fa-at input-icon"></i>
+                <input
+                  type="email"
+                  id="email"
+                  required
+                  placeholder="admin@salestracker.cloud"
+                  autocomplete="email"
+                />
+              </div>
             </div>
 
-            <!-- Right Side: Feature Showcase Panel -->
-            <div class="auth-image-side">
-                <div class="showcase-glow"></div>
-                <div class="showcase-content">
-                    <div class="showcase-badge">
-                        <i class="fas fa-shield-alt"></i> Enterprise Security Enabled
-                    </div>
-                    <h2>Real-Time Financial Intelligence</h2>
-                    <p>Track multi-channel revenue, profit margins, and inventory forecasting in one unified real-time dashboard.</p>
-                    
-                    <!-- Floating Preview Card Widget -->
-                    <div class="showcase-card">
-                        <div class="showcase-card-header">
-                            <div class="showcase-card-icon">
-                                <i class="fas fa-chart-bar"></i>
-                            </div>
-                            <div>
-                                <div class="showcase-card-title">Live Sales Performance</div>
-                                <div class="showcase-card-sub">Updated 2 minutes ago</div>
-                            </div>
-                            <span class="status-live">LIVE</span>
-                        </div>
-                        <div class="showcase-card-body">
-                            <div class="showcase-metric">
-                                <span class="metric-lbl">Today's Revenue</span>
-                                <span class="metric-val">GH₵12,450.00</span>
-                            </div>
-                            <div class="showcase-metric">
-                                <span class="metric-lbl">Net Profit</span>
-                                <span class="metric-val profit">+38.5%</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="showcase-footer">
-                        <i class="fas fa-lock"></i> 256-Bit SSL Encryption & Multi-Tenant Cloud Architecture
-                    </div>
-                </div>
+            <div class="form-group">
+              <label for="password">
+                <i class="fas fa-lock"></i> Password
+              </label>
+              <div class="input-with-icon password-input">
+                <i class="fas fa-key input-icon"></i>
+                <input
+                  type="password"
+                  id="password"
+                  required
+                  placeholder="••••••••••••"
+                  autocomplete="current-password"
+                />
+                <button
+                  type="button"
+                  class="toggle-password"
+                  id="togglePassword"
+                  title="Toggle password visibility"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
             </div>
+
+            <div class="form-options">
+              <label class="checkbox">
+                <input type="checkbox" id="rememberMe" checked />
+                <span class="custom-checkbox"></span>
+                <span>Keep me signed in</span>
+              </label>
+              <a href="#" id="forgotPassword" class="forgot-link"
+                >Forgot password?</a
+              >
+            </div>
+
+            <button type="submit" class="btn-auth-submit" id="loginBtn">
+              <span>Sign In to Workspace</span>
+              <i class="fas fa-arrow-right"></i>
+            </button>
+
+            <!-- Quick Demo 1-Click Login Button -->
+            <button
+              type="button"
+              class="btn-demo-autofill"
+              id="demoAutoFillBtn"
+            >
+              <i class="fas fa-bolt"></i>
+              <span>Auto-Fill Demo Admin Credentials</span>
+            </button>
+
+            <div class="auth-divider">
+              <span>Need an enterprise account?</span>
+            </div>
+
+            <a href="register.html" class="btn-create-account">
+              <i class="fas fa-user-plus"></i> Create New Workspace Account
+            </a>
+
+            <div class="auth-footer">
+              <a href="index.html" class="back-home">
+                <i class="fas fa-long-arrow-alt-left"></i> Return to Public Site
+              </a>
+            </div>
+          </form>
         </div>
+
+        <!-- Right Side: Feature Showcase Panel -->
+        <div class="auth-image-side">
+          <div class="showcase-glow"></div>
+          <div class="showcase-content">
+            <div class="showcase-badge">
+              <i class="fas fa-shield-alt"></i> Enterprise Security Enabled
+            </div>
+            <h2>Real-Time Financial Intelligence</h2>
+            <p>
+              Track multi-channel revenue, profit margins, and inventory
+              forecasting in one unified real-time dashboard.
+            </p>
+
+            <!-- Floating Preview Card Widget -->
+            <div class="showcase-card">
+              <div class="showcase-card-header">
+                <div class="showcase-card-icon">
+                  <i class="fas fa-chart-bar"></i>
+                </div>
+                <div>
+                  <div class="showcase-card-title">Live Sales Performance</div>
+                  <div class="showcase-card-sub">Updated 2 minutes ago</div>
+                </div>
+                <span class="status-live">LIVE</span>
+              </div>
+              <div class="showcase-card-body">
+                <div class="showcase-metric">
+                  <span class="metric-lbl">Today's Revenue</span>
+                  <span class="metric-val">GH₵12,450.00</span>
+                </div>
+                <div class="showcase-metric">
+                  <span class="metric-lbl">Net Profit</span>
+                  <span class="metric-val profit">+38.5%</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="showcase-footer">
+              <i class="fas fa-lock"></i> 256-Bit SSL Encryption & Multi-Tenant
+              Cloud Architecture
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <script src="js/config.js?v=2.4"></script>
     <script src="js/api-client.js?v=2.4"></script>
     <script src="js/auth.js?v=2.4"></script>
-</body>
+
+    <!-- Forgot Password Modal -->
+    <div
+      id="forgotPasswordModal"
+      style="
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+      "
+    >
+      <div
+        style="
+          background: #1e293b;
+          border-radius: 16px;
+          padding: 2rem;
+          width: 100%;
+          max-width: 420px;
+          margin: 1rem;
+          position: relative;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+        "
+      >
+        <button
+          id="forgotModalClose"
+          style="
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-size: 1.2rem;
+            cursor: pointer;
+          "
+        >
+          <i class="fas fa-times"></i>
+        </button>
+        <div style="text-align: center; margin-bottom: 1.5rem">
+          <div
+            style="
+              width: 48px;
+              height: 48px;
+              background: rgba(14, 165, 233, 0.15);
+              border-radius: 12px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              margin: 0 auto 1rem;
+            "
+          >
+            <i class="fas fa-key" style="color: #38bdf8; font-size: 1.2rem"></i>
+          </div>
+          <h3
+            style="
+              color: #f1f5f9;
+              font-family: &quot;Outfit&quot;, sans-serif;
+              margin: 0 0 0.5rem;
+            "
+          >
+            Forgot Password?
+          </h3>
+          <p style="color: #94a3b8; font-size: 0.9rem; margin: 0">
+            Enter your email and we'll send you a reset link valid for 15
+            minutes.
+          </p>
+        </div>
+        <div
+          id="forgotSuccess"
+          class="auth-error-box"
+          style="
+            display: none;
+            background: #d1fae5;
+            color: #065f46;
+            border-color: #6ee7b7;
+            margin-bottom: 1rem;
+          "
+        ></div>
+        <div
+          id="forgotError"
+          class="auth-error-box"
+          style="display: none; margin-bottom: 1rem"
+        ></div>
+        <form id="forgotPasswordForm">
+          <div class="form-group">
+            <label for="forgotEmail" style="color: #cbd5e1">
+              <i class="fas fa-envelope"></i> Email Address
+            </label>
+            <div class="input-with-icon">
+              <i class="fas fa-at input-icon"></i>
+              <input
+                type="email"
+                id="forgotEmail"
+                required
+                placeholder="your@email.com"
+                autocomplete="email"
+              />
+            </div>
+          </div>
+          <button
+            type="submit"
+            class="btn-auth-submit"
+            style="margin-top: 1rem"
+          >
+            <span>Send Reset Link</span>
+            <i class="fas fa-arrow-right"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </body>
 </html>

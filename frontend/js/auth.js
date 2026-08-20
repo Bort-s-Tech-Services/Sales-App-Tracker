@@ -182,22 +182,66 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Forgot Password
   const forgotPasswordLink = document.getElementById("forgotPassword");
-  if (forgotPasswordLink) {
-    forgotPasswordLink.addEventListener("click", async (e) => {
-      e.preventDefault();
-      const email = prompt("Enter your email address to receive a reset link:");
-      if (!email) return;
-      try {
-        await APIClient.forgotPassword(email);
-        alert(
-          "If that email exists, a reset link has been sent. Check your inbox.",
-        );
-      } catch (err) {
-        alert(err.message || "Failed to send reset email.");
-      }
-    });
-  }
+  const forgotModal = document.getElementById("forgotPasswordModal");
+  const forgotModalClose = document.getElementById("forgotModalClose");
+  const forgotForm = document.getElementById("forgotPasswordForm");
+  const forgotEmailInput = document.getElementById("forgotEmail");
+  const forgotSuccessMsg = document.getElementById("forgotSuccess");
+  const forgotErrorMsg = document.getElementById("forgotError");
 
+  if (forgotPasswordLink && forgotModal) {
+    forgotPasswordLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      forgotModal.style.display = "flex";
+      if (forgotSuccessMsg) forgotSuccessMsg.style.display = "none";
+      if (forgotErrorMsg) forgotErrorMsg.style.display = "none";
+      if (forgotForm) forgotForm.reset();
+    });
+
+    if (forgotModalClose) {
+      forgotModalClose.addEventListener("click", () => {
+        forgotModal.style.display = "none";
+      });
+    }
+
+    forgotModal.addEventListener("click", (e) => {
+      if (e.target === forgotModal) forgotModal.style.display = "none";
+    });
+
+    if (forgotForm) {
+      forgotForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const email = forgotEmailInput.value.trim();
+        const submitBtn = forgotForm.querySelector('button[type="submit"]');
+
+        if (forgotSuccessMsg) forgotSuccessMsg.style.display = "none";
+        if (forgotErrorMsg) forgotErrorMsg.style.display = "none";
+
+        submitBtn.disabled = true;
+        submitBtn.innerHTML =
+          '<i class="fas fa-spinner fa-spin"></i> Sending...';
+
+        try {
+          await APIClient.forgotPassword(email);
+          if (forgotSuccessMsg) {
+            forgotSuccessMsg.style.display = "flex";
+            forgotSuccessMsg.innerHTML =
+              '<i class="fas fa-check-circle"></i> Reset link sent! Check your inbox.';
+          }
+          forgotForm.reset();
+        } catch (err) {
+          if (forgotErrorMsg) {
+            forgotErrorMsg.style.display = "flex";
+            forgotErrorMsg.innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${err.message || "Failed to send reset email."}`;
+          }
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML =
+            '<span>Send Reset Link</span> <i class="fas fa-arrow-right"></i>';
+        }
+      });
+    }
+  }
   // Demo Autofill 1-Click Login Button
   const demoAutoFillBtn = document.getElementById("demoAutoFillBtn");
   if (demoAutoFillBtn) {
