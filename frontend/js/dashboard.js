@@ -179,13 +179,13 @@ function renderRecentSalesTable(sales) {
 
     return `
       <tr>
-        <td>${dateStr}</td>
-        <td><strong>${s.product_name}</strong></td>
-        <td>${s.quantity}</td>
-        <td style="color:#10b981; font-weight:600;">₵${rev.toFixed(2)}</td>
-        <td style="color:#94a3b8;">₵${cost.toFixed(2)}</td>
-        <td style="color:${profit >= 0 ? '#10b981' : '#ef4444'}; font-weight:700;">₵${profit.toFixed(2)}</td>
-        <td><span class="badge" style="background:${margin >= 0 ? 'rgba(16,185,129,0.15)' : 'rgba(239,68,68,0.15)'}; color:${margin >= 0 ? '#34d399' : '#f87171'}; padding:0.25rem 0.6rem; border-radius:12px; font-size:0.8rem; font-weight:600;">${margin}%</span></td>
+        <td style="white-space: nowrap; font-weight: 500;">${dateStr}</td>
+        <td><strong style="color: var(--text-primary); font-weight: 600;">${s.product_name}</strong></td>
+        <td style="text-align: center; font-weight: 600;">${s.quantity}</td>
+        <td style="color: var(--accent-emerald); font-weight: 700;">₵${rev.toFixed(2)}</td>
+        <td style="color: var(--text-muted);">₵${cost.toFixed(2)}</td>
+        <td style="color: ${profit >= 0 ? 'var(--accent-emerald)' : 'var(--accent-rose)'}; font-weight: 700;">₵${profit.toFixed(2)}</td>
+        <td style="text-align: center;"><span class="badge ${margin >= 0 ? 'badge-success' : 'badge-danger'}">${margin}%</span></td>
       </tr>
     `;
   }).join('');
