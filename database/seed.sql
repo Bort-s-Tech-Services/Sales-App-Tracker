@@ -10,7 +10,7 @@ VALUES
     'usr_demo_1001',
     'Demo Cloud Admin',
     'admin@salestracker.cloud',
-    '$2a$10$w8T0M4j6/Y0eD2P/WvjL2.pGg99wG0Tq1mB1234567890abcdefgh', -- Demo bcrypt hash
+    '$2a$10$mf65jmcIUxesxFNOWXnk4uHneCEh25cm.t5pGM0gr6ZGROJGEyGBS', -- Demo bcrypt hash for admin1234567890
     'Borts Tech Services Ltd',
     'admin',
     'https://csbc252-sales-tracker-assets.s3.amazonaws.com/avatars/admin.jpg'

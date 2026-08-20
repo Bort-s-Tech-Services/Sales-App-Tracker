@@ -64,15 +64,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         tabBtns.forEach(b => {
           b.classList.remove('active');
-          b.style.background = 'transparent';
-          b.style.color = 'var(--text-muted)';
-          b.style.fontWeight = '500';
+          b.style.background = '';
+          b.style.color = '';
+          b.style.fontWeight = '';
         });
 
         btn.classList.add('active');
-        btn.style.background = 'rgba(14, 165, 233, 0.15)';
-        btn.style.color = '#38bdf8';
-        btn.style.fontWeight = '600';
 
         tabContents.forEach(content => {
           if (content.id === targetTab) {
@@ -176,7 +173,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       const emailInput = document.getElementById('email');
       const passwordInput = document.getElementById('password');
       if (emailInput) emailInput.value = 'admin@salestracker.cloud';
-      if (passwordInput) passwordInput.value = 'admin123';
+      if (passwordInput) passwordInput.value = 'admin1234567890';
       
       // Visual Feedback Highlight
       [emailInput, passwordInput].forEach(input => {

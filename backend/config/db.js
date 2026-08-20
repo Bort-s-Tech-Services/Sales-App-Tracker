@@ -8,7 +8,7 @@ const memoryStore = {
       id: 'usr_demo_1001',
       full_name: 'Demo Cloud Admin',
       email: 'admin@salestracker.cloud',
-      password_hash: '$2a$10$w8T0M4j6/Y0eD2P/WvjL2.pGg99wG0Tq1mB1234567890abcdefgh',
+      password_hash: '$2a$10$mf65jmcIUxesxFNOWXnk4uHneCEh25cm.t5pGM0gr6ZGROJGEyGBS',
       company_name: 'Cloud Retail Solutions Ltd',
       role: 'admin',
       avatar_s3_url: 'https://csbc252-sales-tracker-assets.s3.amazonaws.com/avatars/admin.jpg',

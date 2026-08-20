@@ -204,10 +204,6 @@ function renderDashboardCharts(sales) {
   if (salesCanvas) {
     if (salesChartInstance) salesChartInstance.destroy();
     const ctx = salesCanvas.getContext('2d');
-    
-    const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-    gradient.addColorStop(0, 'rgba(14, 165, 233, 0.35)');
-    gradient.addColorStop(1, 'rgba(14, 165, 233, 0.0)');
 
     salesChartInstance = new Chart(ctx, {
       type: 'line',
@@ -216,11 +212,14 @@ function renderDashboardCharts(sales) {
         datasets: [{
           label: 'Revenue (GHS)',
           data: revData,
-          borderColor: '#0ea5e9',
-          backgroundColor: gradient,
+          borderColor: '#09090b',
+          backgroundColor: 'rgba(9, 9, 11, 0.04)',
           fill: true,
-          tension: 0.4,
+          tension: 0.35,
           pointRadius: 4,
+          pointBackgroundColor: '#09090b',
+          pointBorderColor: '#ffffff',
+          pointBorderWidth: 2,
           pointHoverRadius: 6
         }]
       },
@@ -228,11 +227,11 @@ function renderDashboardCharts(sales) {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
-          legend: { labels: { color: '#cbd5e1' } }
+          legend: { labels: { color: '#334155', font: { weight: '600' } } }
         },
         scales: {
-          x: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(255, 255, 255, 0.05)' } },
-          y: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(255, 255, 255, 0.05)' } }
+          x: { ticks: { color: '#64748b' }, grid: { color: '#f1f5f9' } },
+          y: { ticks: { color: '#64748b' }, grid: { color: '#f1f5f9' } }
         }
       }
     });
@@ -248,15 +247,16 @@ function renderDashboardCharts(sales) {
         labels: ['Net Profit', 'Product Cost'],
         datasets: [{
           data: [profitData.reduce((a, b) => a + b, 0), Math.max(0, revData.reduce((a, b) => a + b, 0) - profitData.reduce((a, b) => a + b, 0))],
-          backgroundColor: ['#10b981', '#0ea5e9'],
-          borderWidth: 0
+          backgroundColor: ['#059669', '#e2e8f0'],
+          borderColor: '#ffffff',
+          borderWidth: 3
         }]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
-          legend: { labels: { color: '#cbd5e1' } }
+          legend: { labels: { color: '#334155', font: { weight: '600' } } }
         }
       }
     });
