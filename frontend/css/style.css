@@ -2067,6 +2067,8 @@ html, body {
   .mobile-header {
     display: flex !important;
     order: -1;
+  }
+
   .sidebar-close {
     display: flex !important;
     align-items: center;
