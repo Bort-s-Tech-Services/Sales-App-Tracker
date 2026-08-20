@@ -1278,6 +1278,149 @@ textarea::placeholder {
   flex: 1;
 }
 
+/* ==========================================================================
+   DIGITAL RECEIPT PAPER & MODAL PREVIEW
+   ========================================================================== */
+
+.modal-receipt {
+  max-width: 520px;
+}
+
+.receipt-paper {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1.5rem 1.75rem;
+  box-shadow: var(--shadow-sm);
+  color: var(--text-primary);
+}
+
+.receipt-header {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.receipt-logo {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  font-family: 'Outfit', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.receipt-meta-subtitle {
+  font-size: 0.775rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-top: 0.2rem;
+}
+
+.receipt-divider {
+  border-bottom: 1px dashed var(--border-color);
+  margin: 1rem 0;
+}
+
+.receipt-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  font-size: 0.85rem;
+}
+
+.receipt-info-item .info-label {
+  color: var(--text-muted);
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.receipt-info-item .info-val {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.receipt-items-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.75rem 0;
+  font-size: 0.85rem;
+}
+
+.receipt-items-table th {
+  border-bottom: 1px solid var(--border-color);
+  padding: 0.5rem 0;
+  color: var(--text-muted);
+  font-size: 0.725rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.receipt-items-table td {
+  padding: 0.65rem 0;
+  border-bottom: 1px solid var(--border-light);
+  color: var(--text-secondary);
+}
+
+.receipt-summary-area {
+  margin-top: 0.5rem;
+}
+
+.summary-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.25rem 0;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.summary-row.total-row {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  border-top: 1px solid var(--border-color);
+  padding-top: 0.65rem;
+  margin-top: 0.5rem;
+}
+
+.summary-row .total-price {
+  color: var(--accent-emerald);
+  font-family: 'Outfit', sans-serif;
+}
+
+.receipt-status-stamp {
+  margin-top: 1rem;
+  background-color: var(--accent-emerald-bg);
+  color: var(--accent-emerald);
+  border: 1px solid var(--accent-emerald-border);
+  padding: 0.45rem;
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  border-radius: var(--radius-sm);
+  letter-spacing: 0.05em;
+}
+
+.receipt-footer-notes {
+  text-align: center;
+  margin-top: 1.25rem;
+  font-size: 0.775rem;
+  color: var(--text-muted);
+}
+
+.receipt-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.65rem;
+}
+
 @keyframes modalFadeIn {
   from {
     opacity: 0;

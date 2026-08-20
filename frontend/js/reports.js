@@ -96,12 +96,25 @@ function renderReportsTable(filter = 'all') {
         <td style="color: ${profit >= 0 ? 'var(--accent-emerald)' : 'var(--accent-rose)'}; font-weight: 700;">₵${profit.toFixed(2)}</td>
         <td style="text-align: center;"><span class="badge ${margin >= 0 ? 'badge-success' : 'badge-danger'}">${margin}%</span></td>
         <td style="text-align: center;">
-          ${s.receipt_s3_url ? `<a href="${s.receipt_s3_url}" target="_blank" class="action-btn"><i class="fas fa-file-pdf"></i> PDF</a>` : '<span style="color:var(--text-subtle); font-size:0.85rem;">None</span>'}
+          <button type="button" class="action-btn" onclick="viewSaleReceipt('${s.id}')" title="Preview & Download PDF Receipt">
+            <i class="fas fa-file-pdf" style="color: var(--accent-rose);"></i> Receipt
+          </button>
         </td>
       </tr>
     `;
   }).join('');
 }
+
+window.viewSaleReceipt = function(saleId) {
+  const sale = allSales.find(s => String(s.id) === String(saleId));
+  if (sale && window.ReceiptGenerator) {
+    window.ReceiptGenerator.previewReceipt(sale);
+  } else if (sale && sale.receipt_s3_url) {
+    window.open(sale.receipt_s3_url, '_blank');
+  } else {
+    alert('Receipt not found for this transaction.');
+  }
+};
 
 function exportSalesToCSV(sales) {
   if (!sales || sales.length === 0) {

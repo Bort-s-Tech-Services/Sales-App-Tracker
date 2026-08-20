@@ -201,6 +201,8 @@ function setupButtonListeners() {
   const addAnotherBtn = document.getElementById('addAnother');
   const goToDashBtn = document.getElementById('goToDashboard');
   const successModal = document.getElementById('successModal');
+  const downloadReceiptBtn = document.getElementById('downloadReceiptBtn');
+  const previewReceiptBtn = document.getElementById('previewReceiptBtn');
 
   if (addAnotherBtn) {
     addAnotherBtn.addEventListener('click', () => {
@@ -217,6 +219,22 @@ function setupButtonListeners() {
       window.location.href = 'dashboard.html';
     });
   }
+
+  if (downloadReceiptBtn) {
+    downloadReceiptBtn.addEventListener('click', () => {
+      if (window.currentRecordedSale && window.ReceiptGenerator) {
+        window.ReceiptGenerator.downloadPDF(window.currentRecordedSale);
+      }
+    });
+  }
+
+  if (previewReceiptBtn) {
+    previewReceiptBtn.addEventListener('click', () => {
+      if (window.currentRecordedSale && window.ReceiptGenerator) {
+        window.ReceiptGenerator.previewReceipt(window.currentRecordedSale);
+      }
+    });
+  }
 }
 
 async function handleRecordSale(e) {
@@ -229,14 +247,14 @@ async function handleRecordSale(e) {
   const unitCost = Number(document.getElementById('unitCost')?.value) || 0;
   const saleDate = document.getElementById('saleDate')?.value || new Date().toISOString().split('T')[0];
   const category = document.getElementById('category')?.value || 'General';
-  const customer = document.getElementById('customer')?.value || '';
+  const customer = document.getElementById('customer')?.value || 'Walk-in Customer';
   const notes = document.getElementById('notes')?.value || '';
 
   const revenue = quantity * unitPrice;
   const cost = quantity * unitCost;
 
   try {
-    await APIClient.recordSale({
+    const res = await APIClient.recordSale({
       product_name: productName,
       category,
       quantity,
@@ -246,6 +264,30 @@ async function handleRecordSale(e) {
       sale_date: saleDate,
       notes
     });
+
+    const recorded = res.sale || {
+      id: 'sle_' + Date.now(),
+      product_name: productName,
+      category,
+      quantity,
+      revenue,
+      cost,
+      customer_name: customer,
+      sale_date: saleDate,
+      notes
+    };
+
+    window.currentRecordedSale = recorded;
+
+    // Update modal quick summary
+    const modalRecId = document.getElementById('modalRecId');
+    const modalRecAmount = document.getElementById('modalRecAmount');
+    if (modalRecId && window.ReceiptGenerator) {
+      modalRecId.textContent = window.ReceiptGenerator.formatReceiptId(recorded);
+    }
+    if (modalRecAmount) {
+      modalRecAmount.textContent = '₵' + revenue.toFixed(2);
+    }
 
     await loadSales();
 

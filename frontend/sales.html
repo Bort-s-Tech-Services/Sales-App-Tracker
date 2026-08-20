@@ -274,28 +274,53 @@
         </main>
     </div>
 
-    <!-- Success Modal -->
+    <!-- Success Modal with Receipt Actions -->
     <div class="modal" id="successModal">
-        <div class="modal-content modal-dialog-centered">
+        <div class="modal-content modal-dialog-centered" style="max-width: 480px;">
             <div class="modal-icon success">
                 <i class="fas fa-check"></i>
             </div>
             <h3>Sale Recorded Successfully!</h3>
-            <p>Your transaction has been securely saved and reflected in the live sales analytics.</p>
-            <div class="modal-actions">
-                <button type="button" class="btn btn-outline" id="addAnother">
-                    <i class="fas fa-plus"></i> Add Another
-                </button>
-                <button type="button" class="btn btn-primary" id="goToDashboard">
-                    <i class="fas fa-chart-line"></i> View Dashboard
-                </button>
+            <p>Your transaction has been recorded. Would you like to preview, download, or share the official PDF receipt?</p>
+            
+            <!-- Quick Receipt Card Summary -->
+            <div id="modalReceiptSummary" style="width: 100%; background: var(--bg-subtle); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 0.85rem 1rem; margin-bottom: 1.25rem; font-size: 0.85rem; text-align: left;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+                    <span style="color: var(--text-muted);">Receipt Ref:</span>
+                    <strong id="modalRecId" class="font-mono">REC-PENDING</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+                    <span style="color: var(--text-muted);">Amount Paid:</span>
+                    <strong id="modalRecAmount" style="color: var(--accent-emerald);">₵0.00</strong>
+                </div>
+            </div>
+
+            <div class="modal-actions" style="display: flex; flex-direction: column; gap: 0.65rem; width: 100%;">
+                <div style="display: flex; gap: 0.65rem; width: 100%;">
+                    <button type="button" class="btn btn-primary" id="downloadReceiptBtn" style="flex: 1;">
+                        <i class="fas fa-file-pdf"></i> Download PDF
+                    </button>
+                    <button type="button" class="btn btn-secondary" id="previewReceiptBtn" style="flex: 1;">
+                        <i class="fas fa-receipt"></i> Full Preview
+                    </button>
+                </div>
+                <div style="display: flex; gap: 0.65rem; width: 100%;">
+                    <button type="button" class="btn btn-outline" id="addAnother" style="flex: 1;">
+                        <i class="fas fa-plus"></i> Add Another
+                    </button>
+                    <button type="button" class="btn btn-outline" id="goToDashboard" style="flex: 1;">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
-    <script src="js/config.js?v=3.4"></script>
-    <script src="js/api-client.js?v=3.4"></script>
-    <script src="js/auth.js?v=3.4"></script>
-    <script src="js/sales.js?v=3.4"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="js/config.js?v=3.5"></script>
+    <script src="js/api-client.js?v=3.5"></script>
+    <script src="js/auth.js?v=3.5"></script>
+    <script src="js/receipt-generator.js?v=3.5"></script>
+    <script src="js/sales.js?v=3.5"></script>
 </body>
 </html>
