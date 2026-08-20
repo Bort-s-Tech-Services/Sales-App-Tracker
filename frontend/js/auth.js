@@ -7,8 +7,8 @@ function populateSidebarUser() {
     user = {};
   }
 
-  const fullName = user.full_name || "Demo Cloud Admin";
-  const email = user.email || "admin@salestracker.cloud";
+  const fullName = user.full_name || "Workspace Admin";
+  const email = user.email || "";
 
   const userDisplayEls = document.querySelectorAll(
     ".user-name-display, #userName, .user-name",
@@ -269,27 +269,39 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  // Demo Autofill 1-Click Login Button
+  // Demo Autofill 1-Click Login Button (Only visible on localhost / dev)
+  const isLocalhost = Boolean(
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1" ||
+    window.location.hostname === "" ||
+    window.location.protocol === "file:"
+  );
+
   const demoAutoFillBtn = document.getElementById("demoAutoFillBtn");
   if (demoAutoFillBtn) {
-    demoAutoFillBtn.addEventListener("click", () => {
-      const emailInput = document.getElementById("email");
-      const passwordInput = document.getElementById("password");
-      if (emailInput) emailInput.value = "admin@salestracker.cloud";
-      if (passwordInput) passwordInput.value = "admin1234567890";
+    if (isLocalhost) {
+      demoAutoFillBtn.style.display = "flex";
+      demoAutoFillBtn.addEventListener("click", () => {
+        const emailInput = document.getElementById("email");
+        const passwordInput = document.getElementById("password");
+        if (emailInput) emailInput.value = "admin@salestracker.cloud";
+        if (passwordInput) passwordInput.value = "admin1234567890";
 
-      // Visual Feedback Highlight
-      [emailInput, passwordInput].forEach((input) => {
-        if (input) {
-          input.style.borderColor = "#34d399";
-          input.style.boxShadow = "0 0 0 3.5px rgba(52, 211, 153, 0.25)";
-          setTimeout(() => {
-            input.style.borderColor = "";
-            input.style.boxShadow = "";
-          }, 1500);
-        }
+        // Visual Feedback Highlight
+        [emailInput, passwordInput].forEach((input) => {
+          if (input) {
+            input.style.borderColor = "#34d399";
+            input.style.boxShadow = "0 0 0 3.5px rgba(52, 211, 153, 0.25)";
+            setTimeout(() => {
+              input.style.borderColor = "";
+              input.style.boxShadow = "";
+            }, 1500);
+          }
+        });
       });
-    });
+    } else {
+      demoAutoFillBtn.style.display = "none";
+    }
   }
 
   // Password Visibility Toggle Buttons
