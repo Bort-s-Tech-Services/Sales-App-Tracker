@@ -1617,42 +1617,7 @@ textarea::placeholder {
 .toast-error   { border-left: 4px solid var(--accent-rose); }
 .toast-info    { border-left: 4px solid var(--accent-blue); }
 
-/* ==========================================================================
-   RESPONSIVE LAYOUT & MOBILE DRAWER
-   ========================================================================== */
 
-.mobile-header {
-  display: none;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 1.25rem;
-  background-color: var(--bg-surface);
-  border-bottom: 1px solid var(--border-color);
-  position: sticky;
-  top: 0;
-  z-index: 40;
-}
-
-.mobile-header .logo {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 1.15rem;
-  font-weight: 800;
-  color: var(--text-primary);
-  font-family: 'Outfit', sans-serif;
-}
-
-.sidebar-overlay {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(9, 9, 11, 0.4);
-  z-index: 45;
-}
 
 /* ==========================================================================
    ADDITIONAL APP COMPONENTS (Sales Grid, Summary Cards, File Uploads)

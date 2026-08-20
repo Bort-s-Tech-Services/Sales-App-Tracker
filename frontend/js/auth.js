@@ -19,12 +19,61 @@ function populateSidebarUser() {
   emailDisplayEls.forEach((el) => (el.textContent = email));
 }
 
+// Global Helper to Initialize Mobile Drawer Navigation
+function initMobileSidebarDrawer() {
+  const mobileMenuToggle = document.getElementById("mobileMenuToggle");
+  const sidebarCloseBtn = document.getElementById("sidebarCloseBtn");
+  const sidebar = document.getElementById("sidebar");
+  const sidebarOverlay = document.getElementById("sidebarOverlay");
+
+  const closeSidebar = () => {
+    if (sidebar) sidebar.classList.remove("active");
+    if (sidebarOverlay) sidebarOverlay.classList.remove("active");
+  };
+
+  const openSidebar = () => {
+    if (sidebar) sidebar.classList.add("active");
+    if (sidebarOverlay) sidebarOverlay.classList.add("active");
+  };
+
+  if (mobileMenuToggle && sidebar) {
+    mobileMenuToggle.onclick = (e) => {
+      e.stopPropagation();
+      if (sidebar.classList.contains("active")) {
+        closeSidebar();
+      } else {
+        openSidebar();
+      }
+    };
+  }
+
+  if (sidebarCloseBtn) {
+    sidebarCloseBtn.onclick = (e) => {
+      e.stopPropagation();
+      closeSidebar();
+    };
+  }
+
+  if (sidebarOverlay) {
+    sidebarOverlay.onclick = (e) => {
+      e.stopPropagation();
+      closeSidebar();
+    };
+  }
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeSidebar();
+  });
+}
+
 // Execute immediately when auth.js is loaded
 populateSidebarUser();
+initMobileSidebarDrawer();
 
 // Client Auth & Settings Script connected to AWS Express Backend REST API
 document.addEventListener("DOMContentLoaded", async () => {
   populateSidebarUser();
+  initMobileSidebarDrawer();
 
   // Async refresh profile if token is present
   const token = localStorage.getItem("auth_token");
