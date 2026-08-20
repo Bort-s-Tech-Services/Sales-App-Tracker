@@ -37,7 +37,7 @@ function initMobileSidebarDrawer() {
   };
 
   if (mobileMenuToggle && sidebar) {
-    mobileMenuToggle.onclick = (e) => {
+    mobileMenuToggle.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
       if (sidebar.classList.contains("active")) {
@@ -45,41 +45,37 @@ function initMobileSidebarDrawer() {
       } else {
         openSidebar();
       }
-    };
+    });
   }
 
   if (sidebarCloseBtn) {
-    sidebarCloseBtn.onclick = (e) => {
+    sidebarCloseBtn.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
       closeSidebar();
-    };
+    });
   }
 
   if (sidebarOverlay) {
-    sidebarOverlay.onclick = (e) => {
+    sidebarOverlay.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
       closeSidebar();
-    };
+    });
+    sidebarOverlay.addEventListener("touchend", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      closeSidebar();
+    }, { passive: false });
   }
 
-  // Tap anywhere outside the sidebar to close it
-  const handleOutsideTap = (e) => {
-    if (sidebar && sidebar.classList.contains("active")) {
-      const isClickInsideSidebar = sidebar.contains(e.target);
-      const isClickOnToggle = mobileMenuToggle && (mobileMenuToggle === e.target || mobileMenuToggle.contains(e.target));
-      if (!isClickInsideSidebar && !isClickOnToggle) {
-        closeSidebar();
-      }
-    }
-  };
-
-  document.addEventListener("click", handleOutsideTap);
-  document.addEventListener("touchend", handleOutsideTap, { passive: true });
-
-  // Auto-close sidebar on mobile when a nav item is tapped
   if (sidebar) {
+    // Prevent clicks inside the sidebar from bubbling
+    sidebar.addEventListener("click", (e) => {
+      e.stopPropagation();
+    });
+
+    // Auto-close sidebar on mobile when a nav item is tapped
     const navLinks = sidebar.querySelectorAll(".nav-item, .btn-logout");
     navLinks.forEach((link) => {
       link.addEventListener("click", () => {
