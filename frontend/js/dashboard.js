@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const viewAllSalesBtn = document.getElementById('viewAllSales');
   if (viewAllSalesBtn) {
     viewAllSalesBtn.addEventListener('click', () => {
-      window.location.href = 'sales.html';
+      window.location.href = 'reports.html';
     });
   }
 });
