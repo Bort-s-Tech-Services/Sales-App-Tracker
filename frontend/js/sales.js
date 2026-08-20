@@ -201,18 +201,42 @@ function setupButtonListeners() {
   const addAnotherBtn = document.getElementById('addAnother');
   const goToDashBtn = document.getElementById('goToDashboard');
   const successModal = document.getElementById('successModal');
+  const closeSuccessModal = document.getElementById('closeSuccessModal');
   const downloadReceiptBtn = document.getElementById('downloadReceiptBtn');
   const printReceiptDirectBtn = document.getElementById('printReceiptDirectBtn');
   const previewReceiptBtn = document.getElementById('previewReceiptBtn');
 
-  if (addAnotherBtn) {
-    addAnotherBtn.addEventListener('click', () => {
-      if (successModal) successModal.style.display = 'none';
-      if (salesForm) salesForm.reset();
-      const saleDateInput = document.getElementById('saleDate');
-      if (saleDateInput) saleDateInput.value = new Date().toISOString().split('T')[0];
-      calculateTotals();
+  const closeModalAndReset = () => {
+    if (successModal) successModal.style.display = 'none';
+    if (salesForm) salesForm.reset();
+    const saleDateInput = document.getElementById('saleDate');
+    if (saleDateInput) saleDateInput.value = new Date().toISOString().split('T')[0];
+    calculateTotals();
+  };
+
+  // Close when tapping backdrop (outside modal card)
+  if (successModal) {
+    successModal.addEventListener('click', (e) => {
+      if (e.target === successModal) {
+        closeModalAndReset();
+      }
     });
+  }
+
+  // Close on (X) button
+  if (closeSuccessModal) {
+    closeSuccessModal.addEventListener('click', closeModalAndReset);
+  }
+
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && successModal && successModal.style.display === 'flex') {
+      closeModalAndReset();
+    }
+  });
+
+  if (addAnotherBtn) {
+    addAnotherBtn.addEventListener('click', closeModalAndReset);
   }
 
   if (goToDashBtn) {

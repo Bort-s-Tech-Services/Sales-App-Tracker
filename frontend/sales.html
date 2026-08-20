@@ -276,7 +276,10 @@
 
     <!-- Success Modal with Receipt Actions -->
     <div class="modal" id="successModal">
-        <div class="modal-content modal-dialog-centered" style="max-width: 480px;">
+        <div class="modal-content modal-dialog-centered" style="max-width: 480px; position: relative;">
+            <button class="modal-close" id="closeSuccessModal" type="button" style="position: absolute; top: 1rem; right: 1.25rem; font-size: 1.25rem; background: none; border: none; cursor: pointer; color: var(--text-muted);">
+                <i class="fas fa-times"></i>
+            </button>
             <div class="modal-icon success">
                 <i class="fas fa-check"></i>
             </div>
