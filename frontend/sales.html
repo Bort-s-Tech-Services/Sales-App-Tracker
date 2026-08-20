@@ -276,22 +276,26 @@
 
     <!-- Success Modal -->
     <div class="modal" id="successModal">
-        <div class="modal-content">
+        <div class="modal-content modal-dialog-centered">
             <div class="modal-icon success">
-                <i class="fas fa-check-circle"></i>
+                <i class="fas fa-check"></i>
             </div>
-            <h3>Sale Saved Successfully!</h3>
-            <p>Your sale has been recorded and added to the dashboard.</p>
+            <h3>Sale Recorded Successfully!</h3>
+            <p>Your transaction has been securely saved and reflected in the live sales analytics.</p>
             <div class="modal-actions">
-                <button class="btn btn-outline" id="addAnother">Add Another Sale</button>
-                <button class="btn btn-primary" id="goToDashboard">View Dashboard</button>
+                <button type="button" class="btn btn-outline" id="addAnother">
+                    <i class="fas fa-plus"></i> Add Another
+                </button>
+                <button type="button" class="btn btn-primary" id="goToDashboard">
+                    <i class="fas fa-chart-line"></i> View Dashboard
+                </button>
             </div>
         </div>
     </div>
 
-    <script src="js/config.js?v=2.5"></script>
-    <script src="js/api-client.js?v=2.5"></script>
-    <script src="js/auth.js?v=2.5"></script>
-    <script src="js/sales.js?v=2.5"></script>
+    <script src="js/config.js?v=3.4"></script>
+    <script src="js/api-client.js?v=3.4"></script>
+    <script src="js/auth.js?v=3.4"></script>
+    <script src="js/sales.js?v=3.4"></script>
 </body>
 </html>
