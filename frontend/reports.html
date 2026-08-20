@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css?v=2.5">
+    <link rel="stylesheet" href="css/style.css?v=3.1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -86,7 +86,7 @@
                     <h1>Financial Reports</h1>
                     <p>Comprehensive transaction history and margin analysis</p>
                 </div>
-                <div class="header-right" style="display: flex; gap: 1rem; align-items: center;">
+                <div class="header-right" style="display: flex; gap: 0.85rem; align-items: center;">
                     <select id="reportFilterPeriod" class="chart-select">
                         <option value="all">All Time</option>
                         <option value="today">Today</option>
@@ -101,44 +101,44 @@
 
             <div class="content-area">
                 <!-- Summary Metrics Grid -->
-                <div class="metrics-grid">
-                    <div class="metric-card">
-                        <div class="metric-icon" style="background: rgba(14, 165, 233, 0.15); color: #38bdf8;">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: var(--accent-blue-bg); color: var(--accent-blue); border: 1px solid var(--accent-blue-border);">
                             <i class="fas fa-coins"></i>
                         </div>
-                        <div class="metric-info">
-                            <span class="metric-label">Total Revenue</span>
+                        <div class="stat-content">
+                            <h3>Total Revenue</h3>
                             <div class="stat-value" id="reportRevenue">₵0.00</div>
                         </div>
                     </div>
 
-                    <div class="metric-card">
-                        <div class="metric-icon" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3) !important;">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: var(--accent-amber-bg); color: var(--accent-amber); border: 1px solid var(--accent-amber-border);">
                             <i class="fas fa-receipt"></i>
                         </div>
-                        <div class="metric-info">
-                            <span class="metric-label">Total Cost</span>
-                            <div class="stat-value" id="reportCost" style="color: #fbbf24;">₵0.00</div>
+                        <div class="stat-content">
+                            <h3>Total Cost</h3>
+                            <div class="stat-value" id="reportCost">₵0.00</div>
                         </div>
                     </div>
 
-                    <div class="metric-card">
-                        <div class="metric-icon" style="background: rgba(16, 185, 129, 0.15); color: #34d399;">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: var(--accent-emerald-bg); color: var(--accent-emerald); border: 1px solid var(--accent-emerald-border);">
                             <i class="fas fa-chart-line"></i>
                         </div>
-                        <div class="metric-info">
-                            <span class="metric-label">Net Profit</span>
-                            <div class="stat-value" id="reportProfit" style="color: #34d399;">₵0.00</div>
+                        <div class="stat-content">
+                            <h3>Net Profit</h3>
+                            <div class="stat-value" id="reportProfit" style="color: var(--accent-emerald);">₵0.00</div>
                         </div>
                     </div>
 
-                    <div class="metric-card">
-                        <div class="metric-icon" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8;">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: var(--accent-slate-bg); color: var(--accent-slate); border: 1px solid var(--accent-slate-border);">
                             <i class="fas fa-percentage"></i>
                         </div>
-                        <div class="metric-info">
-                            <span class="metric-label">Profit Margin</span>
-                            <div class="stat-value" id="reportMargin" style="color: #38bdf8;">0%</div>
+                        <div class="stat-content">
+                            <h3>Profit Margin</h3>
+                            <div class="stat-value" id="reportMargin">0%</div>
                         </div>
                     </div>
                 </div>
@@ -149,18 +149,18 @@
                         <h3><i class="fas fa-list-alt"></i> Transaction Log</h3>
                     </div>
                     <div class="table-responsive">
-                        <table>
+                        <table class="data-table">
                             <thead>
                                 <tr>
-                                    <th>Date</th>
-                                    <th>Product Name</th>
-                                    <th>Category</th>
-                                    <th>Qty</th>
-                                    <th>Revenue</th>
-                                    <th>Cost</th>
-                                    <th>Profit</th>
-                                    <th>Margin</th>
-                                    <th>Receipt</th>
+                                    <th style="min-width: 110px;">Date</th>
+                                    <th style="min-width: 220px;">Product Name</th>
+                                    <th style="min-width: 120px;">Category</th>
+                                    <th style="min-width: 70px; text-align: center;">Qty</th>
+                                    <th style="min-width: 110px;">Revenue</th>
+                                    <th style="min-width: 100px;">Cost</th>
+                                    <th style="min-width: 110px;">Profit</th>
+                                    <th style="min-width: 90px; text-align: center;">Margin</th>
+                                    <th style="min-width: 120px; text-align: center;">Receipt</th>
                                 </tr>
                             </thead>
                             <tbody id="reportTableBody">
@@ -178,9 +178,9 @@
         </main>
     </div>
 
-    <script src="js/config.js?v=2.5"></script>
-    <script src="js/api-client.js?v=2.5"></script>
-    <script src="js/auth.js?v=2.5"></script>
-    <script src="js/reports.js?v=2.5"></script>
+    <script src="js/config.js?v=3.1"></script>
+    <script src="js/api-client.js?v=3.1"></script>
+    <script src="js/auth.js?v=3.1"></script>
+    <script src="js/reports.js?v=3.1"></script>
 </body>
 </html>

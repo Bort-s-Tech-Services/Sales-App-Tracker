@@ -957,14 +957,14 @@ button {
   overflow-x: auto;
 }
 
-.data-table {
+table, .data-table {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
   font-size: 0.885rem;
 }
 
-.data-table th {
+table th, .data-table th {
   background-color: var(--bg-subtle);
   color: var(--text-muted);
   font-weight: 600;
@@ -976,22 +976,22 @@ button {
   white-space: nowrap;
 }
 
-.data-table td {
+table td, .data-table td {
   padding: 1rem 1.25rem;
   border-bottom: 1px solid var(--border-light);
   color: var(--text-secondary);
   vertical-align: middle;
 }
 
-.data-table tbody tr {
+table tbody tr, .data-table tbody tr {
   transition: background-color 0.15s ease;
 }
 
-.data-table tbody tr:hover {
+table tbody tr:hover, .data-table tbody tr:hover {
   background-color: var(--bg-subtle);
 }
 
-.data-table tbody tr:last-child td {
+table tbody tr:last-child td, .data-table tbody tr:last-child td {
   border-bottom: none;
 }
 
