@@ -202,6 +202,7 @@ function setupButtonListeners() {
   const goToDashBtn = document.getElementById('goToDashboard');
   const successModal = document.getElementById('successModal');
   const downloadReceiptBtn = document.getElementById('downloadReceiptBtn');
+  const printReceiptDirectBtn = document.getElementById('printReceiptDirectBtn');
   const previewReceiptBtn = document.getElementById('previewReceiptBtn');
 
   if (addAnotherBtn) {
@@ -224,6 +225,14 @@ function setupButtonListeners() {
     downloadReceiptBtn.addEventListener('click', () => {
       if (window.currentRecordedSale && window.ReceiptGenerator) {
         window.ReceiptGenerator.downloadPDF(window.currentRecordedSale);
+      }
+    });
+  }
+
+  if (printReceiptDirectBtn) {
+    printReceiptDirectBtn.addEventListener('click', () => {
+      if (window.currentRecordedSale && window.ReceiptGenerator) {
+        window.ReceiptGenerator.printReceipt(window.currentRecordedSale);
       }
     });
   }
