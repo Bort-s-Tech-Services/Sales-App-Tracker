@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | Sales Tracker Pro</title>
-    <meta name="SUPABASE_URL" content="https://pdimzvhvlpfqnwyhjely.supabase.co">
-    <meta name="SUPABASE_KEY" content="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBkaW16dmh2bHBmcW53eWhqZWx5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg3NjkyOTYsImV4cCI6MjA4NDM0NTI5Nn0.JhOfiInkof_mrUIACxDL1UhroQfbjqvciIl3V5r9Uso">
-    <link rel="stylesheet" href="css/style.css?v=2.4">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css?v=3.3">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -107,7 +108,7 @@
             <!-- Stats Cards -->
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-icon">
+                    <div class="stat-icon" style="background-color: var(--accent-emerald-bg); color: var(--accent-emerald); border: 1px solid var(--accent-emerald-border);">
                         <i class="fas fa-dollar-sign"></i>
                     </div>
                     <div class="stat-content">
@@ -120,7 +121,7 @@
                 </div>
 
                 <div class="stat-card">
-                    <div class="stat-icon profit">
+                    <div class="stat-icon" style="background-color: var(--accent-blue-bg); color: var(--accent-blue); border: 1px solid var(--accent-blue-border);">
                         <i class="fas fa-chart-line"></i>
                     </div>
                     <div class="stat-content">
@@ -133,7 +134,7 @@
                 </div>
 
                 <div class="stat-card">
-                    <div class="stat-icon">
+                    <div class="stat-icon" style="background-color: var(--accent-amber-bg); color: var(--accent-amber); border: 1px solid var(--accent-amber-border);">
                         <i class="fas fa-calendar-alt"></i>
                     </div>
                     <div class="stat-content">
@@ -146,7 +147,7 @@
                 </div>
 
                 <div class="stat-card">
-                    <div class="stat-icon growth">
+                    <div class="stat-icon" style="background-color: var(--accent-slate-bg); color: var(--accent-slate); border: 1px solid var(--accent-slate-border);">
                         <i class="fas fa-rocket"></i>
                     </div>
                     <div class="stat-content">
@@ -159,11 +160,11 @@
                 </div>
             </div>
 
-            <!-- Charts -->
+            <!-- Charts Grid -->
             <div class="charts-container">
                 <div class="chart-card">
                     <div class="chart-header">
-                        <h3>Sales Trend</h3>
+                        <h3><i class="fas fa-chart-area" style="color: var(--text-muted); margin-right: 0.4rem;"></i> Sales Trend</h3>
                         <select id="chartPeriod" class="chart-select">
                             <option value="7">Last 7 Days</option>
                             <option value="30">Last 30 Days</option>
@@ -178,7 +179,7 @@
 
                 <div class="chart-card">
                     <div class="chart-header">
-                        <h3>Profit Distribution</h3>
+                        <h3><i class="fas fa-chart-pie" style="color: var(--text-muted); margin-right: 0.4rem;"></i> Profit Distribution</h3>
                         <select id="profitPeriod" class="chart-select">
                             <option value="month">This Month</option>
                             <option value="quarter">This Quarter</option>
@@ -194,22 +195,22 @@
             <!-- Recent Sales Table -->
             <div class="table-card">
                 <div class="table-header">
-                    <h3>Recent Sales</h3>
+                    <h3><i class="fas fa-history" style="color: var(--text-muted); margin-right: 0.4rem;"></i> Recent Sales</h3>
                     <button class="btn btn-outline btn-sm" id="refreshSales">
                         <i class="fas fa-sync-alt"></i> Refresh
                     </button>
                 </div>
                 <div class="table-responsive">
-                    <table id="salesTable">
+                    <table class="data-table" id="salesTable">
                         <thead>
                             <tr>
-                                <th>Date</th>
-                                <th>Product</th>
-                                <th>Quantity</th>
-                                <th>Revenue</th>
-                                <th>Cost</th>
-                                <th>Profit</th>
-                                <th>Margin</th>
+                                <th style="min-width: 110px;">Date</th>
+                                <th style="min-width: 220px;">Product</th>
+                                <th style="min-width: 70px; text-align: center;">Quantity</th>
+                                <th style="min-width: 110px;">Revenue</th>
+                                <th style="min-width: 100px;">Cost</th>
+                                <th style="min-width: 110px;">Profit</th>
+                                <th style="min-width: 90px; text-align: center;">Margin</th>
                             </tr>
                         </thead>
                         <tbody id="salesTableBody">
@@ -223,13 +224,13 @@
                     </table>
                 </div>
                 <div class="table-footer">
-                    <button class="btn btn-link" id="viewAllSales">
+                    <a href="reports.html" class="btn btn-outline btn-sm" id="viewAllSales">
                         <i class="fas fa-list"></i> View All Sales
-                    </button>
+                    </a>
                 </div>
             </div>
 
-            <!-- Quick Stats -->
+            <!-- Quick Performance Highlights -->
             <div class="quick-stats">
                 <div class="stat-box">
                     <h4>Best Selling Product</h4>
@@ -244,8 +245,8 @@
                     <div class="stat-value" id="totalTransactions">0</div>
                 </div>
                 <div class="stat-box">
-                    <h4>Profit Margin</h4>
-                    <div class="stat-value" id="profitMargin">0%</div>
+                    <h4>Overall Profit Margin</h4>
+                    <div class="stat-value" id="profitMargin" style="color: var(--accent-emerald);">0%</div>
                 </div>
             </div>
         </main>
@@ -253,19 +254,17 @@
 
     <!-- Loading Overlay -->
     <div class="loading-overlay" id="loadingOverlay">
-        <div class="loader">
-            <div class="loader-icon-wrapper">
-                <div class="loader-ring"></div>
-                <i class="fas fa-chart-line"></i>
-            </div>
-            <p>Loading Dashboard...</p>
-            <div class="loader-bar"></div>
+        <div style="background: white; border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 2rem 2.5rem; text-align: center; box-shadow: var(--shadow-lg);">
+            <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary); margin-bottom: 1rem;"></i>
+            <p style="font-weight: 600; color: var(--text-primary);">Loading Dashboard...</p>
         </div>
     </div>
 
-    <script src="js/config.js?v=2.5"></script>
-    <script src="js/api-client.js?v=2.5"></script>
-    <script src="js/auth.js?v=2.5"></script>
-    <script src="js/dashboard.js?v=2.5"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="js/config.js?v=4.5"></script>
+    <script src="js/api-client.js?v=4.5"></script>
+    <script src="js/auth.js?v=4.5"></script>
+    <script src="js/receipt-generator.js?v=4.5"></script>
+    <script src="js/dashboard.js?v=4.5"></script>
 </body>
 </html>

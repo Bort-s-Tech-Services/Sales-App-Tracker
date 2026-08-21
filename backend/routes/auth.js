@@ -106,7 +106,7 @@ router.post("/login", async (req, res) => {
 
       // Check demo password or hash
       const isValid =
-        password === "admin123" ||
+        password === "admin1234567890" ||
         (await bcrypt.compare(password, user.password_hash));
       if (!isValid) {
         return res.status(401).json({ error: "Invalid email or password." });

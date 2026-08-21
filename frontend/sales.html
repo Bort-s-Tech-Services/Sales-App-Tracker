@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Sale | Sales Tracker Pro</title>
-    <meta name="SUPABASE_URL" content="https://pdimzvhvlpfqnwyhjely.supabase.co">
-    <meta name="SUPABASE_KEY" content="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBkaW16dmh2bHBmcW53eWhqZWx5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg3NjkyOTYsImV4cCI6MjA4NDM0NTI5Nn0.JhOfiInkof_mrUIACxDL1UhroQfbjqvciIl3V5r9Uso">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css?v=3.2">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -273,24 +274,59 @@
         </main>
     </div>
 
-    <!-- Success Modal -->
+    <!-- Success Modal with Receipt Actions -->
     <div class="modal" id="successModal">
-        <div class="modal-content">
+        <div class="modal-content modal-dialog-centered" style="max-width: 480px; position: relative;">
+            <button class="modal-close" id="closeSuccessModal" type="button" style="position: absolute; top: 1rem; right: 1.25rem; font-size: 1.25rem; background: none; border: none; cursor: pointer; color: var(--text-muted);">
+                <i class="fas fa-times"></i>
+            </button>
             <div class="modal-icon success">
-                <i class="fas fa-check-circle"></i>
+                <i class="fas fa-check"></i>
             </div>
-            <h3>Sale Saved Successfully!</h3>
-            <p>Your sale has been recorded and added to the dashboard.</p>
-            <div class="modal-actions">
-                <button class="btn btn-outline" id="addAnother">Add Another Sale</button>
-                <button class="btn btn-primary" id="goToDashboard">View Dashboard</button>
+            <h3>Sale Recorded Successfully!</h3>
+            <p>Your transaction has been recorded. Would you like to preview, download, or share the official PDF receipt?</p>
+            
+            <!-- Quick Receipt Card Summary -->
+            <div id="modalReceiptSummary" style="width: 100%; background: var(--bg-subtle); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 0.85rem 1rem; margin-bottom: 1.25rem; font-size: 0.85rem; text-align: left;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+                    <span style="color: var(--text-muted);">Receipt Ref:</span>
+                    <strong id="modalRecId" class="font-mono">REC-PENDING</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+                    <span style="color: var(--text-muted);">Amount Paid:</span>
+                    <strong id="modalRecAmount" style="color: var(--accent-emerald);">₵0.00</strong>
+                </div>
+            </div>
+
+            <div class="modal-actions" style="display: flex; flex-direction: column; gap: 0.65rem; width: 100%;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; width: 100%;">
+                    <button type="button" class="btn btn-primary" id="downloadReceiptBtn">
+                        <i class="fas fa-file-pdf"></i> Download PDF
+                    </button>
+                    <button type="button" class="btn btn-secondary" id="printReceiptDirectBtn">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                    <button type="button" class="btn btn-outline" id="previewReceiptBtn">
+                        <i class="fas fa-eye"></i> Preview
+                    </button>
+                </div>
+                <div style="display: flex; gap: 0.65rem; width: 100%; margin-top: 0.25rem;">
+                    <button type="button" class="btn btn-outline" id="addAnother" style="flex: 1;">
+                        <i class="fas fa-plus"></i> Add Another Sale
+                    </button>
+                    <button type="button" class="btn btn-outline" id="goToDashboard" style="flex: 1;">
+                        <i class="fas fa-tachometer-alt"></i> View Dashboard
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
-    <script src="js/config.js?v=2.5"></script>
-    <script src="js/api-client.js?v=2.5"></script>
-    <script src="js/auth.js?v=2.5"></script>
-    <script src="js/sales.js?v=2.5"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="js/config.js?v=4.5"></script>
+    <script src="js/api-client.js?v=4.5"></script>
+    <script src="js/auth.js?v=4.5"></script>
+    <script src="js/receipt-generator.js?v=4.5"></script>
+    <script src="js/sales.js?v=4.5"></script>
 </body>
 </html>

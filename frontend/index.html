@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sales Tracker Pro | Professional Sales Management</title>
-    <meta name="description" content="Professional sales tracking and management platform">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/auth.css">
+    <title>Sales Tracker Pro | Professional Sales & Inventory Management</title>
+    <meta name="description" content="Professional sales tracking and inventory management platform for modern businesses.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css?v=3.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="landing-page">
@@ -17,87 +19,96 @@
                 <i class="fas fa-chart-line"></i>
                 <span>SalesTracker Pro</span>
             </div>
-            <div class="nav-links">
+            <button class="landing-menu-toggle" id="landingMenuToggle" type="button" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="nav-links" id="landingNavLinks">
+                <a href="index.html" class="active">Home</a>
                 <a href="features.html">Features</a>
                 <a href="pricing.html">Pricing</a>
-                <a href="login.html" class="btn btn-outline">Login</a>
-                <a href="register.html" class="btn btn-primary">Get Started</a>
+                <a href="login.html" class="btn btn-outline btn-sm">Login</a>
+                <a href="register.html" class="btn btn-primary btn-sm">Get Started</a>
             </div>
         </nav>
 
-    <section class="hero-section">
-        <div class="hero-content">
-            <h1>Professional Sales Tracking Made Simple</h1>
-            <p class="hero-subtitle">Monitor daily sales, track profits, and grow your business with our powerful analytics dashboard. Built for modern entrepreneurs.</p>
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <h1>Sales Tracking & Profit Intelligence Made Simple</h1>
+            <p class="hero-subtitle">
+                Monitor daily revenue, track cost margins, and control stock in real time with our modern analytics dashboard. Built for high-growth merchants.
+            </p>
             <div class="hero-cta">
                 <a href="register.html" class="btn btn-primary btn-large">
                     <i class="fas fa-rocket"></i> Start Free Trial
                 </a>
-                <a href="#features" class="btn btn-outline btn-large">
-                    <i class="fas fa-play-circle"></i> See Features
+                <a href="features.html" class="btn btn-outline btn-large">
+                    <i class="fas fa-layer-group"></i> Explore Features
                 </a>
             </div>
-            <div class="hero-stats">
-                <div class="stat">
-                    <i class="fas fa-check-circle"></i>
-                    <span>Real-time tracking</span>
+            <div style="display: flex; justify-content: center; gap: 2rem; color: var(--text-muted); font-size: 0.9rem; font-weight: 500; flex-wrap: wrap;">
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-check-circle" style="color: var(--accent-emerald);"></i>
+                    <span>Real-time cloud database</span>
                 </div>
-                <div class="stat">
-                    <i class="fas fa-check-circle"></i>
-                    <span>No credit card required</span>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-check-circle" style="color: var(--accent-emerald);"></i>
+                    <span>Automated profit analysis</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-check-circle" style="color: var(--accent-emerald);"></i>
+                    <span>Zero setup required</span>
                 </div>
             </div>
-        </div>
-        <div class="hero-image">
-            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Sales Dashboard Preview">
-        </div>
-    </section>
+        </section>
 
-        <!-- Features -->
-        <section id="features" class="features-section">
-            <h2>Powerful Features for Your Business</h2>
+        <!-- Features Grid -->
+        <section style="margin: 3rem 0;">
+            <div style="text-align: center; margin-bottom: 2.5rem;">
+                <h2 style="font-size: 2.25rem;">Core Platform Capabilities</h2>
+                <p style="color: var(--text-muted); margin-top: 0.5rem;">Designed from the ground up for speed, reliability, and precision.</p>
+            </div>
             <div class="features-grid">
                 <div class="feature-card">
-                    <div class="feature-icon">
+                    <div class="feature-icon" style="background-color: var(--accent-blue-bg); color: var(--accent-blue); border-color: var(--accent-blue-border);">
                         <i class="fas fa-chart-bar"></i>
                     </div>
-                    <h3>Real-time Analytics</h3>
-                    <p>Track daily, weekly, monthly, and yearly sales performance with live updates.</p>
+                    <h3>Real-Time Analytics</h3>
+                    <p>Track daily, weekly, monthly, and yearly sales performance with live updates and dynamic metrics.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">
+                    <div class="feature-icon" style="background-color: var(--accent-emerald-bg); color: var(--accent-emerald); border-color: var(--accent-emerald-border);">
                         <i class="fas fa-calculator"></i>
                     </div>
-                    <h3>Profit Tracking</h3>
-                    <p>Automatically calculate profits and margins for every sale.</p>
+                    <h3>Profit & Margin Tracking</h3>
+                    <p>Automatically calculate product costs, gross revenue, and exact profit margins on every order.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">
+                    <div class="feature-icon" style="background-color: var(--accent-amber-bg); color: var(--accent-amber); border-color: var(--accent-amber-border);">
+                        <i class="fas fa-boxes"></i>
+                    </div>
+                    <h3>Smart Inventory Alert</h3>
+                    <p>Stay ahead of supply shortages with real-time stock counting and automatic low-stock tags.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background-color: var(--accent-slate-bg); color: var(--accent-slate); border-color: var(--accent-slate-border);">
                         <i class="fas fa-shield-alt"></i>
                     </div>
-                    <h3>Secure & Private</h3>
-                    <p>Your data is encrypted and protected with enterprise-grade security.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <h3>Mobile Ready</h3>
-                    <p>Access your dashboard from any device, anywhere.</p>
+                    <h3>Secure Cloud Architecture</h3>
+                    <p>Rest easy with encrypted token authentication and secure multi-tenant cloud storage.</p>
                 </div>
             </div>
         </section>
 
         <!-- CTA Section -->
-        <section class="cta-section">
-            <div class="cta-content">
-                <h2>Ready to Transform Your Sales Tracking?</h2>
-                <p>Join thousands of businesses using SalesTracker Pro to grow their revenue.</p>
-                <a href="register.html" class="btn btn-primary btn-large">
-                    <i class="fas fa-user-plus"></i> Create Free Account
-                </a>
-            </div>
-        </section>
+        <div style="background-color: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-xl); padding: 3.5rem 2rem; text-align: center; margin: 3rem 0 5rem 0; box-shadow: var(--shadow-sm);">
+            <h2>Ready to Transform Your Sales Tracking?</h2>
+            <p style="color: var(--text-muted); margin: 0.75rem auto 2rem auto; max-width: 540px;">
+                Join modern businesses using SalesTracker Pro to control inventory and maximize revenue.
+            </p>
+            <a href="register.html" class="btn btn-primary btn-large">
+                <i class="fas fa-user-plus"></i> Create Free Account
+            </a>
+        </div>
 
         <!-- Footer -->
         <footer class="footer">
@@ -107,18 +118,25 @@
                     <span>SalesTracker Pro</span>
                 </div>
                 <div class="footer-links">
-                    <a href="login.html">Login</a>
-                    <a href="register.html">Register</a>
+                    <a href="index.html">Home</a>
                     <a href="features.html">Features</a>
                     <a href="pricing.html">Pricing</a>
+                    <a href="login.html">Login</a>
+                    <a href="register.html">Register</a>
                 </div>
-                <div class="footer-copyright">
+                <div class="copyright">
                     &copy; 2026 SalesTracker Pro. All rights reserved.
                 </div>
             </div>
         </footer>
     </div>
 
-    <script type="module" src="js/auth.js"></script>
+    <script>
+        const toggle = document.getElementById('landingMenuToggle');
+        const links = document.getElementById('landingNavLinks');
+        if (toggle && links) {
+            toggle.addEventListener('click', () => links.classList.toggle('active'));
+        }
+    </script>
 </body>
 </html>

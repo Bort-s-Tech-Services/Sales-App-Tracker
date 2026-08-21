@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css?v=2.5">
+    <link rel="stylesheet" href="css/style.css?v=3.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="landing-page">
@@ -19,84 +19,87 @@
                 <i class="fas fa-chart-line"></i>
                 <span>SalesTracker Pro</span>
             </div>
-            <div class="nav-links">
+            <button class="landing-menu-toggle" id="landingMenuToggle" type="button" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="nav-links" id="landingNavLinks">
                 <a href="index.html">Home</a>
                 <a href="features.html" class="active">Features</a>
                 <a href="pricing.html">Pricing</a>
-                <a href="login.html" class="btn btn-outline">Login</a>
-                <a href="register.html" class="btn btn-primary">Get Started</a>
+                <a href="login.html" class="btn btn-outline btn-sm">Login</a>
+                <a href="register.html" class="btn btn-primary btn-sm">Get Started</a>
             </div>
         </nav>
 
         <!-- Features Hero -->
-        <section class="hero-section" style="min-height: auto; padding: 4rem 0 2rem 0; text-align: center; display: block;">
-            <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">Platform Features</h1>
-            <p class="hero-subtitle" style="margin: 0 auto 2.5rem auto; max-width: 650px;">
-                Everything you need to record sales, track cost margins, forecast inventory, and grow profit revenue in one real-time cloud portal.
+        <section class="hero-section">
+            <h1>Engineered for Precision & Growth</h1>
+            <p class="hero-subtitle">
+                Everything you need to record sales, track cost margins, forecast inventory, and grow profit revenue in one unified SaaS workspace.
             </p>
         </section>
 
         <!-- Main Features Grid -->
-        <section class="features-section" style="padding: 2rem 0 5rem 0;">
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon" style="background: rgba(14, 165, 233, 0.15); color: #38bdf8;">
-                        <i class="fas fa-chart-bar"></i>
-                    </div>
-                    <h3>Real-time Sales Tracking</h3>
-                    <p>Monitor daily, weekly, monthly, and yearly transactions with live automated graph updates and instant profit calculations.</p>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon" style="background-color: var(--accent-blue-bg); color: var(--accent-blue); border-color: var(--accent-blue-border);">
+                    <i class="fas fa-chart-bar"></i>
                 </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon" style="background: rgba(16, 185, 129, 0.15); color: #34d399;">
-                        <i class="fas fa-boxes"></i>
-                    </div>
-                    <h3>Smart Inventory Control</h3>
-                    <p>Track stock levels in real time with automatic low-stock notifications and profit margin value tracking per item.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24;">
-                        <i class="fas fa-file-csv"></i>
-                    </div>
-                    <h3>Financial Reports & CSV Export</h3>
-                    <p>Generate detailed audit logs and export your entire sales transaction history to CSV spreadsheets with 1 click.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8;">
-                        <i class="fas fa-calculator"></i>
-                    </div>
-                    <h3>Automatic Profit Margin Calculations</h3>
-                    <p>Never miscalculate profit margins. Input quantity, price, and cost to compute gross margin and net profit instantly.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon" style="background: rgba(16, 185, 129, 0.15); color: #34d399;">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3>Enterprise Security & Cloud Auth</h3>
-                    <p>Your business numbers are protected with enterprise-grade token authentication and encrypted cloud backups.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24;">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <h3>Mobile Responsive Drawer</h3>
-                    <p>Access your business dashboard from smartphones, tablets, or desktop computers with our responsive mobile drawer.</p>
-                </div>
+                <h3>Real-Time Sales Tracking</h3>
+                <p>Monitor daily, weekly, monthly, and yearly transactions with live automated graph updates and instant profit calculations.</p>
             </div>
-        </section>
 
-        <!-- CTA Section -->
-        <section class="cta-section" style="background: rgba(30, 41, 59, 0.6); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 3.5rem 2rem; text-align: center; margin-bottom: 4rem;">
+            <div class="feature-card">
+                <div class="feature-icon" style="background-color: var(--accent-emerald-bg); color: var(--accent-emerald); border-color: var(--accent-emerald-border);">
+                    <i class="fas fa-boxes"></i>
+                </div>
+                <h3>Smart Inventory Control</h3>
+                <p>Track stock levels in real time with automatic low-stock notifications and profit margin value tracking per item.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon" style="background-color: var(--accent-amber-bg); color: var(--accent-amber); border-color: var(--accent-amber-border);">
+                    <i class="fas fa-file-csv"></i>
+                </div>
+                <h3>Financial Reports & CSV Export</h3>
+                <p>Generate detailed audit logs and export your entire sales transaction history to CSV spreadsheets with 1 click.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon" style="background-color: var(--accent-slate-bg); color: var(--accent-slate); border-color: var(--accent-slate-border);">
+                    <i class="fas fa-calculator"></i>
+                </div>
+                <h3>Automatic Profit Calculations</h3>
+                <p>Never miscalculate profit margins. Input quantity, price, and cost to compute gross margin and net profit instantly.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon" style="background-color: var(--accent-emerald-bg); color: var(--accent-emerald); border-color: var(--accent-emerald-border);">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Enterprise Security & JWT Auth</h3>
+                <p>Your business numbers are protected with enterprise-grade token authentication and encrypted cloud backups.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon" style="background-color: var(--accent-blue-bg); color: var(--accent-blue); border-color: var(--accent-blue-border);">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3>Mobile Responsive Drawer</h3>
+                <p>Access your business dashboard seamlessly from smartphones, tablets, or desktop computers with our responsive mobile drawer.</p>
+            </div>
+        </div>
+
+        <!-- CTA Card -->
+        <div style="background-color: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-xl); padding: 3.5rem 2rem; text-align: center; margin: 3rem 0 5rem 0; box-shadow: var(--shadow-sm);">
             <h2>Ready to Upgrade Your Business Tracking?</h2>
-            <p style="color: #94a3b8; margin: 1rem 0 2rem 0;">Get started with a free workspace account today. No credit card required.</p>
+            <p style="color: var(--text-muted); margin: 0.75rem auto 2rem auto; max-width: 540px;">
+                Get started with a free workspace account today. No credit card required.
+            </p>
             <a href="register.html" class="btn btn-primary btn-large">
                 <i class="fas fa-rocket"></i> Create Free Account
             </a>
-        </section>
+        </div>
 
         <!-- Footer -->
         <footer class="footer">
@@ -118,5 +121,13 @@
             </div>
         </footer>
     </div>
+
+    <script>
+        const toggle = document.getElementById('landingMenuToggle');
+        const links = document.getElementById('landingNavLinks');
+        if (toggle && links) {
+            toggle.addEventListener('click', () => links.classList.toggle('active'));
+        }
+    </script>
 </body>
 </html>

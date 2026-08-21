@@ -7,8 +7,8 @@ function populateSidebarUser() {
     user = {};
   }
 
-  const fullName = user.full_name || "Demo Cloud Admin";
-  const email = user.email || "admin@salestracker.cloud";
+  const fullName = user.full_name || "Workspace Admin";
+  const email = user.email || "";
 
   const userDisplayEls = document.querySelectorAll(
     ".user-name-display, #userName, .user-name",
@@ -19,12 +19,86 @@ function populateSidebarUser() {
   emailDisplayEls.forEach((el) => (el.textContent = email));
 }
 
+// Global Helper to Initialize Mobile Drawer Navigation
+function initMobileSidebarDrawer() {
+  const mobileMenuToggle = document.getElementById("mobileMenuToggle");
+  const sidebarCloseBtn = document.getElementById("sidebarCloseBtn");
+  const sidebar = document.getElementById("sidebar");
+  const sidebarOverlay = document.getElementById("sidebarOverlay");
+
+  const closeSidebar = () => {
+    if (sidebar) sidebar.classList.remove("active");
+    if (sidebarOverlay) sidebarOverlay.classList.remove("active");
+  };
+
+  const openSidebar = () => {
+    if (sidebar) sidebar.classList.add("active");
+    if (sidebarOverlay) sidebarOverlay.classList.add("active");
+  };
+
+  if (mobileMenuToggle && sidebar) {
+    mobileMenuToggle.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (sidebar.classList.contains("active")) {
+        closeSidebar();
+      } else {
+        openSidebar();
+      }
+    });
+  }
+
+  if (sidebarCloseBtn) {
+    sidebarCloseBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      closeSidebar();
+    });
+  }
+
+  if (sidebarOverlay) {
+    sidebarOverlay.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      closeSidebar();
+    });
+    sidebarOverlay.addEventListener("touchend", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      closeSidebar();
+    }, { passive: false });
+  }
+
+  if (sidebar) {
+    // Prevent clicks inside the sidebar from bubbling
+    sidebar.addEventListener("click", (e) => {
+      e.stopPropagation();
+    });
+
+    // Auto-close sidebar on mobile when a nav item is tapped
+    const navLinks = sidebar.querySelectorAll(".nav-item, .btn-logout");
+    navLinks.forEach((link) => {
+      link.addEventListener("click", () => {
+        if (window.innerWidth <= 768) {
+          closeSidebar();
+        }
+      });
+    });
+  }
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeSidebar();
+  });
+}
+
 // Execute immediately when auth.js is loaded
 populateSidebarUser();
+initMobileSidebarDrawer();
 
 // Client Auth & Settings Script connected to AWS Express Backend REST API
 document.addEventListener("DOMContentLoaded", async () => {
   populateSidebarUser();
+  initMobileSidebarDrawer();
 
   // Async refresh profile if token is present
   const token = localStorage.getItem("auth_token");
@@ -64,15 +138,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         tabBtns.forEach((b) => {
           b.classList.remove("active");
-          b.style.background = "transparent";
-          b.style.color = "var(--text-muted)";
-          b.style.fontWeight = "500";
+          b.style.background = "";
+          b.style.color = "";
+          b.style.fontWeight = "";
         });
 
         btn.classList.add("active");
-        btn.style.background = "rgba(14, 165, 233, 0.15)";
-        btn.style.color = "#38bdf8";
-        btn.style.fontWeight = "600";
 
         tabContents.forEach((content) => {
           if (content.id === targetTab) {
@@ -182,87 +253,55 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Forgot Password
   const forgotPasswordLink = document.getElementById("forgotPassword");
-  const forgotModal = document.getElementById("forgotPasswordModal");
-  const forgotModalClose = document.getElementById("forgotModalClose");
-  const forgotForm = document.getElementById("forgotPasswordForm");
-  const forgotEmailInput = document.getElementById("forgotEmail");
-  const forgotSuccessMsg = document.getElementById("forgotSuccess");
-  const forgotErrorMsg = document.getElementById("forgotError");
-
-  if (forgotPasswordLink && forgotModal) {
-    forgotPasswordLink.addEventListener("click", (e) => {
+  if (forgotPasswordLink) {
+    forgotPasswordLink.addEventListener("click", async (e) => {
       e.preventDefault();
-      forgotModal.style.display = "flex";
-      if (forgotSuccessMsg) forgotSuccessMsg.style.display = "none";
-      if (forgotErrorMsg) forgotErrorMsg.style.display = "none";
-      if (forgotForm) forgotForm.reset();
+      const email = prompt("Enter your email address to receive a reset link:");
+      if (!email) return;
+      try {
+        await APIClient.forgotPassword(email);
+        alert(
+          "If that email exists, a reset link has been sent. Check your inbox.",
+        );
+      } catch (err) {
+        alert(err.message || "Failed to send reset email.");
+      }
     });
-
-    if (forgotModalClose) {
-      forgotModalClose.addEventListener("click", () => {
-        forgotModal.style.display = "none";
-      });
-    }
-
-    forgotModal.addEventListener("click", (e) => {
-      if (e.target === forgotModal) forgotModal.style.display = "none";
-    });
-
-    if (forgotForm) {
-      forgotForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const email = forgotEmailInput.value.trim();
-        const submitBtn = forgotForm.querySelector('button[type="submit"]');
-
-        if (forgotSuccessMsg) forgotSuccessMsg.style.display = "none";
-        if (forgotErrorMsg) forgotErrorMsg.style.display = "none";
-
-        submitBtn.disabled = true;
-        submitBtn.innerHTML =
-          '<i class="fas fa-spinner fa-spin"></i> Sending...';
-
-        try {
-          await APIClient.forgotPassword(email);
-          if (forgotSuccessMsg) {
-            forgotSuccessMsg.style.display = "flex";
-            forgotSuccessMsg.innerHTML =
-              '<i class="fas fa-check-circle"></i> Reset link sent! Check your inbox.';
-          }
-          forgotForm.reset();
-        } catch (err) {
-          if (forgotErrorMsg) {
-            forgotErrorMsg.style.display = "flex";
-            forgotErrorMsg.innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${err.message || "Failed to send reset email."}`;
-          }
-        } finally {
-          submitBtn.disabled = false;
-          submitBtn.innerHTML =
-            '<span>Send Reset Link</span> <i class="fas fa-arrow-right"></i>';
-        }
-      });
-    }
   }
-  // Demo Autofill 1-Click Login Button
+
+  // Demo Autofill 1-Click Login Button (Only visible on localhost / dev)
+  const isLocalhost = Boolean(
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1" ||
+    window.location.hostname === "" ||
+    window.location.protocol === "file:"
+  );
+
   const demoAutoFillBtn = document.getElementById("demoAutoFillBtn");
   if (demoAutoFillBtn) {
-    demoAutoFillBtn.addEventListener("click", () => {
-      const emailInput = document.getElementById("email");
-      const passwordInput = document.getElementById("password");
-      if (emailInput) emailInput.value = "admin@salestracker.cloud";
-      if (passwordInput) passwordInput.value = "admin123";
+    if (isLocalhost) {
+      demoAutoFillBtn.style.display = "flex";
+      demoAutoFillBtn.addEventListener("click", () => {
+        const emailInput = document.getElementById("email");
+        const passwordInput = document.getElementById("password");
+        if (emailInput) emailInput.value = "admin@salestracker.cloud";
+        if (passwordInput) passwordInput.value = "admin1234567890";
 
-      // Visual Feedback Highlight
-      [emailInput, passwordInput].forEach((input) => {
-        if (input) {
-          input.style.borderColor = "#34d399";
-          input.style.boxShadow = "0 0 0 3.5px rgba(52, 211, 153, 0.25)";
-          setTimeout(() => {
-            input.style.borderColor = "";
-            input.style.boxShadow = "";
-          }, 1500);
-        }
+        // Visual Feedback Highlight
+        [emailInput, passwordInput].forEach((input) => {
+          if (input) {
+            input.style.borderColor = "#34d399";
+            input.style.boxShadow = "0 0 0 3.5px rgba(52, 211, 153, 0.25)";
+            setTimeout(() => {
+              input.style.borderColor = "";
+              input.style.boxShadow = "";
+            }, 1500);
+          }
+        });
       });
-    });
+    } else {
+      demoAutoFillBtn.style.display = "none";
+    }
   }
 
   // Password Visibility Toggle Buttons

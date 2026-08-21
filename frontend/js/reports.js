@@ -87,21 +87,34 @@ function renderReportsTable(filter = 'all') {
 
     return `
       <tr>
-        <td>${dateStr}</td>
-        <td><strong>${s.product_name || 'N/A'}</strong></td>
-        <td><span class="badge" style="background:rgba(14, 165, 233, 0.15); color:#38bdf8; padding:0.25rem 0.6rem; border-radius:12px; font-size:0.8rem; font-weight:600;">${s.category || 'General'}</span></td>
-        <td>${s.quantity || 1}</td>
-        <td class="text-success" style="color:#10b981; font-weight:600;">₵${rev.toFixed(2)}</td>
-        <td style="color:var(--text-muted);">₵${cost.toFixed(2)}</td>
-        <td style="color:${profit >= 0 ? '#10b981' : '#ef4444'}; font-weight:700;">₵${profit.toFixed(2)}</td>
-        <td><span class="badge" style="background:${margin >= 0 ? '#d1fae5' : '#fee2e2'}; color:${margin >= 0 ? '#065f46' : '#991b1b'}; padding:0.25rem 0.6rem; border-radius:12px; font-size:0.8rem; font-weight:600;">${margin}%</span></td>
-        <td>
-          ${s.receipt_s3_url ? `<a href="${s.receipt_s3_url}" target="_blank" class="btn btn-sm btn-outline" style="padding:0.25rem 0.5rem; font-size:0.8rem;"><i class="fas fa-file-pdf"></i> View PDF</a>` : '<span style="color:var(--text-muted); font-size:0.85rem;">None</span>'}
+        <td style="white-space: nowrap; font-weight: 500;">${dateStr}</td>
+        <td><strong style="color: var(--text-primary); font-weight: 600;">${s.product_name || 'N/A'}</strong></td>
+        <td><span class="badge badge-info">${s.category || 'General'}</span></td>
+        <td style="text-align: center; font-weight: 600;">${s.quantity || 1}</td>
+        <td style="color: var(--accent-emerald); font-weight: 700;">₵${rev.toFixed(2)}</td>
+        <td style="color: var(--text-muted);">₵${cost.toFixed(2)}</td>
+        <td style="color: ${profit >= 0 ? 'var(--accent-emerald)' : 'var(--accent-rose)'}; font-weight: 700;">₵${profit.toFixed(2)}</td>
+        <td style="text-align: center;"><span class="badge ${margin >= 0 ? 'badge-success' : 'badge-danger'}">${margin}%</span></td>
+        <td style="text-align: center;">
+          <button type="button" class="action-btn" onclick="viewSaleReceipt('${s.id}')" title="Preview & Download PDF Receipt">
+            <i class="fas fa-file-pdf" style="color: var(--accent-rose);"></i> Receipt
+          </button>
         </td>
       </tr>
     `;
   }).join('');
 }
+
+window.viewSaleReceipt = function(saleId) {
+  const sale = rawSalesData.find(s => String(s.id) === String(saleId));
+  if (sale && window.ReceiptGenerator) {
+    window.ReceiptGenerator.previewReceipt(sale);
+  } else if (sale && sale.receipt_s3_url) {
+    window.open(sale.receipt_s3_url, '_blank');
+  } else {
+    alert('Receipt details could not be found for transaction: ' + saleId);
+  }
+};
 
 function exportSalesToCSV(sales) {
   if (!sales || sales.length === 0) {

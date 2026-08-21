@@ -201,20 +201,71 @@ function setupButtonListeners() {
   const addAnotherBtn = document.getElementById('addAnother');
   const goToDashBtn = document.getElementById('goToDashboard');
   const successModal = document.getElementById('successModal');
+  const closeSuccessModal = document.getElementById('closeSuccessModal');
+  const downloadReceiptBtn = document.getElementById('downloadReceiptBtn');
+  const printReceiptDirectBtn = document.getElementById('printReceiptDirectBtn');
+  const previewReceiptBtn = document.getElementById('previewReceiptBtn');
+
+  const closeModalAndReset = () => {
+    if (successModal) successModal.style.display = 'none';
+    if (salesForm) salesForm.reset();
+    const saleDateInput = document.getElementById('saleDate');
+    if (saleDateInput) saleDateInput.value = new Date().toISOString().split('T')[0];
+    calculateTotals();
+  };
+
+  // Close when tapping backdrop (outside modal card)
+  if (successModal) {
+    successModal.addEventListener('click', (e) => {
+      if (e.target === successModal) {
+        closeModalAndReset();
+      }
+    });
+  }
+
+  // Close on (X) button
+  if (closeSuccessModal) {
+    closeSuccessModal.addEventListener('click', closeModalAndReset);
+  }
+
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && successModal && successModal.style.display === 'flex') {
+      closeModalAndReset();
+    }
+  });
 
   if (addAnotherBtn) {
-    addAnotherBtn.addEventListener('click', () => {
-      if (successModal) successModal.style.display = 'none';
-      if (salesForm) salesForm.reset();
-      const saleDateInput = document.getElementById('saleDate');
-      if (saleDateInput) saleDateInput.value = new Date().toISOString().split('T')[0];
-      calculateTotals();
-    });
+    addAnotherBtn.addEventListener('click', closeModalAndReset);
   }
 
   if (goToDashBtn) {
     goToDashBtn.addEventListener('click', () => {
       window.location.href = 'dashboard.html';
+    });
+  }
+
+  if (downloadReceiptBtn) {
+    downloadReceiptBtn.addEventListener('click', () => {
+      if (window.currentRecordedSale && window.ReceiptGenerator) {
+        window.ReceiptGenerator.downloadPDF(window.currentRecordedSale);
+      }
+    });
+  }
+
+  if (printReceiptDirectBtn) {
+    printReceiptDirectBtn.addEventListener('click', () => {
+      if (window.currentRecordedSale && window.ReceiptGenerator) {
+        window.ReceiptGenerator.printReceipt(window.currentRecordedSale);
+      }
+    });
+  }
+
+  if (previewReceiptBtn) {
+    previewReceiptBtn.addEventListener('click', () => {
+      if (window.currentRecordedSale && window.ReceiptGenerator) {
+        window.ReceiptGenerator.previewReceipt(window.currentRecordedSale);
+      }
     });
   }
 }
@@ -229,14 +280,14 @@ async function handleRecordSale(e) {
   const unitCost = Number(document.getElementById('unitCost')?.value) || 0;
   const saleDate = document.getElementById('saleDate')?.value || new Date().toISOString().split('T')[0];
   const category = document.getElementById('category')?.value || 'General';
-  const customer = document.getElementById('customer')?.value || '';
+  const customer = document.getElementById('customer')?.value || 'Walk-in Customer';
   const notes = document.getElementById('notes')?.value || '';
 
   const revenue = quantity * unitPrice;
   const cost = quantity * unitCost;
 
   try {
-    await APIClient.recordSale({
+    const res = await APIClient.recordSale({
       product_name: productName,
       category,
       quantity,
@@ -246,6 +297,30 @@ async function handleRecordSale(e) {
       sale_date: saleDate,
       notes
     });
+
+    const recorded = res.sale || {
+      id: 'sle_' + Date.now(),
+      product_name: productName,
+      category,
+      quantity,
+      revenue,
+      cost,
+      customer_name: customer,
+      sale_date: saleDate,
+      notes
+    };
+
+    window.currentRecordedSale = recorded;
+
+    // Update modal quick summary
+    const modalRecId = document.getElementById('modalRecId');
+    const modalRecAmount = document.getElementById('modalRecAmount');
+    if (modalRecId && window.ReceiptGenerator) {
+      modalRecId.textContent = window.ReceiptGenerator.formatReceiptId(recorded);
+    }
+    if (modalRecAmount) {
+      modalRecAmount.textContent = '₵' + revenue.toFixed(2);
+    }
 
     await loadSales();
 
