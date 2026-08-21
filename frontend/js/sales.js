@@ -25,7 +25,7 @@ async function loadProductsDropdown() {
     
     if (inventoryProducts.length > 0) {
       select.innerHTML = '<option value="">-- Select a product --</option>' +
-        inventoryProducts.map(p => `<option value="${p.product_name}" data-price="${p.selling_price || 0}" data-cost="${p.unit_cost || 0}" data-category="${p.category || ''}">${p.product_name} (${p.quantity || 0} in stock)</option>`).join('');
+        inventoryProducts.map(p => `<option value="${p.product_name}" data-id="${p.id}" data-price="${p.selling_price || 0}" data-cost="${p.unit_cost || 0}" data-category="${p.category || ''}" data-stock="${p.quantity || 0}">${p.product_name} (${p.quantity || 0} in stock)</option>`).join('');
     }
   } catch (err) {
     console.error('Failed to load products for dropdown:', err);
@@ -286,8 +286,17 @@ async function handleRecordSale(e) {
   const revenue = quantity * unitPrice;
   const cost = quantity * unitCost;
 
+  // Resolve product_id to link with inventory deduction
+  const selectedOpt = prodSelect ? prodSelect.options[prodSelect.selectedIndex] : null;
+  let productId = selectedOpt ? selectedOpt.getAttribute('data-id') : null;
+  if (!productId && productName) {
+    const matched = inventoryProducts.find(p => p.product_name.toLowerCase() === productName.trim().toLowerCase());
+    if (matched) productId = matched.id;
+  }
+
   try {
     const res = await APIClient.recordSale({
+      product_id: productId || null,
       product_name: productName,
       category,
       quantity,
@@ -300,6 +309,7 @@ async function handleRecordSale(e) {
 
     const recorded = res.sale || {
       id: 'sle_' + Date.now(),
+      product_id: productId || null,
       product_name: productName,
       category,
       quantity,
@@ -323,6 +333,7 @@ async function handleRecordSale(e) {
     }
 
     await loadSales();
+    await loadProductsDropdown();
 
     // Show success modal
     const modal = document.getElementById('successModal');
